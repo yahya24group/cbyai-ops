@@ -174,7 +174,7 @@
       <thead><tr><th>المركبة</th><th>المسار</th><th class="colhead-i">كم فعلية (إدخال)</th><th class="colhead-a">لتر (محسوب)</th><th class="colhead-a">درهم (محسوب)</th><th class="colhead-a">لتر/100كم</th></tr></thead>
       <tbody>
         <tr><td>CBA-VH-001</td><td>أ · شمال</td><td><input type="number" id="kmA" value="328" oninput="recalc()"></td><td class="calc" id="fLA">—</td><td class="calc" id="fCA">—</td><td class="calc">متغير</td></tr>
-        <tr><td>CBA-VH-002</td><td>ب · جنوب</td><td><input type="number" id="kmB" value="393" oninput="recalc()"></td><td class="calc" id="fLB">—</td><td class="calc" id="fCB">—</td><td class="calc">متغير</td></tr>
+        <tr><td>CBA-VH-002</td><td>ب · جنوب</td><td><input type="number" id="kmB" value="408" oninput="recalc()"></td><td class="calc" id="fLB">—</td><td class="calc" id="fCB">—</td><td class="calc">متغير</td></tr>
       </tbody>
     </table></div>
     <div class="kpi-grid" style="margin-top:16px">
@@ -245,7 +245,7 @@ const ROUTES={
     {id:'CBA-CUS-015',name:'حمد سلطان',area:'مدينة الفجيرة',km:12},
     {id:'CBA-CUS-016',name:'ريم سيف',area:'دبا الفجيرة',km:40},
   ]},
-  B:{start:'startB',return:150,stops:[
+  B:{start:'startB',return:160,stops:[
     {id:'CBA-CUS-017',name:'سارة خالد',area:'دبي القصيص',km:52},
     {id:'CBA-CUS-018',name:'سيف ماجد',area:'دبي ديرة',km:8},
     {id:'CBA-CUS-019',name:'فيصل عمر',area:'دبي مردف',km:6},
@@ -256,12 +256,12 @@ const ROUTES={
     {id:'CBA-CUS-024',name:'خليفة راشد',area:'دبي دبي هيلز',km:6},
     {id:'CBA-CUS-025',name:'ليلى أحمد',area:'دبي المرسى',km:6},
     {id:'CBA-CUS-026',name:'ميثاء سعيد',area:'دبي أبراج بحيرات جميرا',km:3},
-    {id:'CBA-CUS-027',name:'حمدان علي',area:'أبوظبي الراحة',km:48},
-    {id:'CBA-CUS-028',name:'سارة ناصر',area:'أبوظبي جزيرة ياس',km:6},
-    {id:'CBA-CUS-029',name:'آمنة سالم',area:'أبوظبي السعديات',km:22},
-    {id:'CBA-CUS-030',name:'فاطمة حسن',area:'أبوظبي مدينة خليفة',km:15},
-    {id:'CBA-CUS-031',name:'محمد طارق',area:'أبوظبي الريم',km:12},
-    {id:'CBA-CUS-032',name:'عبيد خالد',area:'أبوظبي مصفح',km:20},
+    {id:'CBA-CUS-028',name:'سارة ناصر',area:'أبوظبي جزيرة ياس',km:48},
+    {id:'CBA-CUS-027',name:'حمدان علي',area:'أبوظبي الراحة',km:6},
+    {id:'CBA-CUS-029',name:'آمنة سالم',area:'أبوظبي مدينة خليفة',km:15},
+    {id:'CBA-CUS-030',name:'فاطمة حسن',area:'أبوظبي بنياس',km:18},
+    {id:'CBA-CUS-032',name:'عبيد خالد',area:'أبوظبي مصفح',km:16},
+    {id:'CBA-CUS-031',name:'محمد طارق',area:'أبوظبي الوثبة',km:25},
   ]},
 };
 const $=id=>document.getElementById(id);
