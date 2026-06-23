@@ -152,8 +152,8 @@
   <section id="dispatch">
     <div class="sec-head"><div class="sec-num">B</div><div><h2>Dispatch Start Time <span class="tag i">you choose</span></h2><p>Pick when each route leaves HQ — all stop ETAs recalculate</p></div></div>
     <div class="grid g2">
-      <div class="field input"><label><span class="tag i">IN</span> Route A — North · CBA-VH-001 / CBA-DR-001</label><input type="time" id="startA" value="09:00" oninput="recalc()"><small>Serves UAQ · Ajman · Sharjah · RAK · Fujairah</small></div>
-      <div class="field input"><label><span class="tag i">IN</span> Route B — South · CBA-VH-002 / CBA-DR-002</label><input type="time" id="startB" value="09:00" oninput="recalc()"><small>Serves Dubai · Abu Dhabi</small></div>
+      <div class="field input"><label><span class="tag i">IN</span> Route A — North · CBA-VH-001 / CBA-DR-001</label><input type="time" id="startA" value="09:00" oninput="recalc()"><small>Serves Ajman · Sharjah · RAK · Fujairah (16 stops)</small></div>
+      <div class="field input"><label><span class="tag i">IN</span> Route B — South · CBA-VH-002 / CBA-DR-002</label><input type="time" id="startB" value="09:00" oninput="recalc()"><small>Serves Dubai · Abu Dhabi (16 stops)</small></div>
     </div>
     <div class="kpi-grid" style="margin-top:16px">
       <div class="kpi"><div class="v" id="retA">—</div><div class="l">Route A est. return</div></div>
@@ -199,8 +199,8 @@
         <th class="colhead-a">Fuel L (calc)</th><th class="colhead-a">Cost AED (calc)</th><th class="colhead-a">L/100km</th>
       </tr></thead>
       <tbody>
-        <tr><td>CBA-VH-001</td><td>A · North</td><td><input type="number" id="kmA" value="271" oninput="recalc()"></td><td class="calc" id="fLA">—</td><td class="calc" id="fCA">—</td><td class="calc">var</td></tr>
-        <tr><td>CBA-VH-002</td><td>B · South</td><td><input type="number" id="kmB" value="311" oninput="recalc()"></td><td class="calc" id="fLB">—</td><td class="calc" id="fCB">—</td><td class="calc">var</td></tr>
+        <tr><td>CBA-VH-001</td><td>A · North</td><td><input type="number" id="kmA" value="328" oninput="recalc()"></td><td class="calc" id="fLA">—</td><td class="calc" id="fCA">—</td><td class="calc">var</td></tr>
+        <tr><td>CBA-VH-002</td><td>B · South</td><td><input type="number" id="kmB" value="393" oninput="recalc()"></td><td class="calc" id="fLB">—</td><td class="calc" id="fCB">—</td><td class="calc">var</td></tr>
       </tbody>
     </table></div>
     <div class="kpi-grid" style="margin-top:16px">
@@ -215,8 +215,8 @@
   <section id="qc">
     <div class="sec-head"><div class="sec-num">F</div><div><h2>Quality Control Input</h2><p>Enter pass/fail counts — pass % auto-calcs</p></div></div>
     <div class="grid g3">
-      <div class="field input"><label><span class="tag i">IN</span> Total QC checks</label><input type="number" id="qc_total" value="75" oninput="recalc()"></div>
-      <div class="field input"><label><span class="tag i">IN</span> Passed</label><input type="number" id="qc_pass" value="73" oninput="recalc()"></div>
+      <div class="field input"><label><span class="tag i">IN</span> Total QC checks</label><input type="number" id="qc_total" value="160" oninput="recalc()"></div>
+      <div class="field input"><label><span class="tag i">IN</span> Passed</label><input type="number" id="qc_pass" value="157" oninput="recalc()"></div>
       <div class="field"><label><span class="tag" style="background:#0f7a52;color:#fff">CALC</span> Pass rate</label><input id="qc_rate" value="—" readonly style="background:#eef3ef;color:#0a4d34"></div>
     </div>
   </section>
@@ -254,24 +254,41 @@
 <script>
 // ---- Route data: customers + leg km (sequential from HQ), per Route Optimization ----
 const ROUTES = {
-  A:{ start:'startA', return:95, stops:[
-    {id:'CBA-CUS-001',name:'Aisha Al Marri',area:'UAQ Al Salamah',km:6},
-    {id:'CBA-CUS-002',name:'Omar Hassan',area:'Ajman Corniche',km:20},
-    {id:'CBA-CUS-003',name:'Fatima Khalid',area:'Ajman Al Nuaimiya',km:4},
-    {id:'CBA-CUS-004',name:'Yousef Ali',area:'Sharjah Al Majaz',km:18},
-    {id:'CBA-CUS-005',name:'Mariam Saeed',area:'Sharjah Al Nahda',km:6},
-    {id:'CBA-CUS-007',name:'Noura Abdullah',area:'RAK Al Hamra',km:40},
-    {id:'CBA-CUS-006',name:'Khalid Rashid',area:'RAK Al Nakheel',km:12},
-    {id:'CBA-CUS-008',name:'Hamad Sultan',area:'Fujairah City',km:70},
+  A:{ start:'startA', return:105, stops:[
+    {id:'CBA-CUS-001',name:'Hind Ali',area:'Ajman Al Jurf',km:23},
+    {id:'CBA-CUS-002',name:'Omar Hassan',area:'Ajman Corniche',km:3},
+    {id:'CBA-CUS-003',name:'Fatima Khalid',area:'Ajman Al Nuaimiya',km:3},
+    {id:'CBA-CUS-004',name:'Saeed Al Shamsi',area:'Ajman Al Rashidiya',km:2},
+    {id:'CBA-CUS-005',name:'Tariq Nasser',area:'Sharjah Al Khan',km:17},
+    {id:'CBA-CUS-006',name:'Yousef Ali',area:'Sharjah Al Majaz',km:3},
+    {id:'CBA-CUS-007',name:'Latifa Omar',area:'Sharjah Al Taawun',km:3},
+    {id:'CBA-CUS-008',name:'Mariam Saeed',area:'Sharjah Al Nahda',km:3},
+    {id:'CBA-CUS-009',name:'Salem Rashid',area:'Sharjah Muwailih',km:4},
+    {id:'CBA-CUS-010',name:'Noura Abdullah',area:'RAK Al Hamra',km:18},
+    {id:'CBA-CUS-011',name:'Khalid Rashid',area:'RAK Al Nakheel',km:10},
+    {id:'CBA-CUS-012',name:'Aisha Juma',area:'RAK Al Mairid',km:4},
+    {id:'CBA-CUS-013',name:'Majid Ali',area:'Sharjah Khorfakkan',km:60},
+    {id:'CBA-CUS-014',name:'Shamma Obaid',area:'Sharjah Kalba',km:18},
+    {id:'CBA-CUS-015',name:'Hamad Sultan',area:'Fujairah City',km:12},
+    {id:'CBA-CUS-016',name:'Reem Saif',area:'Fujairah Dibba',km:40},
   ]},
-  B:{ start:'startB', return:130, stops:[
-    {id:'CBA-CUS-010',name:'Saif Majid',area:'Dubai Deira',km:55},
-    {id:'CBA-CUS-012',name:'Rashid Juma',area:'Dubai Business Bay',km:12},
-    {id:'CBA-CUS-011',name:'Hessa Obaid',area:'Dubai Al Barsha',km:10},
-    {id:'CBA-CUS-009',name:'Layla Ahmed',area:'Dubai Marina',km:8},
-    {id:'CBA-CUS-015',name:'Sara Nasser',area:'AD Yas Island',km:50},
-    {id:'CBA-CUS-014',name:'Mohammed Tariq',area:'AD Al Reem',km:28},
-    {id:'CBA-CUS-013',name:'Amna Salem',area:'AD Khalifa City',km:18},
+  B:{ start:'startB', return:150, stops:[
+    {id:'CBA-CUS-017',name:'Sara Khalid',area:'Dubai Al Qusais',km:52},
+    {id:'CBA-CUS-018',name:'Saif Majid',area:'Dubai Deira',km:8},
+    {id:'CBA-CUS-019',name:'Faisal Omar',area:'Dubai Mirdif',km:6},
+    {id:'CBA-CUS-020',name:'Rashid Juma',area:'Dubai Business Bay',km:18},
+    {id:'CBA-CUS-021',name:'Ahmed Sultan',area:'Dubai Downtown',km:8},
+    {id:'CBA-CUS-022',name:'Hessa Obaid',area:'Dubai Al Barsha',km:10},
+    {id:'CBA-CUS-023',name:'Mona Ali',area:'Dubai Silicon Oasis',km:3},
+    {id:'CBA-CUS-024',name:'Khalifa Rashid',area:'Dubai Dubai Hills',km:6},
+    {id:'CBA-CUS-025',name:'Layla Ahmed',area:'Dubai Marina',km:6},
+    {id:'CBA-CUS-026',name:'Maitha Saeed',area:'Dubai JLT',km:3},
+    {id:'CBA-CUS-027',name:'Hamdan Ali',area:'AD Al Raha',km:48},
+    {id:'CBA-CUS-028',name:'Sara Nasser',area:'AD Yas Island',km:6},
+    {id:'CBA-CUS-029',name:'Amna Salem',area:'AD Saadiyat',km:22},
+    {id:'CBA-CUS-030',name:'Fatima Hassan',area:'AD Khalifa City',km:15},
+    {id:'CBA-CUS-031',name:'Mohammed Tariq',area:'AD Al Reem',km:12},
+    {id:'CBA-CUS-032',name:'Obaid Khalid',area:'AD Mussafah',km:20},
   ]},
 };
 

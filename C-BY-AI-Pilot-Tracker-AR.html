@@ -138,8 +138,8 @@
   <section id="dispatch">
     <div class="sec-head"><div class="sec-num">ب</div><div><h2>وقت بدء الإرسال <span class="tag i">تختاره أنت</span></h2><p>اختر وقت مغادرة كل مسار للمقر — تُعاد جميع أوقات الوصول</p></div></div>
     <div class="grid g2">
-      <div class="field input"><label><span class="tag i">IN</span> المسار أ — شمال · CBA-VH-001 / CBA-DR-001</label><input type="time" id="startA" value="09:00" oninput="recalc()"><small>يخدم أم القيوين · عجمان · الشارقة · رأس الخيمة · الفجيرة</small></div>
-      <div class="field input"><label><span class="tag i">IN</span> المسار ب — جنوب · CBA-VH-002 / CBA-DR-002</label><input type="time" id="startB" value="09:00" oninput="recalc()"><small>يخدم دبي · أبوظبي</small></div>
+      <div class="field input"><label><span class="tag i">IN</span> المسار أ — شمال · CBA-VH-001 / CBA-DR-001</label><input type="time" id="startA" value="09:00" oninput="recalc()"><small>يخدم عجمان · الشارقة · رأس الخيمة · الفجيرة (16 محطة)</small></div>
+      <div class="field input"><label><span class="tag i">IN</span> المسار ب — جنوب · CBA-VH-002 / CBA-DR-002</label><input type="time" id="startB" value="09:00" oninput="recalc()"><small>يخدم دبي · أبوظبي (16 محطة)</small></div>
     </div>
     <div class="kpi-grid" style="margin-top:16px">
       <div class="kpi"><div class="v" id="retA">—</div><div class="l">العودة المقدّرة للمسار أ</div></div>
@@ -173,8 +173,8 @@
     <div class="tbl-scroll"><table id="tblF">
       <thead><tr><th>المركبة</th><th>المسار</th><th class="colhead-i">كم فعلية (إدخال)</th><th class="colhead-a">لتر (محسوب)</th><th class="colhead-a">درهم (محسوب)</th><th class="colhead-a">لتر/100كم</th></tr></thead>
       <tbody>
-        <tr><td>CBA-VH-001</td><td>أ · شمال</td><td><input type="number" id="kmA" value="271" oninput="recalc()"></td><td class="calc" id="fLA">—</td><td class="calc" id="fCA">—</td><td class="calc">متغير</td></tr>
-        <tr><td>CBA-VH-002</td><td>ب · جنوب</td><td><input type="number" id="kmB" value="311" oninput="recalc()"></td><td class="calc" id="fLB">—</td><td class="calc" id="fCB">—</td><td class="calc">متغير</td></tr>
+        <tr><td>CBA-VH-001</td><td>أ · شمال</td><td><input type="number" id="kmA" value="328" oninput="recalc()"></td><td class="calc" id="fLA">—</td><td class="calc" id="fCA">—</td><td class="calc">متغير</td></tr>
+        <tr><td>CBA-VH-002</td><td>ب · جنوب</td><td><input type="number" id="kmB" value="393" oninput="recalc()"></td><td class="calc" id="fLB">—</td><td class="calc" id="fCB">—</td><td class="calc">متغير</td></tr>
       </tbody>
     </table></div>
     <div class="kpi-grid" style="margin-top:16px">
@@ -189,8 +189,8 @@
   <section id="qc">
     <div class="sec-head"><div class="sec-num">و</div><div><h2>إدخال مراقبة الجودة</h2><p>أدخل أعداد النجاح/الفشل — تُحسب النسبة تلقائياً</p></div></div>
     <div class="grid g3">
-      <div class="field input"><label><span class="tag i">IN</span> إجمالي الفحوصات</label><input type="number" id="qc_total" value="75" oninput="recalc()"></div>
-      <div class="field input"><label><span class="tag i">IN</span> الناجحة</label><input type="number" id="qc_pass" value="73" oninput="recalc()"></div>
+      <div class="field input"><label><span class="tag i">IN</span> إجمالي الفحوصات</label><input type="number" id="qc_total" value="160" oninput="recalc()"></div>
+      <div class="field input"><label><span class="tag i">IN</span> الناجحة</label><input type="number" id="qc_pass" value="157" oninput="recalc()"></div>
       <div class="field"><label><span class="tag" style="background:#0f7a52;color:#fff">محسوب</span> نسبة النجاح</label><input id="qc_rate" value="—" readonly style="background:#eef3ef;color:#0a4d34"></div>
     </div>
   </section>
@@ -227,24 +227,41 @@
 
 <script>
 const ROUTES={
-  A:{start:'startA',return:95,stops:[
-    {id:'CBA-CUS-001',name:'عائشة المري',area:'أم القيوين السلمة',km:6},
-    {id:'CBA-CUS-002',name:'عمر حسن',area:'عجمان الكورنيش',km:20},
-    {id:'CBA-CUS-003',name:'فاطمة خالد',area:'عجمان النعيمية',km:4},
-    {id:'CBA-CUS-004',name:'يوسف علي',area:'الشارقة المجاز',km:18},
-    {id:'CBA-CUS-005',name:'مريم سعيد',area:'الشارقة النهضة',km:6},
-    {id:'CBA-CUS-007',name:'نورة عبدالله',area:'رأس الخيمة الحمرا',km:40},
-    {id:'CBA-CUS-006',name:'خالد راشد',area:'رأس الخيمة النخيل',km:12},
-    {id:'CBA-CUS-008',name:'حمد سلطان',area:'مدينة الفجيرة',km:70},
+  A:{start:'startA',return:105,stops:[
+    {id:'CBA-CUS-001',name:'هند علي',area:'عجمان الجرف',km:23},
+    {id:'CBA-CUS-002',name:'عمر حسن',area:'عجمان الكورنيش',km:3},
+    {id:'CBA-CUS-003',name:'فاطمة خالد',area:'عجمان النعيمية',km:3},
+    {id:'CBA-CUS-004',name:'سعيد الشامسي',area:'عجمان الراشدية',km:2},
+    {id:'CBA-CUS-005',name:'طارق ناصر',area:'الشارقة الخان',km:17},
+    {id:'CBA-CUS-006',name:'يوسف علي',area:'الشارقة المجاز',km:3},
+    {id:'CBA-CUS-007',name:'لطيفة عمر',area:'الشارقة التعاون',km:3},
+    {id:'CBA-CUS-008',name:'مريم سعيد',area:'الشارقة النهضة',km:3},
+    {id:'CBA-CUS-009',name:'سالم راشد',area:'الشارقة مويلح',km:4},
+    {id:'CBA-CUS-010',name:'نورة عبدالله',area:'رأس الخيمة الحمرا',km:18},
+    {id:'CBA-CUS-011',name:'خالد راشد',area:'رأس الخيمة النخيل',km:10},
+    {id:'CBA-CUS-012',name:'عائشة جمعة',area:'رأس الخيمة المعيريض',km:4},
+    {id:'CBA-CUS-013',name:'ماجد علي',area:'الشارقة خورفكان',km:60},
+    {id:'CBA-CUS-014',name:'شما عبيد',area:'الشارقة كلباء',km:18},
+    {id:'CBA-CUS-015',name:'حمد سلطان',area:'مدينة الفجيرة',km:12},
+    {id:'CBA-CUS-016',name:'ريم سيف',area:'دبا الفجيرة',km:40},
   ]},
-  B:{start:'startB',return:130,stops:[
-    {id:'CBA-CUS-010',name:'سيف ماجد',area:'دبي ديرة',km:55},
-    {id:'CBA-CUS-012',name:'راشد جمعة',area:'دبي الخليج التجاري',km:12},
-    {id:'CBA-CUS-011',name:'حصة عبيد',area:'دبي البرشاء',km:10},
-    {id:'CBA-CUS-009',name:'ليلى أحمد',area:'دبي المرسى',km:8},
-    {id:'CBA-CUS-015',name:'سارة ناصر',area:'أبوظبي جزيرة ياس',km:50},
-    {id:'CBA-CUS-014',name:'محمد طارق',area:'أبوظبي الريم',km:28},
-    {id:'CBA-CUS-013',name:'آمنة سالم',area:'أبوظبي مدينة خليفة',km:18},
+  B:{start:'startB',return:150,stops:[
+    {id:'CBA-CUS-017',name:'سارة خالد',area:'دبي القصيص',km:52},
+    {id:'CBA-CUS-018',name:'سيف ماجد',area:'دبي ديرة',km:8},
+    {id:'CBA-CUS-019',name:'فيصل عمر',area:'دبي مردف',km:6},
+    {id:'CBA-CUS-020',name:'راشد جمعة',area:'دبي الخليج التجاري',km:18},
+    {id:'CBA-CUS-021',name:'أحمد سلطان',area:'دبي وسط المدينة',km:8},
+    {id:'CBA-CUS-022',name:'حصة عبيد',area:'دبي البرشاء',km:10},
+    {id:'CBA-CUS-023',name:'منى علي',area:'دبي واحة السيليكون',km:3},
+    {id:'CBA-CUS-024',name:'خليفة راشد',area:'دبي دبي هيلز',km:6},
+    {id:'CBA-CUS-025',name:'ليلى أحمد',area:'دبي المرسى',km:6},
+    {id:'CBA-CUS-026',name:'ميثاء سعيد',area:'دبي أبراج بحيرات جميرا',km:3},
+    {id:'CBA-CUS-027',name:'حمدان علي',area:'أبوظبي الراحة',km:48},
+    {id:'CBA-CUS-028',name:'سارة ناصر',area:'أبوظبي جزيرة ياس',km:6},
+    {id:'CBA-CUS-029',name:'آمنة سالم',area:'أبوظبي السعديات',km:22},
+    {id:'CBA-CUS-030',name:'فاطمة حسن',area:'أبوظبي مدينة خليفة',km:15},
+    {id:'CBA-CUS-031',name:'محمد طارق',area:'أبوظبي الريم',km:12},
+    {id:'CBA-CUS-032',name:'عبيد خالد',area:'أبوظبي مصفح',km:20},
   ]},
 };
 const $=id=>document.getElementById(id);

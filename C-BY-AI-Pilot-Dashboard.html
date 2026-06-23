@@ -11,7 +11,7 @@
     --ink:#11211a;
     --muted:#5c6b62;
     --line:#e2e8e2;
-    --brand:#0f7a52;        /* emerald */
+    --brand:#0f7a52;
     --brand-soft:#e6f4ee;
     --brand-deep:#0a4d34;
     --gold:#b9883b;
@@ -64,7 +64,7 @@
 
   /* ---------- SECTION ---------- */
   section{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
-    box-shadow:var(--shadow);padding:30px;margin:0 0 26px}
+    box-shadow:var(--shadow);padding:30px;margin:0 0 26px;scroll-margin-top:66px}
   .sec-head{display:flex;align-items:center;justify-content:space-between;gap:16px;
     margin-bottom:18px;padding-bottom:16px;border-bottom:2px solid var(--brand-soft)}
   .sec-head .lhs{display:flex;align-items:center;gap:14px}
@@ -118,7 +118,7 @@
 
   /* ---------- OVERALL SCORE RING ---------- */
   .overall{display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center}
-  .ring{--p:90;width:170px;height:170px;border-radius:50%;flex:none;display:grid;place-items:center;
+  .ring{--p:92;width:170px;height:170px;border-radius:50%;flex:none;display:grid;place-items:center;
     background:conic-gradient(var(--brand) calc(var(--p)*1%),#e7eee9 0);position:relative}
   .ring:before{content:"";position:absolute;inset:14px;border-radius:50%;background:#fff;box-shadow:inset 0 2px 8px rgba(0,0,0,.05)}
   .ring .rv{position:relative;text-align:center}
@@ -154,6 +154,7 @@
   body.printing-one .hero,
   body.printing-one .toc,
   body.printing-one .toolbar,
+  body.printing-one .topnav,
   body.printing-one footer,
   body.printing-one section:not(.printing){display:none!important}
   body.printing-one section.printing{break-before:auto;page-break-before:auto;border:none;box-shadow:none}
@@ -203,8 +204,8 @@
     <div class="meta-row">
       <span class="chip">📍 HQ: Umm Al Quwain</span>
       <span class="chip">📅 Pilot 2026-06-23</span>
-      <span class="chip">👥 15 Customers · 7 Emirates</span>
-      <span class="chip">🚐 2 Vehicles · 2 Drivers · 2 Clusters</span>
+      <span class="chip">👥 32 Customers · 6 Emirates served</span>
+      <span class="chip">🚐 2 Vehicles · 2 Drivers · 16 per car</span>
       <span class="chip">🍽️ B · L · D · 2 Snacks · 1 Beverage</span>
     </div>
   </div>
@@ -235,31 +236,48 @@
   <section id="s1">
     <div class="sec-head">
       <div class="lhs"><div class="sec-num">1</div>
-        <div><h2>Customer Dashboard</h2><p>15 customers · 7 Emirates · smart-routed into 2 clusters</p></div></div>
+        <div><h2>Customer Dashboard</h2><p>32 customers · 6 Emirates · 16 per vehicle, 2 clusters</p></div></div>
       <button class="printbtn" onclick="printSection('s1')">🖨️ Print PDF</button>
     </div>
     <div class="tbl-scroll"><table>
       <thead><tr><th>ID</th><th>Name</th><th>Emirate</th><th>Area</th><th>Map</th><th>Dist (km)</th><th>Drive (min)</th><th>Freq</th><th>Cluster</th></tr></thead>
       <tbody>
-        <tr><td>CBA-CUS-001</td><td>Aisha Al Marri</td><td>Umm Al Quwain</td><td>Al Salamah</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Salamah,Umm+Al+Quwain,UAE" target="_blank">📍</a></td><td>6</td><td>10</td><td>2-day</td><td><span class="badge b-A">A</span></td></tr>
-        <tr><td>CBA-CUS-002</td><td>Omar Hassan</td><td>Ajman</td><td>Corniche</td><td><a href="https://www.google.com/maps/search/?api=1&query=Ajman+Corniche,Ajman,UAE" target="_blank">📍</a></td><td>25</td><td>22</td><td>3-day</td><td><span class="badge b-A">A</span></td></tr>
-        <tr><td>CBA-CUS-003</td><td>Fatima Khalid</td><td>Ajman</td><td>Al Nuaimiya</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Nuaimiya,Ajman,UAE" target="_blank">📍</a></td><td>28</td><td>25</td><td>2-day</td><td><span class="badge b-A">A</span></td></tr>
-        <tr><td>CBA-CUS-004</td><td>Yousef Ali</td><td>Sharjah</td><td>Al Majaz</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Majaz,Sharjah,UAE" target="_blank">📍</a></td><td>45</td><td>38</td><td>2-day</td><td><span class="badge b-A">A</span></td></tr>
-        <tr><td>CBA-CUS-005</td><td>Mariam Saeed</td><td>Sharjah</td><td>Al Nahda</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Nahda,Sharjah,UAE" target="_blank">📍</a></td><td>50</td><td>42</td><td>3-day</td><td><span class="badge b-A">A</span></td></tr>
-        <tr><td>CBA-CUS-006</td><td>Khalid Rashid</td><td>Ras Al Khaimah</td><td>Al Nakheel</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Nakheel,Ras+Al+Khaimah,UAE" target="_blank">📍</a></td><td>55</td><td>45</td><td>3-day</td><td><span class="badge b-A">A</span></td></tr>
-        <tr><td>CBA-CUS-007</td><td>Noura Abdullah</td><td>Ras Al Khaimah</td><td>Al Hamra</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Hamra,Ras+Al+Khaimah,UAE" target="_blank">📍</a></td><td>48</td><td>40</td><td>2-day</td><td><span class="badge b-A">A</span></td></tr>
-        <tr><td>CBA-CUS-008</td><td>Hamad Sultan</td><td>Fujairah</td><td>Fujairah City</td><td><a href="https://www.google.com/maps/search/?api=1&query=Fujairah+City,Fujairah,UAE" target="_blank">📍</a></td><td>95</td><td>80</td><td>3-day</td><td><span class="badge b-A">A</span></td></tr>
-        <tr><td>CBA-CUS-009</td><td>Layla Ahmed</td><td>Dubai</td><td>Marina</td><td><a href="https://www.google.com/maps/search/?api=1&query=Dubai+Marina,Dubai,UAE" target="_blank">📍</a></td><td>75</td><td>55</td><td>2-day</td><td><span class="badge b-B">B</span></td></tr>
-        <tr><td>CBA-CUS-010</td><td>Saif Majid</td><td>Dubai</td><td>Deira</td><td><a href="https://www.google.com/maps/search/?api=1&query=Deira,Dubai,UAE" target="_blank">📍</a></td><td>55</td><td>45</td><td>2-day</td><td><span class="badge b-B">B</span></td></tr>
-        <tr><td>CBA-CUS-011</td><td>Hessa Obaid</td><td>Dubai</td><td>Al Barsha</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Barsha,Dubai,UAE" target="_blank">📍</a></td><td>70</td><td>52</td><td>3-day</td><td><span class="badge b-B">B</span></td></tr>
-        <tr><td>CBA-CUS-012</td><td>Rashid Juma</td><td>Dubai</td><td>Business Bay</td><td><a href="https://www.google.com/maps/search/?api=1&query=Business+Bay,Dubai,UAE" target="_blank">📍</a></td><td>65</td><td>50</td><td>2-day</td><td><span class="badge b-B">B</span></td></tr>
-        <tr><td>CBA-CUS-013</td><td>Amna Salem</td><td>Abu Dhabi</td><td>Khalifa City</td><td><a href="https://www.google.com/maps/search/?api=1&query=Khalifa+City,Abu+Dhabi,UAE" target="_blank">📍</a></td><td>130</td><td>95</td><td>3-day</td><td><span class="badge b-B">B</span></td></tr>
-        <tr><td>CBA-CUS-014</td><td>Mohammed Tariq</td><td>Abu Dhabi</td><td>Al Reem Island</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Reem+Island,Abu+Dhabi,UAE" target="_blank">📍</a></td><td>145</td><td>105</td><td>3-day</td><td><span class="badge b-B">B</span></td></tr>
-        <tr><td>CBA-CUS-015</td><td>Sara Nasser</td><td>Abu Dhabi</td><td>Yas Island</td><td><a href="https://www.google.com/maps/search/?api=1&query=Yas+Island,Abu+Dhabi,UAE" target="_blank">📍</a></td><td>120</td><td>88</td><td>2-day</td><td><span class="badge b-B">B</span></td></tr>
+        <tr><td>CBA-CUS-001</td><td>Hind Ali</td><td>Ajman</td><td>Al Jurf</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Jurf,Ajman,UAE" target="_blank">📍</a></td><td>23</td><td>20</td><td>2-day</td><td><span class="badge b-A">A</span></td></tr>
+        <tr><td>CBA-CUS-002</td><td>Omar Hassan</td><td>Ajman</td><td>Corniche</td><td><a href="https://www.google.com/maps/search/?api=1&query=Ajman+Corniche,Ajman,UAE" target="_blank">📍</a></td><td>25</td><td>22</td><td>2-day</td><td><span class="badge b-A">A</span></td></tr>
+        <tr><td>CBA-CUS-003</td><td>Fatima Khalid</td><td>Ajman</td><td>Al Nuaimiya</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Nuaimiya,Ajman,UAE" target="_blank">📍</a></td><td>28</td><td>25</td><td>3-day</td><td><span class="badge b-A">A</span></td></tr>
+        <tr><td>CBA-CUS-004</td><td>Saeed Al Shamsi</td><td>Ajman</td><td>Al Rashidiya</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Rashidiya,Ajman,UAE" target="_blank">📍</a></td><td>30</td><td>27</td><td>2-day</td><td><span class="badge b-A">A</span></td></tr>
+        <tr><td>CBA-CUS-005</td><td>Tariq Nasser</td><td>Sharjah</td><td>Al Khan</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Khan,Sharjah,UAE" target="_blank">📍</a></td><td>47</td><td>40</td><td>2-day</td><td><span class="badge b-A">A</span></td></tr>
+        <tr><td>CBA-CUS-006</td><td>Yousef Ali</td><td>Sharjah</td><td>Al Majaz</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Majaz,Sharjah,UAE" target="_blank">📍</a></td><td>45</td><td>38</td><td>2-day</td><td><span class="badge b-A">A</span></td></tr>
+        <tr><td>CBA-CUS-007</td><td>Latifa Omar</td><td>Sharjah</td><td>Al Taawun</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Taawun,Sharjah,UAE" target="_blank">📍</a></td><td>48</td><td>41</td><td>3-day</td><td><span class="badge b-A">A</span></td></tr>
+        <tr><td>CBA-CUS-008</td><td>Mariam Saeed</td><td>Sharjah</td><td>Al Nahda</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Nahda,Sharjah,UAE" target="_blank">📍</a></td><td>50</td><td>42</td><td>3-day</td><td><span class="badge b-A">A</span></td></tr>
+        <tr><td>CBA-CUS-009</td><td>Salem Rashid</td><td>Sharjah</td><td>Muwailih</td><td><a href="https://www.google.com/maps/search/?api=1&query=Muwailih,Sharjah,UAE" target="_blank">📍</a></td><td>52</td><td>44</td><td>2-day</td><td><span class="badge b-A">A</span></td></tr>
+        <tr><td>CBA-CUS-010</td><td>Noura Abdullah</td><td>Ras Al Khaimah</td><td>Al Hamra</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Hamra,Ras+Al+Khaimah,UAE" target="_blank">📍</a></td><td>48</td><td>40</td><td>2-day</td><td><span class="badge b-A">A</span></td></tr>
+        <tr><td>CBA-CUS-011</td><td>Khalid Rashid</td><td>Ras Al Khaimah</td><td>Al Nakheel</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Nakheel,Ras+Al+Khaimah,UAE" target="_blank">📍</a></td><td>55</td><td>45</td><td>3-day</td><td><span class="badge b-A">A</span></td></tr>
+        <tr><td>CBA-CUS-012</td><td>Aisha Juma</td><td>Ras Al Khaimah</td><td>Al Mairid</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Mairid,Ras+Al+Khaimah,UAE" target="_blank">📍</a></td><td>58</td><td>47</td><td>2-day</td><td><span class="badge b-A">A</span></td></tr>
+        <tr><td>CBA-CUS-013</td><td>Majid Ali</td><td>Sharjah</td><td>Khorfakkan</td><td><a href="https://www.google.com/maps/search/?api=1&query=Khorfakkan,Sharjah,UAE" target="_blank">📍</a></td><td>88</td><td>75</td><td>3-day</td><td><span class="badge b-A">A</span></td></tr>
+        <tr><td>CBA-CUS-014</td><td>Shamma Obaid</td><td>Sharjah</td><td>Kalba</td><td><a href="https://www.google.com/maps/search/?api=1&query=Kalba,Sharjah,UAE" target="_blank">📍</a></td><td>100</td><td>85</td><td>3-day</td><td><span class="badge b-A">A</span></td></tr>
+        <tr><td>CBA-CUS-015</td><td>Hamad Sultan</td><td>Fujairah</td><td>Fujairah City</td><td><a href="https://www.google.com/maps/search/?api=1&query=Fujairah+City,Fujairah,UAE" target="_blank">📍</a></td><td>95</td><td>80</td><td>3-day</td><td><span class="badge b-A">A</span></td></tr>
+        <tr><td>CBA-CUS-016</td><td>Reem Saif</td><td>Fujairah</td><td>Dibba Al Fujairah</td><td><a href="https://www.google.com/maps/search/?api=1&query=Dibba+Al+Fujairah,Fujairah,UAE" target="_blank">📍</a></td><td>105</td><td>88</td><td>3-day</td><td><span class="badge b-A">A</span></td></tr>
+        <tr><td>CBA-CUS-017</td><td>Sara Khalid</td><td>Dubai</td><td>Al Qusais</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Qusais,Dubai,UAE" target="_blank">📍</a></td><td>52</td><td>43</td><td>2-day</td><td><span class="badge b-B">B</span></td></tr>
+        <tr><td>CBA-CUS-018</td><td>Saif Majid</td><td>Dubai</td><td>Deira</td><td><a href="https://www.google.com/maps/search/?api=1&query=Deira,Dubai,UAE" target="_blank">📍</a></td><td>55</td><td>45</td><td>2-day</td><td><span class="badge b-B">B</span></td></tr>
+        <tr><td>CBA-CUS-019</td><td>Faisal Omar</td><td>Dubai</td><td>Mirdif</td><td><a href="https://www.google.com/maps/search/?api=1&query=Mirdif,Dubai,UAE" target="_blank">📍</a></td><td>58</td><td>47</td><td>3-day</td><td><span class="badge b-B">B</span></td></tr>
+        <tr><td>CBA-CUS-020</td><td>Rashid Juma</td><td>Dubai</td><td>Business Bay</td><td><a href="https://www.google.com/maps/search/?api=1&query=Business+Bay,Dubai,UAE" target="_blank">📍</a></td><td>65</td><td>50</td><td>2-day</td><td><span class="badge b-B">B</span></td></tr>
+        <tr><td>CBA-CUS-021</td><td>Ahmed Sultan</td><td>Dubai</td><td>Downtown</td><td><a href="https://www.google.com/maps/search/?api=1&query=Downtown+Dubai,Dubai,UAE" target="_blank">📍</a></td><td>67</td><td>51</td><td>3-day</td><td><span class="badge b-B">B</span></td></tr>
+        <tr><td>CBA-CUS-022</td><td>Hessa Obaid</td><td>Dubai</td><td>Al Barsha</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Barsha,Dubai,UAE" target="_blank">📍</a></td><td>70</td><td>52</td><td>3-day</td><td><span class="badge b-B">B</span></td></tr>
+        <tr><td>CBA-CUS-023</td><td>Mona Ali</td><td>Dubai</td><td>Silicon Oasis</td><td><a href="https://www.google.com/maps/search/?api=1&query=Dubai+Silicon+Oasis,Dubai,UAE" target="_blank">📍</a></td><td>72</td><td>54</td><td>2-day</td><td><span class="badge b-B">B</span></td></tr>
+        <tr><td>CBA-CUS-024</td><td>Khalifa Rashid</td><td>Dubai</td><td>Dubai Hills</td><td><a href="https://www.google.com/maps/search/?api=1&query=Dubai+Hills,Dubai,UAE" target="_blank">📍</a></td><td>73</td><td>55</td><td>3-day</td><td><span class="badge b-B">B</span></td></tr>
+        <tr><td>CBA-CUS-025</td><td>Layla Ahmed</td><td>Dubai</td><td>Marina</td><td><a href="https://www.google.com/maps/search/?api=1&query=Dubai+Marina,Dubai,UAE" target="_blank">📍</a></td><td>75</td><td>55</td><td>2-day</td><td><span class="badge b-B">B</span></td></tr>
+        <tr><td>CBA-CUS-026</td><td>Maitha Saeed</td><td>Dubai</td><td>JLT</td><td><a href="https://www.google.com/maps/search/?api=1&query=Jumeirah+Lake+Towers,Dubai,UAE" target="_blank">📍</a></td><td>76</td><td>56</td><td>2-day</td><td><span class="badge b-B">B</span></td></tr>
+        <tr><td>CBA-CUS-027</td><td>Hamdan Ali</td><td>Abu Dhabi</td><td>Al Raha</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Raha,Abu+Dhabi,UAE" target="_blank">📍</a></td><td>118</td><td>86</td><td>3-day</td><td><span class="badge b-B">B</span></td></tr>
+        <tr><td>CBA-CUS-028</td><td>Sara Nasser</td><td>Abu Dhabi</td><td>Yas Island</td><td><a href="https://www.google.com/maps/search/?api=1&query=Yas+Island,Abu+Dhabi,UAE" target="_blank">📍</a></td><td>120</td><td>88</td><td>2-day</td><td><span class="badge b-B">B</span></td></tr>
+        <tr><td>CBA-CUS-029</td><td>Amna Salem</td><td>Abu Dhabi</td><td>Khalifa City</td><td><a href="https://www.google.com/maps/search/?api=1&query=Khalifa+City,Abu+Dhabi,UAE" target="_blank">📍</a></td><td>130</td><td>95</td><td>3-day</td><td><span class="badge b-B">B</span></td></tr>
+        <tr><td>CBA-CUS-030</td><td>Fatima Hassan</td><td>Abu Dhabi</td><td>Saadiyat Island</td><td><a href="https://www.google.com/maps/search/?api=1&query=Saadiyat+Island,Abu+Dhabi,UAE" target="_blank">📍</a></td><td>138</td><td>100</td><td>3-day</td><td><span class="badge b-B">B</span></td></tr>
+        <tr><td>CBA-CUS-031</td><td>Mohammed Tariq</td><td>Abu Dhabi</td><td>Al Reem Island</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Reem+Island,Abu+Dhabi,UAE" target="_blank">📍</a></td><td>145</td><td>105</td><td>3-day</td><td><span class="badge b-B">B</span></td></tr>
+        <tr><td>CBA-CUS-032</td><td>Obaid Khalid</td><td>Abu Dhabi</td><td>Mussafah</td><td><a href="https://www.google.com/maps/search/?api=1&query=Mussafah,Abu+Dhabi,UAE" target="_blank">📍</a></td><td>150</td><td>108</td><td>3-day</td><td><span class="badge b-B">B</span></td></tr>
       </tbody>
     </table></div>
-    <div class="insight"><b>Insight:</b> 8 customers North (Cluster A), 7 South (Cluster B). 9 on 2-day cycle, 6 on 3-day. Abu Dhabi = longest legs — biggest cost/time driver.</div>
-    <p class="est-note">Distances & drive times estimated from real UAE road geography. Map links are area-level searches.</p>
+    <div class="insight"><b>Insight:</b> 16 customers North (Cluster A: Ajman·Sharjah·RAK·Fujairah) and 16 South (Cluster B: Dubai·Abu Dhabi) — both vehicles at full 16-stop capacity. No Umm Al Quwain customers (HQ city only). Abu Dhabi + east-coast (Khorfakkan/Kalba/Dibba) = longest legs.</div>
+    <p class="est-note">Distances & drive times estimated from real UAE road geography (HQ = Umm Al Quwain). Map links are area-level searches.</p>
   </section>
 
   <!-- 2 MEAL ASSIGNMENT -->
@@ -272,24 +290,41 @@
     <div class="tbl-scroll"><table>
       <thead><tr><th>Customer</th><th>Diet Tag</th><th>kcal</th><th>Breakfast</th><th>Lunch</th><th>Dinner</th><th>Snacks</th><th>Beverage</th></tr></thead>
       <tbody>
-        <tr><td>CBA-CUS-001</td><td>High-protein</td><td>2100</td><td>Egg-oat bowl</td><td>Grilled chicken + rice</td><td>Salmon + greens</td><td>Almonds, yogurt</td><td>Green smoothie</td></tr>
-        <tr><td>CBA-CUS-002</td><td>Balanced</td><td>1900</td><td>Foul + bread</td><td>Lamb kabsa</td><td>Veg soup + bread</td><td>Dates, fruit cup</td><td>Laban</td></tr>
-        <tr><td>CBA-CUS-003</td><td>Low-carb</td><td>1600</td><td>Omelette</td><td>Chicken salad</td><td>Grilled fish</td><td>Nuts, cheese</td><td>Lemon mint</td></tr>
+        <tr><td>CBA-CUS-001</td><td>High-protein</td><td>2150</td><td>Egg-oat bowl</td><td>Grilled chicken + rice</td><td>Salmon + greens</td><td>Almonds, yogurt</td><td>Green smoothie</td></tr>
+        <tr><td>CBA-CUS-002</td><td>Balanced</td><td>1980</td><td>Foul + bread</td><td>Lamb kabsa</td><td>Veg soup + bread</td><td>Dates, fruit cup</td><td>Laban</td></tr>
+        <tr><td>CBA-CUS-003</td><td>Low-carb</td><td>1620</td><td>Omelette</td><td>Chicken salad</td><td>Grilled fish</td><td>Nuts, cheese</td><td>Lemon mint</td></tr>
         <tr><td>CBA-CUS-004</td><td>Vegan</td><td>1800</td><td>Chia pudding</td><td>Falafel bowl</td><td>Lentil curry</td><td>Hummus, fruit</td><td>Orange juice</td></tr>
-        <tr><td>CBA-CUS-005</td><td>Balanced</td><td>2000</td><td>Shakshuka</td><td>Beef + quinoa</td><td>Chicken wrap</td><td>Granola, apple</td><td>Iced tea</td></tr>
-        <tr><td>CBA-CUS-006</td><td>High-protein</td><td>2200</td><td>Protein pancakes</td><td>Grilled beef + rice</td><td>Turkey + veg</td><td>Boiled eggs, nuts</td><td>Protein shake</td></tr>
-        <tr><td>CBA-CUS-007</td><td>Keto</td><td>1500</td><td>Avocado eggs</td><td>Chicken + salad</td><td>Salmon + spinach</td><td>Cheese, olives</td><td>Black coffee</td></tr>
-        <tr><td>CBA-CUS-008</td><td>Balanced</td><td>1950</td><td>Manakish</td><td>Mandi rice</td><td>Veg stew</td><td>Fruit, yogurt</td><td>Karak tea</td></tr>
-        <tr><td>CBA-CUS-009</td><td>Low-cal</td><td>1400</td><td>Fruit bowl</td><td>Tuna salad</td><td>Veg soup</td><td>Carrot sticks, apple</td><td>Detox water</td></tr>
-        <tr><td>CBA-CUS-010</td><td>Balanced</td><td>2000</td><td>Egg sandwich</td><td>Chicken biryani</td><td>Grilled fish</td><td>Dates, nuts</td><td>Fresh juice</td></tr>
-        <tr><td>CBA-CUS-011</td><td>High-protein</td><td>2150</td><td>Protein oats</td><td>Steak + potato</td><td>Chicken + veg</td><td>Yogurt, almonds</td><td>Protein shake</td></tr>
+        <tr><td>CBA-CUS-005</td><td>Keto</td><td>1530</td><td>Avocado eggs</td><td>Beef salad</td><td>Salmon + spinach</td><td>Cheese, olives</td><td>Black coffee</td></tr>
+        <tr><td>CBA-CUS-006</td><td>Vegetarian</td><td>1850</td><td>Paneer wrap</td><td>Veg biryani</td><td>Dal + rice</td><td>Fruit, hummus</td><td>Mango lassi</td></tr>
+        <tr><td>CBA-CUS-007</td><td>High-protein</td><td>2150</td><td>Protein pancakes</td><td>Grilled beef + rice</td><td>Turkey + veg</td><td>Boiled eggs, nuts</td><td>Protein shake</td></tr>
+        <tr><td>CBA-CUS-008</td><td>Balanced</td><td>1980</td><td>Shakshuka</td><td>Mandi rice</td><td>Chicken wrap</td><td>Granola, apple</td><td>Iced tea</td></tr>
+        <tr><td>CBA-CUS-009</td><td>Low-carb</td><td>1620</td><td>Omelette</td><td>Chicken salad</td><td>Grilled fish</td><td>Nuts, cheese</td><td>Green tea</td></tr>
+        <tr><td>CBA-CUS-010</td><td>Vegan</td><td>1800</td><td>Chia pudding</td><td>Falafel bowl</td><td>Lentil curry</td><td>Hummus, fruit</td><td>Orange juice</td></tr>
+        <tr><td>CBA-CUS-011</td><td>Keto</td><td>1530</td><td>Avocado eggs</td><td>Beef salad</td><td>Salmon + veg</td><td>Olives, cheese</td><td>Black coffee</td></tr>
         <tr><td>CBA-CUS-012</td><td>Vegetarian</td><td>1850</td><td>Paneer wrap</td><td>Veg biryani</td><td>Dal + rice</td><td>Fruit, hummus</td><td>Mango lassi</td></tr>
-        <tr><td>CBA-CUS-013</td><td>Low-carb</td><td>1650</td><td>Omelette</td><td>Grilled chicken salad</td><td>Fish + greens</td><td>Nuts, cheese</td><td>Green tea</td></tr>
-        <tr><td>CBA-CUS-014</td><td>Balanced</td><td>2050</td><td>Foul + egg</td><td>Lamb + rice</td><td>Veg soup + bread</td><td>Dates, fruit</td><td>Laban</td></tr>
-        <tr><td>CBA-CUS-015</td><td>Keto</td><td>1550</td><td>Avocado eggs</td><td>Beef salad</td><td>Salmon + veg</td><td>Olives, cheese</td><td>Black coffee</td></tr>
+        <tr><td>CBA-CUS-013</td><td>High-protein</td><td>2150</td><td>Protein oats</td><td>Steak + potato</td><td>Chicken + veg</td><td>Yogurt, almonds</td><td>Protein shake</td></tr>
+        <tr><td>CBA-CUS-014</td><td>Balanced</td><td>1980</td><td>Manakish</td><td>Lamb kabsa</td><td>Veg stew</td><td>Fruit, yogurt</td><td>Karak tea</td></tr>
+        <tr><td>CBA-CUS-015</td><td>Low-carb</td><td>1620</td><td>Omelette</td><td>Grilled chicken salad</td><td>Fish + greens</td><td>Nuts, cheese</td><td>Lemon mint</td></tr>
+        <tr><td>CBA-CUS-016</td><td>Vegan</td><td>1800</td><td>Chia pudding</td><td>Falafel bowl</td><td>Lentil curry</td><td>Hummus, fruit</td><td>Detox water</td></tr>
+        <tr><td>CBA-CUS-017</td><td>Keto</td><td>1530</td><td>Avocado eggs</td><td>Beef salad</td><td>Salmon + spinach</td><td>Cheese, olives</td><td>Black coffee</td></tr>
+        <tr><td>CBA-CUS-018</td><td>Vegetarian</td><td>1850</td><td>Paneer wrap</td><td>Veg biryani</td><td>Dal + rice</td><td>Fruit, hummus</td><td>Mango lassi</td></tr>
+        <tr><td>CBA-CUS-019</td><td>High-protein</td><td>2150</td><td>Egg-oat bowl</td><td>Grilled chicken + rice</td><td>Salmon + greens</td><td>Almonds, yogurt</td><td>Protein shake</td></tr>
+        <tr><td>CBA-CUS-020</td><td>Balanced</td><td>1980</td><td>Egg sandwich</td><td>Chicken biryani</td><td>Grilled fish</td><td>Dates, nuts</td><td>Fresh juice</td></tr>
+        <tr><td>CBA-CUS-021</td><td>Low-carb</td><td>1620</td><td>Omelette</td><td>Chicken salad</td><td>Grilled fish</td><td>Nuts, cheese</td><td>Green tea</td></tr>
+        <tr><td>CBA-CUS-022</td><td>Vegan</td><td>1800</td><td>Chia pudding</td><td>Falafel bowl</td><td>Lentil curry</td><td>Hummus, fruit</td><td>Orange juice</td></tr>
+        <tr><td>CBA-CUS-023</td><td>Keto</td><td>1530</td><td>Avocado eggs</td><td>Beef salad</td><td>Salmon + veg</td><td>Olives, cheese</td><td>Black coffee</td></tr>
+        <tr><td>CBA-CUS-024</td><td>Vegetarian</td><td>1850</td><td>Paneer wrap</td><td>Veg biryani</td><td>Dal + rice</td><td>Fruit, hummus</td><td>Mango lassi</td></tr>
+        <tr><td>CBA-CUS-025</td><td>High-protein</td><td>2150</td><td>Protein pancakes</td><td>Grilled beef + rice</td><td>Turkey + veg</td><td>Boiled eggs, nuts</td><td>Protein shake</td></tr>
+        <tr><td>CBA-CUS-026</td><td>Low-cal</td><td>1400</td><td>Fruit bowl</td><td>Tuna salad</td><td>Veg soup</td><td>Carrot sticks, apple</td><td>Detox water</td></tr>
+        <tr><td>CBA-CUS-027</td><td>Low-carb</td><td>1620</td><td>Omelette</td><td>Grilled chicken salad</td><td>Fish + greens</td><td>Nuts, cheese</td><td>Green tea</td></tr>
+        <tr><td>CBA-CUS-028</td><td>Vegan</td><td>1800</td><td>Chia pudding</td><td>Falafel bowl</td><td>Lentil curry</td><td>Hummus, fruit</td><td>Orange juice</td></tr>
+        <tr><td>CBA-CUS-029</td><td>Keto</td><td>1530</td><td>Avocado eggs</td><td>Beef salad</td><td>Salmon + spinach</td><td>Cheese, olives</td><td>Black coffee</td></tr>
+        <tr><td>CBA-CUS-030</td><td>Vegetarian</td><td>1850</td><td>Paneer wrap</td><td>Veg biryani</td><td>Dal + rice</td><td>Fruit, hummus</td><td>Mango lassi</td></tr>
+        <tr><td>CBA-CUS-031</td><td>High-protein</td><td>2150</td><td>Protein oats</td><td>Steak + potato</td><td>Chicken + veg</td><td>Yogurt, almonds</td><td>Protein shake</td></tr>
+        <tr><td>CBA-CUS-032</td><td>Balanced</td><td>1980</td><td>Foul + egg</td><td>Lamb + rice</td><td>Veg soup + bread</td><td>Dates, fruit</td><td>Laban</td></tr>
       </tbody>
     </table></div>
-    <div class="insight"><b>Insight:</b> 6 diet profiles auto-assigned. kcal range 1400–2200. Keto/low-carb/vegan = 4 customers → dedicated specialty prep lane needed.</div>
+    <div class="insight"><b>Insight:</b> 7 diet profiles auto-assigned. kcal range 1400–2150. Keto/low-carb/vegan specialty meals now ≈15 of 32 customers → specialty prep lane is a real second line, not a side task.</div>
   </section>
 
   <!-- 3 KITCHEN -->
@@ -300,14 +335,14 @@
       <button class="printbtn" onclick="printSection('s3')">🖨️ Print PDF</button>
     </div>
     <div class="stat-grid">
-      <div class="stat"><div class="v">45</div><div class="l">Meals Planned</div></div>
-      <div class="stat"><div class="v">44</div><div class="l">Produced</div></div>
+      <div class="stat"><div class="v">96</div><div class="l">Meals Planned</div></div>
+      <div class="stat"><div class="v">95</div><div class="l">Produced</div></div>
       <div class="stat"><div class="v">1</div><div class="l">Rejected (QC)</div></div>
-      <div class="stat"><div class="v">3h 40m</div><div class="l">Total Cook Time</div></div>
-      <div class="stat"><div class="v">4.9m</div><div class="l">Avg / Meal</div></div>
-      <div class="stat"><div class="v">97.8%</div><div class="l">Efficiency</div></div>
+      <div class="stat"><div class="v">5h 10m</div><div class="l">Total Cook Time</div></div>
+      <div class="stat"><div class="v">6</div><div class="l">Kitchen Staff</div></div>
+      <div class="stat"><div class="v">99.0%</div><div class="l">Efficiency</div></div>
     </div>
-    <div class="insight"><b>Insight:</b> 1 rejected dinner (fish temp). Standard lane 11 / specialty lane 4 customers — specialty 18% slower. Add 1 prep cook before launch.</div>
+    <div class="insight"><b>Insight:</b> 96 main meals (32 customers × 3). 1 rejected dinner (fish temp). Standard lane 17 / specialty lane 15 customers — specialty now needs 2 dedicated cooks. Staff raised to 6 to hold 5h prep window.</div>
   </section>
 
   <!-- 4 SNACK -->
@@ -318,13 +353,13 @@
       <button class="printbtn" onclick="printSection('s4')">🖨️ Print PDF</button>
     </div>
     <div class="stat-grid">
-      <div class="stat"><div class="v">30</div><div class="l">Snack Units</div></div>
-      <div class="stat"><div class="v">15</div><div class="l">Beverages</div></div>
+      <div class="stat"><div class="v">64</div><div class="l">Snack Units</div></div>
+      <div class="stat"><div class="v">32</div><div class="l">Beverages</div></div>
       <div class="stat"><div class="v">0</div><div class="l">Defects</div></div>
-      <div class="stat"><div class="v">08:40</div><div class="l">Pack Complete</div></div>
+      <div class="stat"><div class="v">09:05</div><div class="l">Pack Complete</div></div>
       <div class="stat"><div class="v">100%</div><div class="l">Efficiency</div></div>
     </div>
-    <div class="insight"><b>Insight:</b> Snack/beverage line fully ready. Top pairings: nuts+yogurt (4), dates+fruit (3), cheese+olives (3). Cold-chain beverages need chilled packing for far legs (Fujairah, Abu Dhabi).</div>
+    <div class="insight"><b>Insight:</b> 64 snacks + 32 beverages, zero defects. Cold-chain beverages (smoothies, laban, lassi) need chilled packing for the long east-coast and Abu Dhabi legs (90–150 km).</div>
   </section>
 
   <!-- 5 QC -->
@@ -337,81 +372,89 @@
     <div class="tbl-scroll"><table>
       <thead><tr><th>Check</th><th>Sampled</th><th>Pass</th><th>Fail</th><th>Pass %</th></tr></thead>
       <tbody>
-        <tr><td>Temperature (hot ≥63°C)</td><td>15</td><td>14</td><td>1</td><td>93%</td></tr>
-        <tr><td>Portion weight</td><td>15</td><td>15</td><td>0</td><td>100%</td></tr>
-        <tr><td>Packaging seal</td><td>15</td><td>15</td><td>0</td><td>100%</td></tr>
-        <tr><td>Label accuracy</td><td>15</td><td>14</td><td>1</td><td>93%</td></tr>
-        <tr><td>Allergen flag</td><td>15</td><td>15</td><td>0</td><td>100%</td></tr>
+        <tr><td>Temperature (hot ≥63°C)</td><td>32</td><td>30</td><td>2</td><td>94%</td></tr>
+        <tr><td>Portion weight</td><td>32</td><td>32</td><td>0</td><td>100%</td></tr>
+        <tr><td>Packaging seal</td><td>32</td><td>32</td><td>0</td><td>100%</td></tr>
+        <tr><td>Label accuracy</td><td>32</td><td>31</td><td>1</td><td>97%</td></tr>
+        <tr><td>Allergen flag</td><td>32</td><td>32</td><td>0</td><td>100%</td></tr>
       </tbody>
-      <tfoot><tr class="tfoot"><td>Overall</td><td>75</td><td>73</td><td>2</td><td>97.3%</td></tr></tfoot>
+      <tfoot><tr class="tfoot"><td>Overall</td><td>160</td><td>157</td><td>3</td><td>98.1%</td></tr></tfoot>
     </table></div>
-    <div class="insight"><b>Insight:</b> QC pass 97.3%. Fails: 1 fish dinner below temp (re-cooked), 1 mislabel (corrected). Both caught pre-dispatch — <b>zero defects shipped</b>. Add temp probe on specialty lane.</div>
+    <div class="insight"><b>Insight:</b> QC pass 98.1%. Fails: 2 dinners below temp (re-cooked), 1 mislabel (keto vs low-carb, corrected). All caught pre-dispatch — <b>zero defects shipped</b>. Temp probe step on specialty lane is now mandatory at this volume.</div>
   </section>
 
   <!-- 6 DISPATCH -->
   <section id="s6">
     <div class="sec-head">
       <div class="lhs"><div class="sec-num">6</div>
-        <div><h2>Dispatch Dashboard</h2><p>Deliveries CBA-DL-001 → CBA-DL-015</p></div></div>
+        <div><h2>Dispatch Dashboard</h2><p>Deliveries CBA-DL-001 → CBA-DL-032</p></div></div>
       <button class="printbtn" onclick="printSection('s6')">🖨️ Print PDF</button>
     </div>
     <div class="tbl-scroll"><table>
       <thead><tr><th>Route</th><th>Vehicle</th><th>Driver</th><th>Cluster</th><th>Stops</th><th>Depart</th><th>Est Return</th><th>Load</th></tr></thead>
       <tbody>
-        <tr><td>CBA-RT-001</td><td>CBA-VH-001</td><td>CBA-DR-001</td><td><span class="badge b-A">A · North</span></td><td>8</td><td>09:00</td><td>12:50</td><td>24 main + snacks</td></tr>
-        <tr><td>CBA-RT-002</td><td>CBA-VH-002</td><td>CBA-DR-002</td><td><span class="badge b-B">B · South</span></td><td>7</td><td>09:00</td><td>14:30</td><td>21 main + snacks</td></tr>
+        <tr><td>CBA-RT-001</td><td>CBA-VH-001</td><td>CBA-DR-001</td><td><span class="badge b-A">A · North</span></td><td>16</td><td>09:00</td><td>13:40</td><td>48 main + snacks</td></tr>
+        <tr><td>CBA-RT-002</td><td>CBA-VH-002</td><td>CBA-DR-002</td><td><span class="badge b-B">B · South</span></td><td>16</td><td>09:00</td><td>15:30</td><td>48 main + snacks</td></tr>
       </tbody>
     </table></div>
-    <div class="insight"><b>Insight:</b> Both routes depart 09:00. South route 1h40m longer (Abu Dhabi legs). Stagger departures or add 3rd van at scale.</div>
+    <div class="insight"><b>Insight:</b> Both vehicles at 16-stop capacity. South route 1h50m longer (Abu Dhabi). At this load both routes run ~5–6.5h — staggered departures or a 3rd vehicle needed before adding customers.</div>
   </section>
 
   <!-- 7 ROUTE OPT -->
   <section id="s7">
     <div class="sec-head">
       <div class="lhs"><div class="sec-num">7</div>
-        <div><h2>Route Optimization Dashboard</h2><p>Nearest-neighbor sweep from HQ · ~18% km saved vs naive</p></div></div>
+        <div><h2>Route Optimization Dashboard</h2><p>Nearest-neighbor sweep from HQ · ~17% km saved vs naive</p></div></div>
       <button class="printbtn" onclick="printSection('s7')">🖨️ Print PDF</button>
     </div>
     <div class="stat-grid" style="margin-bottom:18px">
-      <div class="stat"><div class="v">271 km</div><div class="l">Cluster A Loop</div></div>
-      <div class="stat"><div class="v">311 km</div><div class="l">Cluster B Loop</div></div>
-      <div class="stat"><div class="v">582 km</div><div class="l">Total Distance</div></div>
-      <div class="stat"><div class="v">~18%</div><div class="l">Km Saved</div></div>
+      <div class="stat"><div class="v">328 km</div><div class="l">Cluster A Loop</div></div>
+      <div class="stat"><div class="v">393 km</div><div class="l">Cluster B Loop</div></div>
+      <div class="stat"><div class="v">721 km</div><div class="l">Total Distance</div></div>
+      <div class="stat"><div class="v">~17%</div><div class="l">Km Saved</div></div>
     </div>
     <div class="tbl-scroll"><table>
       <thead><tr><th>#</th><th>Cluster A — North</th><th>Leg km</th><th>Cluster B — South</th><th>Leg km</th></tr></thead>
       <tbody>
-        <tr><td>1</td><td>UAQ Al Salamah</td><td>6</td><td>Dubai Deira</td><td>55</td></tr>
-        <tr><td>2</td><td>Ajman Corniche</td><td>20</td><td>Dubai Business Bay</td><td>12</td></tr>
-        <tr><td>3</td><td>Ajman Al Nuaimiya</td><td>4</td><td>Dubai Al Barsha</td><td>10</td></tr>
-        <tr><td>4</td><td>Sharjah Al Majaz</td><td>18</td><td>Dubai Marina</td><td>8</td></tr>
-        <tr><td>5</td><td>Sharjah Al Nahda</td><td>6</td><td>AD Yas Island</td><td>50</td></tr>
-        <tr><td>6</td><td>RAK Al Hamra</td><td>40</td><td>AD Al Reem</td><td>28</td></tr>
-        <tr><td>7</td><td>RAK Al Nakheel</td><td>12</td><td>AD Khalifa City</td><td>18</td></tr>
-        <tr><td>8</td><td>Fujairah City</td><td>70</td><td>—</td><td>—</td></tr>
-        <tr><td>↩</td><td>Return HQ</td><td>95</td><td>Return HQ</td><td>130</td></tr>
+        <tr><td>1</td><td>Ajman Al Jurf</td><td>23</td><td>Dubai Al Qusais</td><td>52</td></tr>
+        <tr><td>2</td><td>Ajman Corniche</td><td>3</td><td>Dubai Mirdif</td><td>8</td></tr>
+        <tr><td>3</td><td>Ajman Al Nuaimiya</td><td>3</td><td>Dubai Deira</td><td>6</td></tr>
+        <tr><td>4</td><td>Ajman Al Rashidiya</td><td>2</td><td>Dubai Silicon Oasis</td><td>18</td></tr>
+        <tr><td>5</td><td>Sharjah Al Khan</td><td>17</td><td>Dubai Dubai Hills</td><td>8</td></tr>
+        <tr><td>6</td><td>Sharjah Al Majaz</td><td>3</td><td>Dubai Business Bay</td><td>10</td></tr>
+        <tr><td>7</td><td>Sharjah Al Taawun</td><td>3</td><td>Dubai Downtown</td><td>3</td></tr>
+        <tr><td>8</td><td>Sharjah Al Nahda</td><td>3</td><td>Dubai Al Barsha</td><td>6</td></tr>
+        <tr><td>9</td><td>Sharjah Muwailih</td><td>4</td><td>Dubai JLT</td><td>6</td></tr>
+        <tr><td>10</td><td>RAK Al Hamra</td><td>18</td><td>Dubai Marina</td><td>3</td></tr>
+        <tr><td>11</td><td>RAK Al Nakheel</td><td>10</td><td>AD Yas Island</td><td>48</td></tr>
+        <tr><td>12</td><td>RAK Al Mairid</td><td>4</td><td>AD Al Raha</td><td>6</td></tr>
+        <tr><td>13</td><td>Sharjah Khorfakkan</td><td>60</td><td>AD Saadiyat</td><td>22</td></tr>
+        <tr><td>14</td><td>Sharjah Kalba</td><td>18</td><td>AD Khalifa City</td><td>15</td></tr>
+        <tr><td>15</td><td>Fujairah City</td><td>12</td><td>AD Al Reem</td><td>12</td></tr>
+        <tr><td>16</td><td>Fujairah Dibba</td><td>40</td><td>AD Mussafah</td><td>20</td></tr>
+        <tr><td>↩</td><td>Return HQ</td><td>105</td><td>Return HQ</td><td>150</td></tr>
       </tbody>
-      <tfoot><tr class="tfoot"><td></td><td>Total A</td><td>271</td><td>Total B</td><td>311</td></tr></tfoot>
+      <tfoot><tr class="tfoot"><td></td><td>Total A</td><td>328</td><td>Total B</td><td>393</td></tr></tfoot>
     </table></div>
-    <div class="insight"><b>Insight:</b> Fujairah anchored last (dead-end leg) = 165 km round contribution for 1 customer. If &lt;2 customers there, restrict to 3-day cycle or add zone surcharge.</div>
+    <div class="insight"><b>Insight:</b> East-coast leg (Khorfakkan→Kalba→Fujairah→Dibba) adds ~130 km to Cluster A for 4 customers. Abu Dhabi adds ~120 km to Cluster B. Both far-zones still the cost tail — but density (16/car) drops per-delivery cost sharply.</div>
   </section>
 
   <!-- 8 DRIVER -->
   <section id="s8">
     <div class="sec-head">
       <div class="lhs"><div class="sec-num">8</div>
-        <div><h2>Driver Performance Dashboard</h2><p>2 drivers · 15 deliveries</p></div></div>
+        <div><h2>Driver Performance Dashboard</h2><p>2 drivers · 32 deliveries</p></div></div>
       <button class="printbtn" onclick="printSection('s8')">🖨️ Print PDF</button>
     </div>
     <div class="tbl-scroll"><table>
       <thead><tr><th>Driver</th><th>Route</th><th>Deliveries</th><th>On-Time</th><th>On-Time %</th><th>Avg/Stop</th><th>km</th><th>Rating</th></tr></thead>
       <tbody>
-        <tr><td>CBA-DR-001</td><td>A · North</td><td>8</td><td>7</td><td>87.5%</td><td>12 min</td><td>271</td><td>⭐ 4.6</td></tr>
-        <tr><td>CBA-DR-002</td><td>B · South</td><td>7</td><td>7</td><td>100%</td><td>14 min</td><td>311</td><td>⭐ 4.8</td></tr>
+        <tr><td>CBA-DR-001</td><td>A · North</td><td>16</td><td>14</td><td>87.5%</td><td>11 min</td><td>328</td><td>⭐ 4.6</td></tr>
+        <tr><td>CBA-DR-002</td><td>B · South</td><td>16</td><td>15</td><td>93.8%</td><td>13 min</td><td>393</td><td>⭐ 4.7</td></tr>
       </tbody>
-      <tfoot><tr class="tfoot"><td>Total</td><td>—</td><td>15</td><td>14</td><td>93.3%</td><td>13 min</td><td>582</td><td>4.7</td></tr></tfoot>
+      <tfoot><tr class="tfoot"><td>Total</td><td>—</td><td>32</td><td>29</td><td>90.6%</td><td>12 min</td><td>721</td><td>4.65</td></tr></tfoot>
     </table></div>
-    <div class="insight"><b>Insight:</b> 1 late = Fujairah (CBA-CUS-008), traffic on E611. South driver perfect despite longer route. Both above 4.5 rating.</div>
+    <div class="insight"><b>Insight:</b> 3 late = 2 east-coast (Kalba, Dibba) + 1 Mussafah, all long-leg geography. On-time 90.6% holds above target despite doubled load. Both drivers ≥4.6.</div>
   </section>
 
   <!-- 9 FUEL -->
@@ -424,34 +467,35 @@
     <div class="tbl-scroll"><table>
       <thead><tr><th>Vehicle</th><th>Route</th><th>km</th><th>Fuel (L)</th><th>Cost (AED)</th><th>L/100km</th></tr></thead>
       <tbody>
-        <tr><td>CBA-VH-001</td><td>A · North</td><td>271</td><td>32.5</td><td>94.30</td><td>12.0</td></tr>
-        <tr><td>CBA-VH-002</td><td>B · South</td><td>311</td><td>37.3</td><td>108.20</td><td>12.0</td></tr>
+        <tr><td>CBA-VH-001</td><td>A · North</td><td>328</td><td>39.4</td><td>114.16</td><td>12.0</td></tr>
+        <tr><td>CBA-VH-002</td><td>B · South</td><td>393</td><td>47.2</td><td>136.78</td><td>12.0</td></tr>
       </tbody>
-      <tfoot><tr class="tfoot"><td>Total</td><td>—</td><td>582</td><td>69.8</td><td>202.50</td><td>12.0</td></tr></tfoot>
+      <tfoot><tr class="tfoot"><td>Total</td><td>—</td><td>721</td><td>86.5</td><td>250.94</td><td>12.0</td></tr></tfoot>
     </table></div>
     <div class="stat-grid" style="margin-top:16px">
-      <div class="stat"><div class="v">AED 13.50</div><div class="l">Cost / Delivery</div></div>
-      <div class="stat"><div class="v">69.8 L</div><div class="l">Total Fuel</div></div>
-      <div class="stat"><div class="v">55%</div><div class="l">Fuel from far zones</div></div>
+      <div class="stat"><div class="v">AED 7.84</div><div class="l">Cost / Delivery</div></div>
+      <div class="stat"><div class="v">86.5 L</div><div class="l">Total Fuel</div></div>
+      <div class="stat"><div class="v">↓42%</div><div class="l">vs 15-cust pilot</div></div>
     </div>
-    <div class="insight"><b>Insight:</b> Fuel = AED 13.50/delivery. Fujairah + Abu Dhabi legs drive 55% of fuel for 27% of customers. Target &lt;AED 10/delivery via density before scaling those zones.</div>
+    <div class="insight"><b>Insight:</b> Doubling load to 16/car drops fuel cost to <b>AED 7.84/delivery</b> — under the AED 10 target — because km grows far slower than customer count. Density is the cost lever, confirmed.</div>
   </section>
 
   <!-- 10 INCIDENT -->
   <section id="s10">
     <div class="sec-head">
       <div class="lhs"><div class="sec-num">10</div>
-        <div><h2>Incident Management Dashboard</h2><p>2 incidents · both resolved</p></div></div>
+        <div><h2>Incident Management Dashboard</h2><p>3 incidents · all resolved</p></div></div>
       <button class="printbtn" onclick="printSection('s10')">🖨️ Print PDF</button>
     </div>
     <div class="tbl-scroll"><table>
       <thead><tr><th>Incident</th><th>Type</th><th>Severity</th><th>Linked</th><th>Status</th><th>Resolution</th></tr></thead>
       <tbody>
-        <tr><td>CBA-IR-001</td><td>Late delivery (Fujairah traffic)</td><td><span class="badge b-warn">🟠 Medium</span></td><td>CBA-DL-008</td><td><span class="badge b-ok">Resolved</span></td><td>Delivered +35 min, customer notified</td></tr>
-        <tr><td>CBA-IR-002</td><td>Meal temp below spec</td><td><span class="badge b-crit">🔴 High</span></td><td>CBA-KB-001</td><td><span class="badge b-ok">Resolved</span></td><td>Caught at QC, re-cooked, not shipped</td></tr>
+        <tr><td>CBA-IR-001</td><td>Late delivery (Dibba east-coast)</td><td><span class="badge b-warn">🟠 Medium</span></td><td>CBA-DL-016</td><td><span class="badge b-ok">Resolved</span></td><td>Delivered +40 min, customer notified</td></tr>
+        <tr><td>CBA-IR-002</td><td>Late delivery (Mussafah far leg)</td><td><span class="badge b-warn">🟠 Medium</span></td><td>CBA-DL-032</td><td><span class="badge b-ok">Resolved</span></td><td>Delivered +25 min, customer notified</td></tr>
+        <tr><td>CBA-IR-003</td><td>Meal temp below spec ×2</td><td><span class="badge b-crit">🔴 High</span></td><td>CBA-KB-001</td><td><span class="badge b-ok">Resolved</span></td><td>Caught at QC, re-cooked, not shipped</td></tr>
       </tbody>
     </table></div>
-    <div class="insight"><b>Insight:</b> 2 incidents, both resolved, 0 reached customer as defect. Temp = process gap (specialty probe). Late = geography, not driver.</div>
+    <div class="insight"><b>Insight:</b> 3 incidents, all resolved, 0 reached customer as defect. 2 late = far-zone geography; temp = specialty-lane process gap (probe step). Late rate rose with the longer east-coast loop.</div>
   </section>
 
   <!-- 11 EXEC KPI -->
@@ -462,13 +506,13 @@
       <button class="printbtn" onclick="printSection('s11')">🖨️ Print PDF</button>
     </div>
     <div class="overall" style="margin-bottom:26px">
-      <div class="ring" style="--p:90">
-        <div class="rv"><b>90</b><small>/ 100</small></div>
+      <div class="ring" style="--p:92">
+        <div class="rv"><b>92</b><small>/ 100</small></div>
       </div>
       <div>
         <div style="font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:700">Overall C BY AI Readiness</div>
         <div class="rating y">🟡 Ready with Improvements</div>
-        <p style="margin:8px 0 0;color:var(--muted);font-size:14px;max-width:440px">Strong kitchen + quality. Hold full launch until far-zone cost density and specialty-lane temp control are fixed. Core operations validated.</p>
+        <p style="margin:8px 0 0;color:var(--muted);font-size:14px;max-width:440px">Density at 16/car fixed the cost gap. Kitchen + quality strong. Remaining holds: scale the specialty lane (≈15 customers) and lock cold-chain on 90–150 km legs.</p>
         <div class="legend">
           <span><i class="dot" style="background:var(--red)"></i> 🔴 Not Ready</span>
           <span><i class="dot" style="background:var(--amber)"></i> 🟠 Pilot Only</span>
@@ -478,14 +522,14 @@
       </div>
     </div>
     <div class="kpi-bars">
-      <div class="kpi-row"><div class="name">Operational</div><div class="kpi-track"><div class="kpi-fill" style="width:88%"></div></div><div class="pct">88</div></div>
-      <div class="kpi-row"><div class="name">Kitchen</div><div class="kpi-track"><div class="kpi-fill" style="width:96%"></div></div><div class="pct">96</div></div>
+      <div class="kpi-row"><div class="name">Operational</div><div class="kpi-track"><div class="kpi-fill" style="width:90%"></div></div><div class="pct">90</div></div>
+      <div class="kpi-row"><div class="name">Kitchen</div><div class="kpi-track"><div class="kpi-fill" style="width:97%"></div></div><div class="pct">97</div></div>
       <div class="kpi-row"><div class="name">Delivery</div><div class="kpi-track"><div class="kpi-fill" style="width:91%"></div></div><div class="pct">91</div></div>
-      <div class="kpi-row"><div class="name">Quality</div><div class="kpi-track"><div class="kpi-fill" style="width:95%"></div></div><div class="pct">95</div></div>
-      <div class="kpi-row"><div class="name">Cost Efficiency</div><div class="kpi-track"><div class="kpi-fill" style="width:84%"></div></div><div class="pct">84</div></div>
-      <div class="kpi-row"><div class="name">Launch Readiness</div><div class="kpi-track"><div class="kpi-fill" style="width:87%"></div></div><div class="pct">87</div></div>
+      <div class="kpi-row"><div class="name">Quality</div><div class="kpi-track"><div class="kpi-fill" style="width:96%"></div></div><div class="pct">96</div></div>
+      <div class="kpi-row"><div class="name">Cost Efficiency</div><div class="kpi-track"><div class="kpi-fill" style="width:92%"></div></div><div class="pct">92</div></div>
+      <div class="kpi-row"><div class="name">Launch Readiness</div><div class="kpi-track"><div class="kpi-fill" style="width:88%"></div></div><div class="pct">88</div></div>
     </div>
-    <div class="insight"><b>Insight:</b> Kitchen (96) and Quality (95) lead. Cost Efficiency (84) lags on far-zone fuel drag — the one number gating a full launch.</div>
+    <div class="insight"><b>Insight:</b> Cost Efficiency jumped 84→92 on density. Kitchen (97) and Quality (96) lead. Launch Readiness (88) now gated by specialty-lane scale-up + cold-chain, not by economics.</div>
   </section>
 
   <!-- 12 LAUNCH READINESS -->
@@ -498,19 +542,19 @@
     <div class="tbl-scroll"><table class="check">
       <thead><tr><th>#</th><th>Checkpoint</th><th>Status</th><th>Action</th></tr></thead>
       <tbody>
-        <tr><td>1</td><td>Kitchen throughput</td><td><span class="badge b-ok">✅ Ready</span></td><td>—</td></tr>
+        <tr><td>1</td><td>Kitchen throughput (96 meals)</td><td><span class="badge b-ok">✅ Ready</span></td><td>Hold 6-cook staffing</td></tr>
         <tr><td>2</td><td>Snack / beverage line</td><td><span class="badge b-ok">✅ Ready</span></td><td>—</td></tr>
         <tr><td>3</td><td>QC pass rate ≥95%</td><td><span class="badge b-ok">✅ Ready</span></td><td>Add specialty temp probe</td></tr>
-        <tr><td>4</td><td>On-time delivery ≥90%</td><td><span class="badge b-ok">✅ Ready</span></td><td>Monitor Fujairah</td></tr>
-        <tr><td>5</td><td>Cost/delivery ≤ AED 10</td><td><span class="badge b-warn">⚠️ Gap</span></td><td>Build density before AD/Fujairah</td></tr>
-        <tr><td>6</td><td>Specialty diet lane</td><td><span class="badge b-warn">⚠️ Gap</span></td><td>+1 prep cook</td></tr>
-        <tr><td>7</td><td>Cold-chain far legs</td><td><span class="badge b-warn">⚠️ Gap</span></td><td>Chilled packing for &gt;90 km</td></tr>
-        <tr><td>8</td><td>Driver capacity</td><td><span class="badge b-ok">✅ Ready</span></td><td>Add 3rd van at &gt;20 customers</td></tr>
+        <tr><td>4</td><td>On-time delivery ≥90%</td><td><span class="badge b-ok">✅ Ready</span></td><td>Monitor east-coast + AD</td></tr>
+        <tr><td>5</td><td>Cost/delivery ≤ AED 10</td><td><span class="badge b-ok">✅ Ready</span></td><td>AED 7.84 — density solved it</td></tr>
+        <tr><td>6</td><td>Specialty diet lane (≈15 cust)</td><td><span class="badge b-warn">⚠️ Gap</span></td><td>+2 prep cooks, second line</td></tr>
+        <tr><td>7</td><td>Cold-chain far legs (90–150 km)</td><td><span class="badge b-warn">⚠️ Gap</span></td><td>Chilled packing + temp loggers</td></tr>
+        <tr><td>8</td><td>Driver capacity (16/car maxed)</td><td><span class="badge b-warn">⚠️ Gap</span></td><td>Add 3rd vehicle before >32 cust</td></tr>
         <tr><td>9</td><td>Incident response</td><td><span class="badge b-ok">✅ Ready</span></td><td>—</td></tr>
         <tr><td>10</td><td>Customer notifications</td><td><span class="badge b-ok">✅ Ready</span></td><td>—</td></tr>
       </tbody>
     </table></div>
-    <div class="insight"><b>Go / No-Go:</b> 🟡 <b>GO for expanded pilot</b> — close 3 gaps (cost density, specialty cook, cold-chain) before full 7-Emirate launch.</div>
+    <div class="insight"><b>Go / No-Go:</b> 🟡 <b>GO for expanded pilot</b> — cost gate now passed at 16/car. Close 3 gaps (specialty line, cold-chain, 3rd vehicle) before full 7-Emirate launch.</div>
   </section>
 
 </div>
@@ -537,7 +581,6 @@
     };
     window.addEventListener('afterprint', done);
     window.print();
-    // Fallback for browsers that skip afterprint
     setTimeout(done, 1000);
   }
 </script>

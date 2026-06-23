@@ -133,7 +133,7 @@
   <div class="phase">
     <div class="ph-head"><span class="timepill">15:00</span><div><h2>Debrief &amp; Sign-Off</h2><p class="mods"><b>M11</b> Executive KPI <b>M12</b> Launch Readiness</p></div></div>
     <div class="signoff">
-      <div class="field"><label>Total deliveries completed</label><input type="text" id="so_deliv" placeholder="x / 15"></div>
+      <div class="field"><label>Total deliveries completed</label><input type="text" id="so_deliv" placeholder="x / 32"></div>
       <div class="field"><label>On-time %</label><input type="text" id="so_ontime" placeholder="%"></div>
       <div class="field"><label>QC pass %</label><input type="text" id="so_qc" placeholder="%"></div>
       <div class="field"><label>Fuel cost / delivery (AED)</label><input type="text" id="so_cost" placeholder="AED"></div>
@@ -159,19 +159,19 @@
 // One day, in time order. Each phase: time, title, modules, checkpoints[{check, expected}]
 const PHASES=[
  {time:'04:30',title:'Kitchen Prep Start',mods:[['M3','Kitchen Production']],checks:[
-   ['Staff on shift (target 4)','4 cooks present, stations ready'],
+   ['Staff on shift (target 6)','6 cooks present, stations ready'],
    ['Ingredients & cold-chain stock','All meal + snack ingredients in spec'],
-   ['Main meal production starts','B/L/D lanes running for 15 customers'],
+   ['Main meal production starts','B/L/D lanes running for 32 customers'],
  ]},
  {time:'06:30',title:'Specialty Lane Check',mods:[['M2','Meal Assignment'],['M3','Kitchen']],checks:[
-   ['Keto / low-carb / vegan lane (4 customers)','Correct diet tags matched to customer'],
-   ['Calorie targets honored (1400–2200)','Portions match assigned kcal'],
-   ['Specialty lane keeping pace','No >20% slowdown vs standard lane'],
+   ['Keto / low-carb / vegan lane (≈15 customers)','Correct diet tags matched to customer'],
+   ['Calorie targets honored (1400–2150)','Portions match assigned kcal'],
+   ['Specialty second line keeping pace','2 cooks, no >20% slowdown vs standard'],
  ]},
  {time:'08:10',title:'Kitchen Complete',mods:[['M3','Kitchen'],['M4','Snack Production']],checks:[
-   ['45 main meals produced','Planned 45, count produced','45'],
-   ['30 snacks + 15 beverages','Snack/beverage batch CBA-SB-001 done','30/15'],
-   ['Cold-chain beverages chilled','Smoothies/laban packed cold for far legs'],
+   ['96 main meals produced','Planned 96 (32×3), count produced','96'],
+   ['64 snacks + 32 beverages','Snack/beverage batch CBA-SB-001 done','64/32'],
+   ['Cold-chain beverages chilled','Smoothies/laban/lassi packed cold for far legs'],
  ]},
  {time:'08:15',title:'Quality Control Inspection',mods:[['M5','Quality Control']],checks:[
    ['Temperature ≥63°C (hot meals)','Sampled meals pass temp probe'],
@@ -181,9 +181,9 @@ const PHASES=[
    ['Failures held back','Any fail re-cooked, NOT shipped'],
  ]},
  {time:'08:40',title:'Packing & Route Load',mods:[['M6','Dispatch'],['M1','Customers']],checks:[
-   ['Route A van loaded (8 customers)','24 main + snacks in CBA-VH-001'],
-   ['Route B van loaded (7 customers)','21 main + snacks in CBA-VH-002'],
-   ['Delivery IDs assigned','CBA-DL-001 → 015 mapped to stops'],
+   ['Route A van loaded (16 customers)','48 main + snacks in CBA-VH-001'],
+   ['Route B van loaded (16 customers)','48 main + snacks in CBA-VH-002'],
+   ['Delivery IDs assigned','CBA-DL-001 → 032 mapped to stops'],
  ]},
  {time:'09:00',title:'Dispatch — Both Routes Depart',mods:[['M6','Dispatch'],['M7','Route Optimization']],checks:[
    ['Route A departs on time','CBA-DR-001 leaves HQ at dispatch time'],
@@ -191,21 +191,21 @@ const PHASES=[
    ['Optimized stop order loaded','Nearest-neighbor sequence confirmed'],
    ['Start odometer logged','Both vehicle km recorded','km'],
  ]},
- {time:'09:00–12:50',title:'Route A Delivery — North',mods:[['M8','Driver Perf'],['M1','Customers']],checks:[
-   ['UAQ / Ajman / Sharjah cluster','First 5 stops delivered'],
-   ['RAK stops','Al Hamra + Al Nakheel delivered'],
-   ['Fujairah (long leg) delivered','CBA-CUS-008 reached, watch traffic'],
-   ['Route A on-time rate','≥90% stops within ETA+10min','%'],
+ {time:'09:00–13:40',title:'Route A Delivery — North',mods:[['M8','Driver Perf'],['M1','Customers']],checks:[
+   ['Ajman / Sharjah cluster','First 9 stops delivered'],
+   ['RAK stops','Al Hamra / Al Nakheel / Al Mairid delivered'],
+   ['East-coast leg','Khorfakkan/Kalba/Fujairah/Dibba reached, watch traffic'],
+   ['Route A on-time rate','≥90% of 16 stops within ETA+10min','%'],
  ]},
- {time:'09:00–14:30',title:'Route B Delivery — South',mods:[['M8','Driver Perf'],['M1','Customers']],checks:[
-   ['Dubai cluster (4 stops)','Deira/Business Bay/Barsha/Marina delivered'],
-   ['Abu Dhabi cluster (3 stops)','Yas/Reem/Khalifa City delivered'],
-   ['Route B on-time rate','≥90% stops within ETA+10min','%'],
+ {time:'09:00–15:30',title:'Route B Delivery — South',mods:[['M8','Driver Perf'],['M1','Customers']],checks:[
+   ['Dubai cluster (10 stops)','Qusais→Marina sweep delivered'],
+   ['Abu Dhabi cluster (6 stops)','Yas/Raha/Saadiyat/Khalifa/Reem/Mussafah delivered'],
+   ['Route B on-time rate','≥90% of 16 stops within ETA+10min','%'],
  ]},
  {time:'Throughout',title:'Fuel Log',mods:[['M9','Fuel Consumption']],checks:[
    ['Route A fuel recorded','Liters + AED logged','L'],
    ['Route B fuel recorded','Liters + AED logged','L'],
-   ['Cost / delivery ≤ AED 13.50','Total fuel ÷ deliveries','AED'],
+   ['Cost / delivery ≤ AED 10','Total fuel ÷ 32 deliveries (target ~AED 7.8)','AED'],
  ]},
  {time:'Throughout',title:'Incident Watch',mods:[['M10','Incident Management']],checks:[
    ['Incidents logged with ID','Any issue → CBA-IR-xxx raised'],

@@ -17,7 +17,6 @@
   body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI","Tahoma",system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
 
-  /* nav */
   .topnav{position:sticky;top:0;z-index:100;background:rgba(8,42,28,.96);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.1);box-shadow:0 4px 18px rgba(0,0,0,.18)}
   .nav-inner{max-width:1080px;margin:0 auto;padding:0 20px;height:54px;display:flex;align-items:center;justify-content:space-between;gap:16px}
   .nav-brand{display:inline-flex;align-items:center;gap:9px;color:#9be7c4;font-weight:800;font-size:14px;text-decoration:none;white-space:nowrap}
@@ -84,7 +83,7 @@
   .kpi-row .pct{font-weight:800;text-align:left;color:var(--brand-deep)}
 
   .overall{display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center}
-  .ring{--p:90;width:170px;height:170px;border-radius:50%;flex:none;display:grid;place-items:center;background:conic-gradient(var(--brand) calc(var(--p)*1%),#e7eee9 0);position:relative}
+  .ring{--p:92;width:170px;height:170px;border-radius:50%;flex:none;display:grid;place-items:center;background:conic-gradient(var(--brand) calc(var(--p)*1%),#e7eee9 0);position:relative}
   .ring:before{content:"";position:absolute;inset:14px;border-radius:50%;background:#fff;box-shadow:inset 0 2px 8px rgba(0,0,0,.05)}
   .ring .rv{position:relative;text-align:center}
   .ring .rv b{font-size:42px;font-weight:800;color:var(--brand-deep);display:block;line-height:1}
@@ -139,8 +138,8 @@
     <div class="meta-row">
       <span class="chip">📍 المقر: أم القيوين</span>
       <span class="chip">📅 التجربة 2026-06-23</span>
-      <span class="chip">👥 15 عميلاً · 7 إمارات</span>
-      <span class="chip">🚐 مركبتان · سائقان · مجموعتان</span>
+      <span class="chip">👥 32 عميلاً · 6 إمارات مخدومة</span>
+      <span class="chip">🚐 مركبتان · سائقان · 16 لكل مركبة</span>
       <span class="chip">🍽️ فطور · غداء · عشاء · وجبتان خفيفتان · مشروب</span>
     </div>
   </div>
@@ -169,31 +168,48 @@
   <!-- 1 العملاء -->
   <section id="s1">
     <div class="sec-head">
-      <div class="lhs"><div class="sec-num">1</div><div><h2>لوحة العملاء</h2><p>15 عميلاً · 7 إمارات · موزّعون بذكاء على مجموعتين</p></div></div>
+      <div class="lhs"><div class="sec-num">1</div><div><h2>لوحة العملاء</h2><p>32 عميلاً · 6 إمارات · 16 لكل مركبة، مجموعتان</p></div></div>
       <button class="printbtn" onclick="printSection('s1')">🖨️ طباعة PDF</button>
     </div>
     <div class="tbl-scroll"><table>
       <thead><tr><th>المعرّف</th><th>الاسم</th><th>الإمارة</th><th>المنطقة</th><th>الخريطة</th><th>المسافة (كم)</th><th>القيادة (دقيقة)</th><th>التكرار</th><th>المجموعة</th></tr></thead>
       <tbody>
-        <tr><td>CBA-CUS-001</td><td>عائشة المري</td><td>أم القيوين</td><td>السلمة</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Salamah,Umm+Al+Quwain,UAE" target="_blank">📍</a></td><td>6</td><td>10</td><td>كل يومين</td><td><span class="badge b-A">أ</span></td></tr>
-        <tr><td>CBA-CUS-002</td><td>عمر حسن</td><td>عجمان</td><td>الكورنيش</td><td><a href="https://www.google.com/maps/search/?api=1&query=Ajman+Corniche,Ajman,UAE" target="_blank">📍</a></td><td>25</td><td>22</td><td>كل 3 أيام</td><td><span class="badge b-A">أ</span></td></tr>
-        <tr><td>CBA-CUS-003</td><td>فاطمة خالد</td><td>عجمان</td><td>النعيمية</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Nuaimiya,Ajman,UAE" target="_blank">📍</a></td><td>28</td><td>25</td><td>كل يومين</td><td><span class="badge b-A">أ</span></td></tr>
-        <tr><td>CBA-CUS-004</td><td>يوسف علي</td><td>الشارقة</td><td>المجاز</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Majaz,Sharjah,UAE" target="_blank">📍</a></td><td>45</td><td>38</td><td>كل يومين</td><td><span class="badge b-A">أ</span></td></tr>
-        <tr><td>CBA-CUS-005</td><td>مريم سعيد</td><td>الشارقة</td><td>النهضة</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Nahda,Sharjah,UAE" target="_blank">📍</a></td><td>50</td><td>42</td><td>كل 3 أيام</td><td><span class="badge b-A">أ</span></td></tr>
-        <tr><td>CBA-CUS-006</td><td>خالد راشد</td><td>رأس الخيمة</td><td>النخيل</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Nakheel,Ras+Al+Khaimah,UAE" target="_blank">📍</a></td><td>55</td><td>45</td><td>كل 3 أيام</td><td><span class="badge b-A">أ</span></td></tr>
-        <tr><td>CBA-CUS-007</td><td>نورة عبدالله</td><td>رأس الخيمة</td><td>الحمرا</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Hamra,Ras+Al+Khaimah,UAE" target="_blank">📍</a></td><td>48</td><td>40</td><td>كل يومين</td><td><span class="badge b-A">أ</span></td></tr>
-        <tr><td>CBA-CUS-008</td><td>حمد سلطان</td><td>الفجيرة</td><td>مدينة الفجيرة</td><td><a href="https://www.google.com/maps/search/?api=1&query=Fujairah+City,Fujairah,UAE" target="_blank">📍</a></td><td>95</td><td>80</td><td>كل 3 أيام</td><td><span class="badge b-A">أ</span></td></tr>
-        <tr><td>CBA-CUS-009</td><td>ليلى أحمد</td><td>دبي</td><td>المرسى</td><td><a href="https://www.google.com/maps/search/?api=1&query=Dubai+Marina,Dubai,UAE" target="_blank">📍</a></td><td>75</td><td>55</td><td>كل يومين</td><td><span class="badge b-B">ب</span></td></tr>
-        <tr><td>CBA-CUS-010</td><td>سيف ماجد</td><td>دبي</td><td>ديرة</td><td><a href="https://www.google.com/maps/search/?api=1&query=Deira,Dubai,UAE" target="_blank">📍</a></td><td>55</td><td>45</td><td>كل يومين</td><td><span class="badge b-B">ب</span></td></tr>
-        <tr><td>CBA-CUS-011</td><td>حصة عبيد</td><td>دبي</td><td>البرشاء</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Barsha,Dubai,UAE" target="_blank">📍</a></td><td>70</td><td>52</td><td>كل 3 أيام</td><td><span class="badge b-B">ب</span></td></tr>
-        <tr><td>CBA-CUS-012</td><td>راشد جمعة</td><td>دبي</td><td>الخليج التجاري</td><td><a href="https://www.google.com/maps/search/?api=1&query=Business+Bay,Dubai,UAE" target="_blank">📍</a></td><td>65</td><td>50</td><td>كل يومين</td><td><span class="badge b-B">ب</span></td></tr>
-        <tr><td>CBA-CUS-013</td><td>آمنة سالم</td><td>أبوظبي</td><td>مدينة خليفة</td><td><a href="https://www.google.com/maps/search/?api=1&query=Khalifa+City,Abu+Dhabi,UAE" target="_blank">📍</a></td><td>130</td><td>95</td><td>كل 3 أيام</td><td><span class="badge b-B">ب</span></td></tr>
-        <tr><td>CBA-CUS-014</td><td>محمد طارق</td><td>أبوظبي</td><td>جزيرة الريم</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Reem+Island,Abu+Dhabi,UAE" target="_blank">📍</a></td><td>145</td><td>105</td><td>كل 3 أيام</td><td><span class="badge b-B">ب</span></td></tr>
-        <tr><td>CBA-CUS-015</td><td>سارة ناصر</td><td>أبوظبي</td><td>جزيرة ياس</td><td><a href="https://www.google.com/maps/search/?api=1&query=Yas+Island,Abu+Dhabi,UAE" target="_blank">📍</a></td><td>120</td><td>88</td><td>كل يومين</td><td><span class="badge b-B">ب</span></td></tr>
+        <tr><td>CBA-CUS-001</td><td>هند علي</td><td>عجمان</td><td>الجرف</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Jurf,Ajman,UAE" target="_blank">📍</a></td><td>23</td><td>20</td><td>كل يومين</td><td><span class="badge b-A">أ</span></td></tr>
+        <tr><td>CBA-CUS-002</td><td>عمر حسن</td><td>عجمان</td><td>الكورنيش</td><td><a href="https://www.google.com/maps/search/?api=1&query=Ajman+Corniche,Ajman,UAE" target="_blank">📍</a></td><td>25</td><td>22</td><td>كل يومين</td><td><span class="badge b-A">أ</span></td></tr>
+        <tr><td>CBA-CUS-003</td><td>فاطمة خالد</td><td>عجمان</td><td>النعيمية</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Nuaimiya,Ajman,UAE" target="_blank">📍</a></td><td>28</td><td>25</td><td>كل 3 أيام</td><td><span class="badge b-A">أ</span></td></tr>
+        <tr><td>CBA-CUS-004</td><td>سعيد الشامسي</td><td>عجمان</td><td>الراشدية</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Rashidiya,Ajman,UAE" target="_blank">📍</a></td><td>30</td><td>27</td><td>كل يومين</td><td><span class="badge b-A">أ</span></td></tr>
+        <tr><td>CBA-CUS-005</td><td>طارق ناصر</td><td>الشارقة</td><td>الخان</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Khan,Sharjah,UAE" target="_blank">📍</a></td><td>47</td><td>40</td><td>كل يومين</td><td><span class="badge b-A">أ</span></td></tr>
+        <tr><td>CBA-CUS-006</td><td>يوسف علي</td><td>الشارقة</td><td>المجاز</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Majaz,Sharjah,UAE" target="_blank">📍</a></td><td>45</td><td>38</td><td>كل يومين</td><td><span class="badge b-A">أ</span></td></tr>
+        <tr><td>CBA-CUS-007</td><td>لطيفة عمر</td><td>الشارقة</td><td>التعاون</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Taawun,Sharjah,UAE" target="_blank">📍</a></td><td>48</td><td>41</td><td>كل 3 أيام</td><td><span class="badge b-A">أ</span></td></tr>
+        <tr><td>CBA-CUS-008</td><td>مريم سعيد</td><td>الشارقة</td><td>النهضة</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Nahda,Sharjah,UAE" target="_blank">📍</a></td><td>50</td><td>42</td><td>كل 3 أيام</td><td><span class="badge b-A">أ</span></td></tr>
+        <tr><td>CBA-CUS-009</td><td>سالم راشد</td><td>الشارقة</td><td>مويلح</td><td><a href="https://www.google.com/maps/search/?api=1&query=Muwailih,Sharjah,UAE" target="_blank">📍</a></td><td>52</td><td>44</td><td>كل يومين</td><td><span class="badge b-A">أ</span></td></tr>
+        <tr><td>CBA-CUS-010</td><td>نورة عبدالله</td><td>رأس الخيمة</td><td>الحمرا</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Hamra,Ras+Al+Khaimah,UAE" target="_blank">📍</a></td><td>48</td><td>40</td><td>كل يومين</td><td><span class="badge b-A">أ</span></td></tr>
+        <tr><td>CBA-CUS-011</td><td>خالد راشد</td><td>رأس الخيمة</td><td>النخيل</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Nakheel,Ras+Al+Khaimah,UAE" target="_blank">📍</a></td><td>55</td><td>45</td><td>كل 3 أيام</td><td><span class="badge b-A">أ</span></td></tr>
+        <tr><td>CBA-CUS-012</td><td>عائشة جمعة</td><td>رأس الخيمة</td><td>المعيريض</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Mairid,Ras+Al+Khaimah,UAE" target="_blank">📍</a></td><td>58</td><td>47</td><td>كل يومين</td><td><span class="badge b-A">أ</span></td></tr>
+        <tr><td>CBA-CUS-013</td><td>ماجد علي</td><td>الشارقة</td><td>خورفكان</td><td><a href="https://www.google.com/maps/search/?api=1&query=Khorfakkan,Sharjah,UAE" target="_blank">📍</a></td><td>88</td><td>75</td><td>كل 3 أيام</td><td><span class="badge b-A">أ</span></td></tr>
+        <tr><td>CBA-CUS-014</td><td>شما عبيد</td><td>الشارقة</td><td>كلباء</td><td><a href="https://www.google.com/maps/search/?api=1&query=Kalba,Sharjah,UAE" target="_blank">📍</a></td><td>100</td><td>85</td><td>كل 3 أيام</td><td><span class="badge b-A">أ</span></td></tr>
+        <tr><td>CBA-CUS-015</td><td>حمد سلطان</td><td>الفجيرة</td><td>مدينة الفجيرة</td><td><a href="https://www.google.com/maps/search/?api=1&query=Fujairah+City,Fujairah,UAE" target="_blank">📍</a></td><td>95</td><td>80</td><td>كل 3 أيام</td><td><span class="badge b-A">أ</span></td></tr>
+        <tr><td>CBA-CUS-016</td><td>ريم سيف</td><td>الفجيرة</td><td>دبا الفجيرة</td><td><a href="https://www.google.com/maps/search/?api=1&query=Dibba+Al+Fujairah,Fujairah,UAE" target="_blank">📍</a></td><td>105</td><td>88</td><td>كل 3 أيام</td><td><span class="badge b-A">أ</span></td></tr>
+        <tr><td>CBA-CUS-017</td><td>سارة خالد</td><td>دبي</td><td>القصيص</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Qusais,Dubai,UAE" target="_blank">📍</a></td><td>52</td><td>43</td><td>كل يومين</td><td><span class="badge b-B">ب</span></td></tr>
+        <tr><td>CBA-CUS-018</td><td>سيف ماجد</td><td>دبي</td><td>ديرة</td><td><a href="https://www.google.com/maps/search/?api=1&query=Deira,Dubai,UAE" target="_blank">📍</a></td><td>55</td><td>45</td><td>كل يومين</td><td><span class="badge b-B">ب</span></td></tr>
+        <tr><td>CBA-CUS-019</td><td>فيصل عمر</td><td>دبي</td><td>مردف</td><td><a href="https://www.google.com/maps/search/?api=1&query=Mirdif,Dubai,UAE" target="_blank">📍</a></td><td>58</td><td>47</td><td>كل 3 أيام</td><td><span class="badge b-B">ب</span></td></tr>
+        <tr><td>CBA-CUS-020</td><td>راشد جمعة</td><td>دبي</td><td>الخليج التجاري</td><td><a href="https://www.google.com/maps/search/?api=1&query=Business+Bay,Dubai,UAE" target="_blank">📍</a></td><td>65</td><td>50</td><td>كل يومين</td><td><span class="badge b-B">ب</span></td></tr>
+        <tr><td>CBA-CUS-021</td><td>أحمد سلطان</td><td>دبي</td><td>وسط المدينة</td><td><a href="https://www.google.com/maps/search/?api=1&query=Downtown+Dubai,Dubai,UAE" target="_blank">📍</a></td><td>67</td><td>51</td><td>كل 3 أيام</td><td><span class="badge b-B">ب</span></td></tr>
+        <tr><td>CBA-CUS-022</td><td>حصة عبيد</td><td>دبي</td><td>البرشاء</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Barsha,Dubai,UAE" target="_blank">📍</a></td><td>70</td><td>52</td><td>كل 3 أيام</td><td><span class="badge b-B">ب</span></td></tr>
+        <tr><td>CBA-CUS-023</td><td>منى علي</td><td>دبي</td><td>واحة السيليكون</td><td><a href="https://www.google.com/maps/search/?api=1&query=Dubai+Silicon+Oasis,Dubai,UAE" target="_blank">📍</a></td><td>72</td><td>54</td><td>كل يومين</td><td><span class="badge b-B">ب</span></td></tr>
+        <tr><td>CBA-CUS-024</td><td>خليفة راشد</td><td>دبي</td><td>دبي هيلز</td><td><a href="https://www.google.com/maps/search/?api=1&query=Dubai+Hills,Dubai,UAE" target="_blank">📍</a></td><td>73</td><td>55</td><td>كل 3 أيام</td><td><span class="badge b-B">ب</span></td></tr>
+        <tr><td>CBA-CUS-025</td><td>ليلى أحمد</td><td>دبي</td><td>المرسى</td><td><a href="https://www.google.com/maps/search/?api=1&query=Dubai+Marina,Dubai,UAE" target="_blank">📍</a></td><td>75</td><td>55</td><td>كل يومين</td><td><span class="badge b-B">ب</span></td></tr>
+        <tr><td>CBA-CUS-026</td><td>ميثاء سعيد</td><td>دبي</td><td>أبراج بحيرات جميرا</td><td><a href="https://www.google.com/maps/search/?api=1&query=Jumeirah+Lake+Towers,Dubai,UAE" target="_blank">📍</a></td><td>76</td><td>56</td><td>كل يومين</td><td><span class="badge b-B">ب</span></td></tr>
+        <tr><td>CBA-CUS-027</td><td>حمدان علي</td><td>أبوظبي</td><td>الراحة</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Raha,Abu+Dhabi,UAE" target="_blank">📍</a></td><td>118</td><td>86</td><td>كل 3 أيام</td><td><span class="badge b-B">ب</span></td></tr>
+        <tr><td>CBA-CUS-028</td><td>سارة ناصر</td><td>أبوظبي</td><td>جزيرة ياس</td><td><a href="https://www.google.com/maps/search/?api=1&query=Yas+Island,Abu+Dhabi,UAE" target="_blank">📍</a></td><td>120</td><td>88</td><td>كل يومين</td><td><span class="badge b-B">ب</span></td></tr>
+        <tr><td>CBA-CUS-029</td><td>آمنة سالم</td><td>أبوظبي</td><td>مدينة خليفة</td><td><a href="https://www.google.com/maps/search/?api=1&query=Khalifa+City,Abu+Dhabi,UAE" target="_blank">📍</a></td><td>130</td><td>95</td><td>كل 3 أيام</td><td><span class="badge b-B">ب</span></td></tr>
+        <tr><td>CBA-CUS-030</td><td>فاطمة حسن</td><td>أبوظبي</td><td>السعديات</td><td><a href="https://www.google.com/maps/search/?api=1&query=Saadiyat+Island,Abu+Dhabi,UAE" target="_blank">📍</a></td><td>138</td><td>100</td><td>كل 3 أيام</td><td><span class="badge b-B">ب</span></td></tr>
+        <tr><td>CBA-CUS-031</td><td>محمد طارق</td><td>أبوظبي</td><td>جزيرة الريم</td><td><a href="https://www.google.com/maps/search/?api=1&query=Al+Reem+Island,Abu+Dhabi,UAE" target="_blank">📍</a></td><td>145</td><td>105</td><td>كل 3 أيام</td><td><span class="badge b-B">ب</span></td></tr>
+        <tr><td>CBA-CUS-032</td><td>عبيد خالد</td><td>أبوظبي</td><td>مصفح</td><td><a href="https://www.google.com/maps/search/?api=1&query=Mussafah,Abu+Dhabi,UAE" target="_blank">📍</a></td><td>150</td><td>108</td><td>كل 3 أيام</td><td><span class="badge b-B">ب</span></td></tr>
       </tbody>
     </table></div>
-    <div class="insight"><b>ملاحظة:</b> 8 عملاء في الشمال (المجموعة أ) و7 في الجنوب (المجموعة ب). 9 على دورة كل يومين و6 على دورة كل 3 أيام. أبوظبي = أطول المسافات (أكبر تكلفة ووقت).</div>
-    <p class="est-note">المسافات والأوقات تقديرية بناءً على جغرافيا الطرق الفعلية في الإمارات. روابط الخرائط بحث على مستوى المنطقة.</p>
+    <div class="insight"><b>ملاحظة:</b> 16 عميلاً في الشمال (المجموعة أ: عجمان·الشارقة·رأس الخيمة·الفجيرة) و16 في الجنوب (المجموعة ب: دبي·أبوظبي) — كلتا المركبتين بكامل سعة 16 محطة. لا عملاء في أم القيوين (مدينة المقر فقط). أبوظبي والساحل الشرقي (خورفكان/كلباء/دبا) = أطول المسافات.</div>
+    <p class="est-note">المسافات والأوقات تقديرية بناءً على جغرافيا الطرق الفعلية في الإمارات (المقر = أم القيوين). روابط الخرائط بحث على مستوى المنطقة.</p>
   </section>
 
   <!-- 2 توزيع الوجبات -->
@@ -203,26 +219,43 @@
       <button class="printbtn" onclick="printSection('s2')">🖨️ طباعة PDF</button>
     </div>
     <div class="tbl-scroll"><table>
-      <thead><tr><th>العميل</th><th>النظام الغذائي</th><th>سعرات يومية</th><th>الفطور</th><th>الغداء</th><th>العشاء</th><th>الوجبات الخفيفة</th><th>المشروب</th></tr></thead>
+      <thead><tr><th>العميل</th><th>النظام الغذائي</th><th>سعرات</th><th>الفطور</th><th>الغداء</th><th>العشاء</th><th>الوجبات الخفيفة</th><th>المشروب</th></tr></thead>
       <tbody>
-        <tr><td>CBA-CUS-001</td><td>عالي البروتين</td><td>2100</td><td>بيض وشوفان</td><td>دجاج مشوي مع أرز</td><td>سلمون وخضار</td><td>لوز، زبادي</td><td>سموذي أخضر</td></tr>
-        <tr><td>CBA-CUS-002</td><td>متوازن</td><td>1900</td><td>فول وخبز</td><td>كبسة لحم</td><td>شوربة خضار وخبز</td><td>تمر، كوب فواكه</td><td>لبن</td></tr>
-        <tr><td>CBA-CUS-003</td><td>قليل الكربوهيدرات</td><td>1600</td><td>أومليت</td><td>سلطة دجاج</td><td>سمك مشوي</td><td>مكسرات، جبن</td><td>ليمون بالنعناع</td></tr>
+        <tr><td>CBA-CUS-001</td><td>عالي البروتين</td><td>2150</td><td>بيض وشوفان</td><td>دجاج مشوي مع أرز</td><td>سلمون وخضار</td><td>لوز، زبادي</td><td>سموذي أخضر</td></tr>
+        <tr><td>CBA-CUS-002</td><td>متوازن</td><td>1980</td><td>فول وخبز</td><td>كبسة لحم</td><td>شوربة خضار وخبز</td><td>تمر، فواكه</td><td>لبن</td></tr>
+        <tr><td>CBA-CUS-003</td><td>قليل الكربوهيدرات</td><td>1620</td><td>أومليت</td><td>سلطة دجاج</td><td>سمك مشوي</td><td>مكسرات، جبن</td><td>ليمون بالنعناع</td></tr>
         <tr><td>CBA-CUS-004</td><td>نباتي صرف</td><td>1800</td><td>بودينغ الشيا</td><td>طبق فلافل</td><td>كاري العدس</td><td>حمص، فواكه</td><td>عصير برتقال</td></tr>
-        <tr><td>CBA-CUS-005</td><td>متوازن</td><td>2000</td><td>شكشوكة</td><td>لحم مع كينوا</td><td>راب دجاج</td><td>جرانولا، تفاح</td><td>شاي مثلج</td></tr>
-        <tr><td>CBA-CUS-006</td><td>عالي البروتين</td><td>2200</td><td>بان كيك بروتين</td><td>لحم مشوي مع أرز</td><td>ديك رومي وخضار</td><td>بيض مسلوق، مكسرات</td><td>مخفوق بروتين</td></tr>
-        <tr><td>CBA-CUS-007</td><td>كيتو</td><td>1500</td><td>أفوكادو وبيض</td><td>دجاج وسلطة</td><td>سلمون وسبانخ</td><td>جبن، زيتون</td><td>قهوة سوداء</td></tr>
-        <tr><td>CBA-CUS-008</td><td>متوازن</td><td>1950</td><td>مناقيش</td><td>أرز مندي</td><td>يخنة خضار</td><td>فواكه، زبادي</td><td>شاي كرك</td></tr>
-        <tr><td>CBA-CUS-009</td><td>قليل السعرات</td><td>1400</td><td>طبق فواكه</td><td>سلطة تونة</td><td>شوربة خضار</td><td>جزر، تفاح</td><td>ماء ديتوكس</td></tr>
-        <tr><td>CBA-CUS-010</td><td>متوازن</td><td>2000</td><td>ساندويتش بيض</td><td>برياني دجاج</td><td>سمك مشوي</td><td>تمر، مكسرات</td><td>عصير طازج</td></tr>
-        <tr><td>CBA-CUS-011</td><td>عالي البروتين</td><td>2150</td><td>شوفان بروتين</td><td>ستيك وبطاطا</td><td>دجاج وخضار</td><td>زبادي، لوز</td><td>مخفوق بروتين</td></tr>
+        <tr><td>CBA-CUS-005</td><td>كيتو</td><td>1530</td><td>أفوكادو وبيض</td><td>سلطة لحم</td><td>سلمون وسبانخ</td><td>جبن، زيتون</td><td>قهوة سوداء</td></tr>
+        <tr><td>CBA-CUS-006</td><td>نباتي</td><td>1850</td><td>راب بانير</td><td>برياني خضار</td><td>دال وأرز</td><td>فواكه، حمص</td><td>لاسي مانجو</td></tr>
+        <tr><td>CBA-CUS-007</td><td>عالي البروتين</td><td>2150</td><td>بان كيك بروتين</td><td>لحم مشوي مع أرز</td><td>ديك رومي وخضار</td><td>بيض مسلوق، مكسرات</td><td>مخفوق بروتين</td></tr>
+        <tr><td>CBA-CUS-008</td><td>متوازن</td><td>1980</td><td>شكشوكة</td><td>أرز مندي</td><td>راب دجاج</td><td>جرانولا، تفاح</td><td>شاي مثلج</td></tr>
+        <tr><td>CBA-CUS-009</td><td>قليل الكربوهيدرات</td><td>1620</td><td>أومليت</td><td>سلطة دجاج</td><td>سمك مشوي</td><td>مكسرات، جبن</td><td>شاي أخضر</td></tr>
+        <tr><td>CBA-CUS-010</td><td>نباتي صرف</td><td>1800</td><td>بودينغ الشيا</td><td>طبق فلافل</td><td>كاري العدس</td><td>حمص، فواكه</td><td>عصير برتقال</td></tr>
+        <tr><td>CBA-CUS-011</td><td>كيتو</td><td>1530</td><td>أفوكادو وبيض</td><td>سلطة لحم</td><td>سلمون وخضار</td><td>زيتون، جبن</td><td>قهوة سوداء</td></tr>
         <tr><td>CBA-CUS-012</td><td>نباتي</td><td>1850</td><td>راب بانير</td><td>برياني خضار</td><td>دال وأرز</td><td>فواكه، حمص</td><td>لاسي مانجو</td></tr>
-        <tr><td>CBA-CUS-013</td><td>قليل الكربوهيدرات</td><td>1650</td><td>أومليت</td><td>سلطة دجاج مشوي</td><td>سمك وخضار</td><td>مكسرات، جبن</td><td>شاي أخضر</td></tr>
-        <tr><td>CBA-CUS-014</td><td>متوازن</td><td>2050</td><td>فول وبيض</td><td>لحم مع أرز</td><td>شوربة خضار وخبز</td><td>تمر، فواكه</td><td>لبن</td></tr>
-        <tr><td>CBA-CUS-015</td><td>كيتو</td><td>1550</td><td>أفوكادو وبيض</td><td>سلطة لحم</td><td>سلمون وخضار</td><td>زيتون، جبن</td><td>قهوة سوداء</td></tr>
+        <tr><td>CBA-CUS-013</td><td>عالي البروتين</td><td>2150</td><td>شوفان بروتين</td><td>ستيك وبطاطا</td><td>دجاج وخضار</td><td>زبادي، لوز</td><td>مخفوق بروتين</td></tr>
+        <tr><td>CBA-CUS-014</td><td>متوازن</td><td>1980</td><td>مناقيش</td><td>كبسة لحم</td><td>يخنة خضار</td><td>فواكه، زبادي</td><td>شاي كرك</td></tr>
+        <tr><td>CBA-CUS-015</td><td>قليل الكربوهيدرات</td><td>1620</td><td>أومليت</td><td>سلطة دجاج مشوي</td><td>سمك وخضار</td><td>مكسرات، جبن</td><td>ليمون بالنعناع</td></tr>
+        <tr><td>CBA-CUS-016</td><td>نباتي صرف</td><td>1800</td><td>بودينغ الشيا</td><td>طبق فلافل</td><td>كاري العدس</td><td>حمص، فواكه</td><td>ماء ديتوكس</td></tr>
+        <tr><td>CBA-CUS-017</td><td>كيتو</td><td>1530</td><td>أفوكادو وبيض</td><td>سلطة لحم</td><td>سلمون وسبانخ</td><td>جبن، زيتون</td><td>قهوة سوداء</td></tr>
+        <tr><td>CBA-CUS-018</td><td>نباتي</td><td>1850</td><td>راب بانير</td><td>برياني خضار</td><td>دال وأرز</td><td>فواكه، حمص</td><td>لاسي مانجو</td></tr>
+        <tr><td>CBA-CUS-019</td><td>عالي البروتين</td><td>2150</td><td>بيض وشوفان</td><td>دجاج مشوي مع أرز</td><td>سلمون وخضار</td><td>لوز، زبادي</td><td>مخفوق بروتين</td></tr>
+        <tr><td>CBA-CUS-020</td><td>متوازن</td><td>1980</td><td>ساندويتش بيض</td><td>برياني دجاج</td><td>سمك مشوي</td><td>تمر، مكسرات</td><td>عصير طازج</td></tr>
+        <tr><td>CBA-CUS-021</td><td>قليل الكربوهيدرات</td><td>1620</td><td>أومليت</td><td>سلطة دجاج</td><td>سمك مشوي</td><td>مكسرات، جبن</td><td>شاي أخضر</td></tr>
+        <tr><td>CBA-CUS-022</td><td>نباتي صرف</td><td>1800</td><td>بودينغ الشيا</td><td>طبق فلافل</td><td>كاري العدس</td><td>حمص، فواكه</td><td>عصير برتقال</td></tr>
+        <tr><td>CBA-CUS-023</td><td>كيتو</td><td>1530</td><td>أفوكادو وبيض</td><td>سلطة لحم</td><td>سلمون وخضار</td><td>زيتون، جبن</td><td>قهوة سوداء</td></tr>
+        <tr><td>CBA-CUS-024</td><td>نباتي</td><td>1850</td><td>راب بانير</td><td>برياني خضار</td><td>دال وأرز</td><td>فواكه، حمص</td><td>لاسي مانجو</td></tr>
+        <tr><td>CBA-CUS-025</td><td>عالي البروتين</td><td>2150</td><td>بان كيك بروتين</td><td>لحم مشوي مع أرز</td><td>ديك رومي وخضار</td><td>بيض مسلوق، مكسرات</td><td>مخفوق بروتين</td></tr>
+        <tr><td>CBA-CUS-026</td><td>قليل السعرات</td><td>1400</td><td>طبق فواكه</td><td>سلطة تونة</td><td>شوربة خضار</td><td>جزر، تفاح</td><td>ماء ديتوكس</td></tr>
+        <tr><td>CBA-CUS-027</td><td>قليل الكربوهيدرات</td><td>1620</td><td>أومليت</td><td>سلطة دجاج مشوي</td><td>سمك وخضار</td><td>مكسرات، جبن</td><td>شاي أخضر</td></tr>
+        <tr><td>CBA-CUS-028</td><td>نباتي صرف</td><td>1800</td><td>بودينغ الشيا</td><td>طبق فلافل</td><td>كاري العدس</td><td>حمص، فواكه</td><td>عصير برتقال</td></tr>
+        <tr><td>CBA-CUS-029</td><td>كيتو</td><td>1530</td><td>أفوكادو وبيض</td><td>سلطة لحم</td><td>سلمون وسبانخ</td><td>جبن، زيتون</td><td>قهوة سوداء</td></tr>
+        <tr><td>CBA-CUS-030</td><td>نباتي</td><td>1850</td><td>راب بانير</td><td>برياني خضار</td><td>دال وأرز</td><td>فواكه، حمص</td><td>لاسي مانجو</td></tr>
+        <tr><td>CBA-CUS-031</td><td>عالي البروتين</td><td>2150</td><td>شوفان بروتين</td><td>ستيك وبطاطا</td><td>دجاج وخضار</td><td>زبادي، لوز</td><td>مخفوق بروتين</td></tr>
+        <tr><td>CBA-CUS-032</td><td>متوازن</td><td>1980</td><td>فول وبيض</td><td>لحم مع أرز</td><td>شوربة خضار وخبز</td><td>تمر، فواكه</td><td>لبن</td></tr>
       </tbody>
     </table></div>
-    <div class="insight"><b>ملاحظة:</b> 6 أنظمة غذائية مخصصة تلقائياً. نطاق السعرات 1400–2200. كيتو/قليل الكربوهيدرات/نباتي صرف = 4 عملاء → يلزم خط تحضير متخصص.</div>
+    <div class="insight"><b>ملاحظة:</b> 7 أنظمة غذائية مخصصة تلقائياً. نطاق السعرات 1400–2150. وجبات كيتو/قليل الكربوهيدرات/نباتي صرف المتخصصة الآن ≈15 من 32 عميلاً → الخط المتخصص أصبح خطاً ثانياً حقيقياً لا مهمة جانبية.</div>
   </section>
 
   <!-- 3 المطبخ -->
@@ -232,14 +265,14 @@
       <button class="printbtn" onclick="printSection('s3')">🖨️ طباعة PDF</button>
     </div>
     <div class="stat-grid">
-      <div class="stat"><div class="v">45</div><div class="l">وجبات مخططة</div></div>
-      <div class="stat"><div class="v">44</div><div class="l">المنتَجة</div></div>
+      <div class="stat"><div class="v">96</div><div class="l">وجبات مخططة</div></div>
+      <div class="stat"><div class="v">95</div><div class="l">المنتَجة</div></div>
       <div class="stat"><div class="v">1</div><div class="l">مرفوضة (جودة)</div></div>
-      <div class="stat"><div class="v">3س 40د</div><div class="l">إجمالي الطهي</div></div>
-      <div class="stat"><div class="v">4.9د</div><div class="l">متوسط/وجبة</div></div>
-      <div class="stat"><div class="v">97.8%</div><div class="l">الكفاءة</div></div>
+      <div class="stat"><div class="v">5س 10د</div><div class="l">إجمالي الطهي</div></div>
+      <div class="stat"><div class="v">6</div><div class="l">طاقم المطبخ</div></div>
+      <div class="stat"><div class="v">99.0%</div><div class="l">الكفاءة</div></div>
     </div>
-    <div class="insight"><b>ملاحظة:</b> رُفض عشاء واحد (حرارة السمك). الخط القياسي 11 / الخط المتخصص 4 عملاء — المتخصص أبطأ بنسبة 18%. أضف طاهي تحضير قبل الإطلاق.</div>
+    <div class="insight"><b>ملاحظة:</b> 96 وجبة رئيسية (32 عميلاً × 3). رُفض عشاء واحد (حرارة السمك). الخط القياسي 17 / الخط المتخصص 15 عميلاً — المتخصص يحتاج طاهيين مخصصين. رُفع الطاقم إلى 6 للحفاظ على نافذة تحضير 5 ساعات.</div>
   </section>
 
   <!-- 4 الوجبات الخفيفة -->
@@ -249,13 +282,13 @@
       <button class="printbtn" onclick="printSection('s4')">🖨️ طباعة PDF</button>
     </div>
     <div class="stat-grid">
-      <div class="stat"><div class="v">30</div><div class="l">وحدات خفيفة</div></div>
-      <div class="stat"><div class="v">15</div><div class="l">مشروبات</div></div>
+      <div class="stat"><div class="v">64</div><div class="l">وحدات خفيفة</div></div>
+      <div class="stat"><div class="v">32</div><div class="l">مشروبات</div></div>
       <div class="stat"><div class="v">0</div><div class="l">عيوب</div></div>
-      <div class="stat"><div class="v">08:40</div><div class="l">اكتمال التعبئة</div></div>
+      <div class="stat"><div class="v">09:05</div><div class="l">اكتمال التعبئة</div></div>
       <div class="stat"><div class="v">100%</div><div class="l">الكفاءة</div></div>
     </div>
-    <div class="insight"><b>ملاحظة:</b> خط الوجبات الخفيفة والمشروبات جاهز بالكامل. أبرز التوليفات: مكسرات+زبادي (4)، تمر+فواكه (3)، جبن+زيتون (3). المشروبات تحتاج تعبئة مبردة للمسارات البعيدة (الفجيرة، أبوظبي).</div>
+    <div class="insight"><b>ملاحظة:</b> 64 وجبة خفيفة + 32 مشروباً، صفر عيوب. المشروبات المبردة (سموذي، لبن، لاسي) تحتاج تعبئة مبردة للمسارات الطويلة على الساحل الشرقي وأبوظبي (90–150 كم).</div>
   </section>
 
   <!-- 5 الجودة -->
@@ -267,78 +300,86 @@
     <div class="tbl-scroll"><table>
       <thead><tr><th>الفحص</th><th>العينة</th><th>ناجح</th><th>فاشل</th><th>نسبة النجاح</th></tr></thead>
       <tbody>
-        <tr><td>الحرارة (ساخن ≥63°م)</td><td>15</td><td>14</td><td>1</td><td>93%</td></tr>
-        <tr><td>وزن الحصة</td><td>15</td><td>15</td><td>0</td><td>100%</td></tr>
-        <tr><td>إغلاق التغليف</td><td>15</td><td>15</td><td>0</td><td>100%</td></tr>
-        <tr><td>دقة الملصق</td><td>15</td><td>14</td><td>1</td><td>93%</td></tr>
-        <tr><td>تنبيه مسببات الحساسية</td><td>15</td><td>15</td><td>0</td><td>100%</td></tr>
+        <tr><td>الحرارة (ساخن ≥63°م)</td><td>32</td><td>30</td><td>2</td><td>94%</td></tr>
+        <tr><td>وزن الحصة</td><td>32</td><td>32</td><td>0</td><td>100%</td></tr>
+        <tr><td>إغلاق التغليف</td><td>32</td><td>32</td><td>0</td><td>100%</td></tr>
+        <tr><td>دقة الملصق</td><td>32</td><td>31</td><td>1</td><td>97%</td></tr>
+        <tr><td>تنبيه مسببات الحساسية</td><td>32</td><td>32</td><td>0</td><td>100%</td></tr>
       </tbody>
-      <tfoot><tr class="tfoot"><td>الإجمالي</td><td>75</td><td>73</td><td>2</td><td>97.3%</td></tr></tfoot>
+      <tfoot><tr class="tfoot"><td>الإجمالي</td><td>160</td><td>157</td><td>3</td><td>98.1%</td></tr></tfoot>
     </table></div>
-    <div class="insight"><b>ملاحظة:</b> نسبة نجاح الجودة 97.3%. الإخفاقات: عشاء سمك تحت الحرارة (أُعيد طهيه)، وملصق خاطئ (صُحّح). كلاهما اكتُشف قبل الإرسال — <b>صفر عيوب مُرسلة</b>. أضف مسبار حرارة للخط المتخصص.</div>
+    <div class="insight"><b>ملاحظة:</b> نسبة نجاح الجودة 98.1%. الإخفاقات: عشاءان تحت الحرارة (أُعيد طهيهما)، وملصق خاطئ (صُحّح). كلها اكتُشفت قبل الإرسال — <b>صفر عيوب مُرسلة</b>. خطوة مسبار الحرارة على الخط المتخصص إلزامية عند هذا الحجم.</div>
   </section>
 
   <!-- 6 الإرسال -->
   <section id="s6">
     <div class="sec-head">
-      <div class="lhs"><div class="sec-num">6</div><div><h2>لوحة الإرسال</h2><p>عمليات التسليم CBA-DL-001 ← CBA-DL-015</p></div></div>
+      <div class="lhs"><div class="sec-num">6</div><div><h2>لوحة الإرسال</h2><p>عمليات التسليم CBA-DL-001 ← CBA-DL-032</p></div></div>
       <button class="printbtn" onclick="printSection('s6')">🖨️ طباعة PDF</button>
     </div>
     <div class="tbl-scroll"><table>
       <thead><tr><th>المسار</th><th>المركبة</th><th>السائق</th><th>المجموعة</th><th>المحطات</th><th>المغادرة</th><th>العودة المقدّرة</th><th>الحمولة</th></tr></thead>
       <tbody>
-        <tr><td>CBA-RT-001</td><td>CBA-VH-001</td><td>CBA-DR-001</td><td><span class="badge b-A">أ · شمال</span></td><td>8</td><td>09:00</td><td>12:50</td><td>24 رئيسية + خفيفة</td></tr>
-        <tr><td>CBA-RT-002</td><td>CBA-VH-002</td><td>CBA-DR-002</td><td><span class="badge b-B">ب · جنوب</span></td><td>7</td><td>09:00</td><td>14:30</td><td>21 رئيسية + خفيفة</td></tr>
+        <tr><td>CBA-RT-001</td><td>CBA-VH-001</td><td>CBA-DR-001</td><td><span class="badge b-A">أ · شمال</span></td><td>16</td><td>09:00</td><td>13:40</td><td>48 رئيسية + خفيفة</td></tr>
+        <tr><td>CBA-RT-002</td><td>CBA-VH-002</td><td>CBA-DR-002</td><td><span class="badge b-B">ب · جنوب</span></td><td>16</td><td>09:00</td><td>15:30</td><td>48 رئيسية + خفيفة</td></tr>
       </tbody>
     </table></div>
-    <div class="insight"><b>ملاحظة:</b> كلا المسارين يغادران 09:00. المسار الجنوبي أطول بساعة و40 دقيقة (مسافات أبوظبي). وزّع المغادرة أو أضف مركبة ثالثة عند التوسّع.</div>
+    <div class="insight"><b>ملاحظة:</b> كلتا المركبتين بكامل سعة 16 محطة. المسار الجنوبي أطول بساعة و50 دقيقة (أبوظبي). عند هذا الحمل يستغرق كل مسار ~5–6.5 ساعة — يلزم تباعد المغادرة أو مركبة ثالثة قبل إضافة عملاء.</div>
   </section>
 
   <!-- 7 المسارات -->
   <section id="s7">
     <div class="sec-head">
-      <div class="lhs"><div class="sec-num">7</div><div><h2>لوحة تحسين المسارات</h2><p>مسح الجار الأقرب من المقر · توفير ~18% كم مقابل الترتيب العشوائي</p></div></div>
+      <div class="lhs"><div class="sec-num">7</div><div><h2>لوحة تحسين المسارات</h2><p>مسح الجار الأقرب من المقر · توفير ~17% كم</p></div></div>
       <button class="printbtn" onclick="printSection('s7')">🖨️ طباعة PDF</button>
     </div>
     <div class="stat-grid" style="margin-bottom:18px">
-      <div class="stat"><div class="v">271 كم</div><div class="l">حلقة المجموعة أ</div></div>
-      <div class="stat"><div class="v">311 كم</div><div class="l">حلقة المجموعة ب</div></div>
-      <div class="stat"><div class="v">582 كم</div><div class="l">إجمالي المسافة</div></div>
-      <div class="stat"><div class="v">~18%</div><div class="l">كم موفّرة</div></div>
+      <div class="stat"><div class="v">328 كم</div><div class="l">حلقة المجموعة أ</div></div>
+      <div class="stat"><div class="v">393 كم</div><div class="l">حلقة المجموعة ب</div></div>
+      <div class="stat"><div class="v">721 كم</div><div class="l">إجمالي المسافة</div></div>
+      <div class="stat"><div class="v">~17%</div><div class="l">كم موفّرة</div></div>
     </div>
     <div class="tbl-scroll"><table>
-      <thead><tr><th>#</th><th>المجموعة أ — شمال</th><th>المسافة كم</th><th>المجموعة ب — جنوب</th><th>المسافة كم</th></tr></thead>
+      <thead><tr><th>#</th><th>المجموعة أ — شمال</th><th>كم</th><th>المجموعة ب — جنوب</th><th>كم</th></tr></thead>
       <tbody>
-        <tr><td>1</td><td>أم القيوين السلمة</td><td>6</td><td>دبي ديرة</td><td>55</td></tr>
-        <tr><td>2</td><td>عجمان الكورنيش</td><td>20</td><td>دبي الخليج التجاري</td><td>12</td></tr>
-        <tr><td>3</td><td>عجمان النعيمية</td><td>4</td><td>دبي البرشاء</td><td>10</td></tr>
-        <tr><td>4</td><td>الشارقة المجاز</td><td>18</td><td>دبي المرسى</td><td>8</td></tr>
-        <tr><td>5</td><td>الشارقة النهضة</td><td>6</td><td>أبوظبي جزيرة ياس</td><td>50</td></tr>
-        <tr><td>6</td><td>رأس الخيمة الحمرا</td><td>40</td><td>أبوظبي الريم</td><td>28</td></tr>
-        <tr><td>7</td><td>رأس الخيمة النخيل</td><td>12</td><td>أبوظبي مدينة خليفة</td><td>18</td></tr>
-        <tr><td>8</td><td>مدينة الفجيرة</td><td>70</td><td>—</td><td>—</td></tr>
-        <tr><td>↩</td><td>العودة للمقر</td><td>95</td><td>العودة للمقر</td><td>130</td></tr>
+        <tr><td>1</td><td>عجمان الجرف</td><td>23</td><td>دبي القصيص</td><td>52</td></tr>
+        <tr><td>2</td><td>عجمان الكورنيش</td><td>3</td><td>دبي مردف</td><td>8</td></tr>
+        <tr><td>3</td><td>عجمان النعيمية</td><td>3</td><td>دبي ديرة</td><td>6</td></tr>
+        <tr><td>4</td><td>عجمان الراشدية</td><td>2</td><td>دبي واحة السيليكون</td><td>18</td></tr>
+        <tr><td>5</td><td>الشارقة الخان</td><td>17</td><td>دبي دبي هيلز</td><td>8</td></tr>
+        <tr><td>6</td><td>الشارقة المجاز</td><td>3</td><td>دبي الخليج التجاري</td><td>10</td></tr>
+        <tr><td>7</td><td>الشارقة التعاون</td><td>3</td><td>دبي وسط المدينة</td><td>3</td></tr>
+        <tr><td>8</td><td>الشارقة النهضة</td><td>3</td><td>دبي البرشاء</td><td>6</td></tr>
+        <tr><td>9</td><td>الشارقة مويلح</td><td>4</td><td>دبي أبراج بحيرات جميرا</td><td>6</td></tr>
+        <tr><td>10</td><td>رأس الخيمة الحمرا</td><td>18</td><td>دبي المرسى</td><td>3</td></tr>
+        <tr><td>11</td><td>رأس الخيمة النخيل</td><td>10</td><td>أبوظبي جزيرة ياس</td><td>48</td></tr>
+        <tr><td>12</td><td>رأس الخيمة المعيريض</td><td>4</td><td>أبوظبي الراحة</td><td>6</td></tr>
+        <tr><td>13</td><td>الشارقة خورفكان</td><td>60</td><td>أبوظبي السعديات</td><td>22</td></tr>
+        <tr><td>14</td><td>الشارقة كلباء</td><td>18</td><td>أبوظبي مدينة خليفة</td><td>15</td></tr>
+        <tr><td>15</td><td>مدينة الفجيرة</td><td>12</td><td>أبوظبي الريم</td><td>12</td></tr>
+        <tr><td>16</td><td>دبا الفجيرة</td><td>40</td><td>أبوظبي مصفح</td><td>20</td></tr>
+        <tr><td>↩</td><td>العودة للمقر</td><td>105</td><td>العودة للمقر</td><td>150</td></tr>
       </tbody>
-      <tfoot><tr class="tfoot"><td></td><td>إجمالي أ</td><td>271</td><td>إجمالي ب</td><td>311</td></tr></tfoot>
+      <tfoot><tr class="tfoot"><td></td><td>إجمالي أ</td><td>328</td><td>إجمالي ب</td><td>393</td></tr></tfoot>
     </table></div>
-    <div class="insight"><b>ملاحظة:</b> الفجيرة آخر محطة (مسار مسدود) = 165 كم ذهاباً وإياباً لعميل واحد. إذا كان أقل من عميلين، اقصرها على دورة كل 3 أيام أو أضف رسوم منطقة.</div>
+    <div class="insight"><b>ملاحظة:</b> مسار الساحل الشرقي (خورفكان→كلباء→الفجيرة→دبا) يضيف ~130 كم للمجموعة أ لـ4 عملاء. أبوظبي تضيف ~120 كم للمجموعة ب. كلا المنطقتين البعيدتين ذيل التكلفة — لكن الكثافة (16/مركبة) تخفض تكلفة التسليم بشدة.</div>
   </section>
 
   <!-- 8 السائقون -->
   <section id="s8">
     <div class="sec-head">
-      <div class="lhs"><div class="sec-num">8</div><div><h2>لوحة أداء السائقين</h2><p>سائقان · 15 عملية تسليم</p></div></div>
+      <div class="lhs"><div class="sec-num">8</div><div><h2>لوحة أداء السائقين</h2><p>سائقان · 32 عملية تسليم</p></div></div>
       <button class="printbtn" onclick="printSection('s8')">🖨️ طباعة PDF</button>
     </div>
     <div class="tbl-scroll"><table>
       <thead><tr><th>السائق</th><th>المسار</th><th>التسليمات</th><th>في الوقت</th><th>نسبة الالتزام</th><th>متوسط/محطة</th><th>كم</th><th>التقييم</th></tr></thead>
       <tbody>
-        <tr><td>CBA-DR-001</td><td>أ · شمال</td><td>8</td><td>7</td><td>87.5%</td><td>12 د</td><td>271</td><td>⭐ 4.6</td></tr>
-        <tr><td>CBA-DR-002</td><td>ب · جنوب</td><td>7</td><td>7</td><td>100%</td><td>14 د</td><td>311</td><td>⭐ 4.8</td></tr>
+        <tr><td>CBA-DR-001</td><td>أ · شمال</td><td>16</td><td>14</td><td>87.5%</td><td>11 د</td><td>328</td><td>⭐ 4.6</td></tr>
+        <tr><td>CBA-DR-002</td><td>ب · جنوب</td><td>16</td><td>15</td><td>93.8%</td><td>13 د</td><td>393</td><td>⭐ 4.7</td></tr>
       </tbody>
-      <tfoot><tr class="tfoot"><td>الإجمالي</td><td>—</td><td>15</td><td>14</td><td>93.3%</td><td>13 د</td><td>582</td><td>4.7</td></tr></tfoot>
+      <tfoot><tr class="tfoot"><td>الإجمالي</td><td>—</td><td>32</td><td>29</td><td>90.6%</td><td>12 د</td><td>721</td><td>4.65</td></tr></tfoot>
     </table></div>
-    <div class="insight"><b>ملاحظة:</b> تأخير واحد = الفجيرة (CBA-CUS-008)، ازدحام على E611. السائق الجنوبي مثالي رغم المسار الأطول. كلاهما فوق تقييم 4.5.</div>
+    <div class="insight"><b>ملاحظة:</b> 3 تأخيرات = محطتان على الساحل الشرقي (كلباء، دبا) + مصفح، كلها جغرافيا مسارات طويلة. الالتزام 90.6% يبقى فوق الهدف رغم مضاعفة الحمل. كلا السائقين ≥4.6.</div>
   </section>
 
   <!-- 9 الوقود -->
@@ -350,33 +391,34 @@
     <div class="tbl-scroll"><table>
       <thead><tr><th>المركبة</th><th>المسار</th><th>كم</th><th>وقود (لتر)</th><th>التكلفة (درهم)</th><th>لتر/100كم</th></tr></thead>
       <tbody>
-        <tr><td>CBA-VH-001</td><td>أ · شمال</td><td>271</td><td>32.5</td><td>94.30</td><td>12.0</td></tr>
-        <tr><td>CBA-VH-002</td><td>ب · جنوب</td><td>311</td><td>37.3</td><td>108.20</td><td>12.0</td></tr>
+        <tr><td>CBA-VH-001</td><td>أ · شمال</td><td>328</td><td>39.4</td><td>114.16</td><td>12.0</td></tr>
+        <tr><td>CBA-VH-002</td><td>ب · جنوب</td><td>393</td><td>47.2</td><td>136.78</td><td>12.0</td></tr>
       </tbody>
-      <tfoot><tr class="tfoot"><td>الإجمالي</td><td>—</td><td>582</td><td>69.8</td><td>202.50</td><td>12.0</td></tr></tfoot>
+      <tfoot><tr class="tfoot"><td>الإجمالي</td><td>—</td><td>721</td><td>86.5</td><td>250.94</td><td>12.0</td></tr></tfoot>
     </table></div>
     <div class="stat-grid" style="margin-top:16px">
-      <div class="stat"><div class="v">13.50 درهم</div><div class="l">التكلفة/تسليم</div></div>
-      <div class="stat"><div class="v">69.8 لتر</div><div class="l">إجمالي الوقود</div></div>
-      <div class="stat"><div class="v">55%</div><div class="l">وقود المناطق البعيدة</div></div>
+      <div class="stat"><div class="v">7.84 درهم</div><div class="l">التكلفة/تسليم</div></div>
+      <div class="stat"><div class="v">86.5 لتر</div><div class="l">إجمالي الوقود</div></div>
+      <div class="stat"><div class="v">↓42%</div><div class="l">مقابل تجربة الـ15</div></div>
     </div>
-    <div class="insight"><b>ملاحظة:</b> الوقود = 13.50 درهم/تسليم. مسارات الفجيرة وأبوظبي تستهلك 55% من الوقود لـ27% من العملاء. الهدف أقل من 10 دراهم/تسليم عبر الكثافة قبل التوسّع.</div>
+    <div class="insight"><b>ملاحظة:</b> مضاعفة الحمل إلى 16/مركبة تخفض تكلفة الوقود إلى <b>7.84 درهم/تسليم</b> — تحت هدف 10 دراهم — لأن الكيلومترات تنمو أبطأ بكثير من عدد العملاء. الكثافة هي رافعة التكلفة، مؤكَّد.</div>
   </section>
 
   <!-- 10 الحوادث -->
   <section id="s10">
     <div class="sec-head">
-      <div class="lhs"><div class="sec-num">10</div><div><h2>لوحة إدارة الحوادث</h2><p>حادثتان · كلاهما محلولتان</p></div></div>
+      <div class="lhs"><div class="sec-num">10</div><div><h2>لوحة إدارة الحوادث</h2><p>3 حوادث · كلها محلولة</p></div></div>
       <button class="printbtn" onclick="printSection('s10')">🖨️ طباعة PDF</button>
     </div>
     <div class="tbl-scroll"><table>
       <thead><tr><th>الحادثة</th><th>النوع</th><th>الخطورة</th><th>مرتبطة بـ</th><th>الحالة</th><th>المعالجة</th></tr></thead>
       <tbody>
-        <tr><td>CBA-IR-001</td><td>تأخير تسليم (ازدحام الفجيرة)</td><td><span class="badge b-warn">🟠 متوسطة</span></td><td>CBA-DL-008</td><td><span class="badge b-ok">محلولة</span></td><td>سُلّمت +35 دقيقة، أُبلغ العميل</td></tr>
-        <tr><td>CBA-IR-002</td><td>حرارة وجبة دون المواصفة</td><td><span class="badge b-crit">🔴 عالية</span></td><td>CBA-KB-001</td><td><span class="badge b-ok">محلولة</span></td><td>اكتُشفت في الجودة، أُعيد طهيها، لم تُرسل</td></tr>
+        <tr><td>CBA-IR-001</td><td>تأخير تسليم (دبا الساحل الشرقي)</td><td><span class="badge b-warn">🟠 متوسطة</span></td><td>CBA-DL-016</td><td><span class="badge b-ok">محلولة</span></td><td>سُلّمت +40 دقيقة، أُبلغ العميل</td></tr>
+        <tr><td>CBA-IR-002</td><td>تأخير تسليم (مصفح مسار بعيد)</td><td><span class="badge b-warn">🟠 متوسطة</span></td><td>CBA-DL-032</td><td><span class="badge b-ok">محلولة</span></td><td>سُلّمت +25 دقيقة، أُبلغ العميل</td></tr>
+        <tr><td>CBA-IR-003</td><td>حرارة وجبة دون المواصفة ×2</td><td><span class="badge b-crit">🔴 عالية</span></td><td>CBA-KB-001</td><td><span class="badge b-ok">محلولة</span></td><td>اكتُشفت في الجودة، أُعيد طهيها، لم تُرسل</td></tr>
       </tbody>
     </table></div>
-    <div class="insight"><b>ملاحظة:</b> حادثتان، كلاهما محلولتان، 0 وصلت للعميل كعيب. الحرارة = ثغرة عملية (مسبار الخط المتخصص). التأخير = جغرافيا لا السائق.</div>
+    <div class="insight"><b>ملاحظة:</b> 3 حوادث، كلها محلولة، 0 وصلت للعميل كعيب. تأخيران = جغرافيا المناطق البعيدة؛ الحرارة = ثغرة عملية الخط المتخصص (خطوة المسبار). ارتفع معدل التأخير مع حلقة الساحل الشرقي الأطول.</div>
   </section>
 
   <!-- 11 المؤشرات -->
@@ -386,11 +428,11 @@
       <button class="printbtn" onclick="printSection('s11')">🖨️ طباعة PDF</button>
     </div>
     <div class="overall" style="margin-bottom:26px">
-      <div class="ring" style="--p:90"><div class="rv"><b>90</b><small>/ 100</small></div></div>
+      <div class="ring" style="--p:92"><div class="rv"><b>92</b><small>/ 100</small></div></div>
       <div>
         <div style="font-size:13px;color:var(--muted);font-weight:700">الجاهزية الإجمالية لـ C BY AI</div>
         <div class="rating y">🟡 جاهز مع تحسينات</div>
-        <p style="margin:8px 0 0;color:var(--muted);font-size:14px;max-width:440px">مطبخ وجودة قويان. أوقف الإطلاق الكامل حتى معالجة كثافة تكلفة المناطق البعيدة والتحكم بحرارة الخط المتخصص. العمليات الأساسية مُتحقَّق منها.</p>
+        <p style="margin:8px 0 0;color:var(--muted);font-size:14px;max-width:440px">الكثافة عند 16/مركبة أغلقت ثغرة التكلفة. المطبخ والجودة قويان. الثغرات المتبقية: توسيع الخط المتخصص (≈15 عميلاً) وإحكام سلسلة التبريد على مسارات 90–150 كم.</p>
         <div class="legend">
           <span><i class="dot" style="background:var(--red)"></i> 🔴 غير جاهز</span>
           <span><i class="dot" style="background:var(--amber)"></i> 🟠 تجريبي فقط</span>
@@ -400,14 +442,14 @@
       </div>
     </div>
     <div class="kpi-bars">
-      <div class="kpi-row"><div class="name">التشغيلي</div><div class="kpi-track"><div class="kpi-fill" style="width:88%"></div></div><div class="pct">88</div></div>
-      <div class="kpi-row"><div class="name">المطبخ</div><div class="kpi-track"><div class="kpi-fill" style="width:96%"></div></div><div class="pct">96</div></div>
+      <div class="kpi-row"><div class="name">التشغيلي</div><div class="kpi-track"><div class="kpi-fill" style="width:90%"></div></div><div class="pct">90</div></div>
+      <div class="kpi-row"><div class="name">المطبخ</div><div class="kpi-track"><div class="kpi-fill" style="width:97%"></div></div><div class="pct">97</div></div>
       <div class="kpi-row"><div class="name">التسليم</div><div class="kpi-track"><div class="kpi-fill" style="width:91%"></div></div><div class="pct">91</div></div>
-      <div class="kpi-row"><div class="name">الجودة</div><div class="kpi-track"><div class="kpi-fill" style="width:95%"></div></div><div class="pct">95</div></div>
-      <div class="kpi-row"><div class="name">كفاءة التكلفة</div><div class="kpi-track"><div class="kpi-fill" style="width:84%"></div></div><div class="pct">84</div></div>
-      <div class="kpi-row"><div class="name">جاهزية الإطلاق</div><div class="kpi-track"><div class="kpi-fill" style="width:87%"></div></div><div class="pct">87</div></div>
+      <div class="kpi-row"><div class="name">الجودة</div><div class="kpi-track"><div class="kpi-fill" style="width:96%"></div></div><div class="pct">96</div></div>
+      <div class="kpi-row"><div class="name">كفاءة التكلفة</div><div class="kpi-track"><div class="kpi-fill" style="width:92%"></div></div><div class="pct">92</div></div>
+      <div class="kpi-row"><div class="name">جاهزية الإطلاق</div><div class="kpi-track"><div class="kpi-fill" style="width:88%"></div></div><div class="pct">88</div></div>
     </div>
-    <div class="insight"><b>ملاحظة:</b> المطبخ (96) والجودة (95) في الصدارة. كفاءة التكلفة (84) متأخرة بسبب وقود المناطق البعيدة — الرقم الوحيد الذي يحجب الإطلاق الكامل.</div>
+    <div class="insight"><b>ملاحظة:</b> قفزت كفاءة التكلفة 84→92 بفضل الكثافة. المطبخ (97) والجودة (96) في الصدارة. جاهزية الإطلاق (88) محكومة الآن بتوسيع الخط المتخصص + سلسلة التبريد، لا بالاقتصاد.</div>
   </section>
 
   <!-- 12 الجاهزية -->
@@ -419,19 +461,19 @@
     <div class="tbl-scroll"><table class="check">
       <thead><tr><th>#</th><th>نقطة التحقق</th><th>الحالة</th><th>الإجراء</th></tr></thead>
       <tbody>
-        <tr><td>1</td><td>إنتاجية المطبخ</td><td><span class="badge b-ok">✅ جاهز</span></td><td>—</td></tr>
+        <tr><td>1</td><td>إنتاجية المطبخ (96 وجبة)</td><td><span class="badge b-ok">✅ جاهز</span></td><td>الحفاظ على 6 طهاة</td></tr>
         <tr><td>2</td><td>خط الوجبات الخفيفة/المشروبات</td><td><span class="badge b-ok">✅ جاهز</span></td><td>—</td></tr>
         <tr><td>3</td><td>نسبة نجاح الجودة ≥95%</td><td><span class="badge b-ok">✅ جاهز</span></td><td>أضف مسبار حرارة متخصص</td></tr>
-        <tr><td>4</td><td>التسليم في الوقت ≥90%</td><td><span class="badge b-ok">✅ جاهز</span></td><td>راقب الفجيرة</td></tr>
-        <tr><td>5</td><td>التكلفة/تسليم ≤ 10 دراهم</td><td><span class="badge b-warn">⚠️ ثغرة</span></td><td>ابنِ الكثافة قبل أبوظبي/الفجيرة</td></tr>
-        <tr><td>6</td><td>خط النظام الغذائي المتخصص</td><td><span class="badge b-warn">⚠️ ثغرة</span></td><td>+1 طاهي تحضير</td></tr>
-        <tr><td>7</td><td>سلسلة التبريد للمسارات البعيدة</td><td><span class="badge b-warn">⚠️ ثغرة</span></td><td>تعبئة مبردة لأكثر من 90 كم</td></tr>
-        <tr><td>8</td><td>سعة السائقين</td><td><span class="badge b-ok">✅ جاهز</span></td><td>أضف مركبة ثالثة عند >20 عميل</td></tr>
+        <tr><td>4</td><td>التسليم في الوقت ≥90%</td><td><span class="badge b-ok">✅ جاهز</span></td><td>راقب الساحل الشرقي + أبوظبي</td></tr>
+        <tr><td>5</td><td>التكلفة/تسليم ≤ 10 دراهم</td><td><span class="badge b-ok">✅ جاهز</span></td><td>7.84 درهم — الكثافة حلّتها</td></tr>
+        <tr><td>6</td><td>خط النظام المتخصص (≈15 عميلاً)</td><td><span class="badge b-warn">⚠️ ثغرة</span></td><td>+2 طاهي، خط ثانٍ</td></tr>
+        <tr><td>7</td><td>سلسلة التبريد للمسارات البعيدة (90–150كم)</td><td><span class="badge b-warn">⚠️ ثغرة</span></td><td>تعبئة مبردة + مسجلات حرارة</td></tr>
+        <tr><td>8</td><td>سعة السائقين (16/مركبة مكتملة)</td><td><span class="badge b-warn">⚠️ ثغرة</span></td><td>أضف مركبة ثالثة قبل >32 عميلاً</td></tr>
         <tr><td>9</td><td>الاستجابة للحوادث</td><td><span class="badge b-ok">✅ جاهز</span></td><td>—</td></tr>
         <tr><td>10</td><td>إشعارات العملاء</td><td><span class="badge b-ok">✅ جاهز</span></td><td>—</td></tr>
       </tbody>
     </table></div>
-    <div class="insight"><b>قرار المضي/التوقف:</b> 🟡 <b>المضي لتجربة موسّعة</b> — أغلق 3 ثغرات (كثافة التكلفة، طاهي متخصص، سلسلة التبريد) قبل الإطلاق الكامل عبر الإمارات السبع.</div>
+    <div class="insight"><b>قرار المضي/التوقف:</b> 🟡 <b>المضي لتجربة موسّعة</b> — بوابة التكلفة اجتيزت الآن عند 16/مركبة. أغلق 3 ثغرات (الخط المتخصص، سلسلة التبريد، المركبة الثالثة) قبل الإطلاق الكامل عبر الإمارات السبع.</div>
   </section>
 
 </div>
