@@ -105,12 +105,12 @@
 <header class="hero">
   <div class="wrap">
     <div class="brand-mark"><span class="brand-dot">🍃</span> C BY AI · One-Day Pilot Test</div>
-    <h1>One-Day Test Runbook</h1>
-    <p class="sub">Single full operating day, start to finish. Walk every module in time order. Mark each checkpoint Pass / Fail / N-A and note what happened. Day verdict computes live.</p>
+    <h1>One-Day Delivery & Driver Test</h1>
+    <p class="sub">Evening 16:00 dispatch. Focus: last-mile delivery and driver performance across both routes. Walk each checkpoint in time order, mark Pass / Fail / N-A, note what happened. Day verdict + driver scorecard compute live.</p>
     <div class="datebar">
       <label>Test date <input type="date" id="tdate"></label>
-      <label>Shift lead <input type="text" id="lead" placeholder="Name"></label>
-      <label>Dispatch time <input type="time" id="disp" value="09:00"></label>
+      <label>Dispatch lead <input type="text" id="lead" placeholder="Name"></label>
+      <label>Dispatch time <input type="time" id="disp" value="16:00"></label>
     </div>
   </div>
 </header>
@@ -131,16 +131,21 @@
 
   <!-- SIGN OFF -->
   <div class="phase">
-    <div class="ph-head"><span class="timepill">15:00</span><div><h2>Debrief &amp; Sign-Off</h2><p class="mods"><b>M11</b> Executive KPI <b>M12</b> Launch Readiness</p></div></div>
+    <div class="ph-head"><span class="timepill">22:45</span><div><h2>Debrief &amp; Driver Scorecard</h2><p class="mods"><b>M8</b> Driver Performance <b>M11</b> Executive KPI <b>M12</b> Launch Readiness</p></div></div>
     <div class="signoff">
-      <div class="field"><label>Total deliveries completed</label><input type="text" id="so_deliv" placeholder="x / 32"></div>
-      <div class="field"><label>On-time %</label><input type="text" id="so_ontime" placeholder="%"></div>
-      <div class="field"><label>QC pass %</label><input type="text" id="so_qc" placeholder="%"></div>
+      <div class="field"><label>Deliveries completed</label><input type="text" id="so_deliv" placeholder="x / 32"></div>
+      <div class="field"><label>First-attempt success %</label><input type="text" id="so_fas" placeholder="%"></div>
+      <div class="field"><label>Failed / returned</label><input type="text" id="so_fail" placeholder="count"></div>
+      <div class="field"><label>Route A on-time % (DR-001)</label><input type="text" id="so_otA" placeholder="%"></div>
+      <div class="field"><label>Route B on-time % (DR-002)</label><input type="text" id="so_otB" placeholder="%"></div>
+      <div class="field"><label>Driver A rating ★ (DR-001)</label><input type="text" id="so_rA" placeholder="/5"></div>
+      <div class="field"><label>Driver B rating ★ (DR-002)</label><input type="text" id="so_rB" placeholder="/5"></div>
+      <div class="field"><label>Cold-chain breaches</label><input type="text" id="so_cold" placeholder="count (target 0)"></div>
       <div class="field"><label>Fuel cost / delivery (AED)</label><input type="text" id="so_cost" placeholder="AED"></div>
-      <div class="field"><label>Incidents logged</label><input type="text" id="so_inc" placeholder="count"></div>
+      <div class="field"><label>Delivery incidents logged</label><input type="text" id="so_inc" placeholder="count"></div>
       <div class="field"><label>Day verdict (lead call)</label><input type="text" id="so_verdict" placeholder="GO / NO-GO / RETEST"></div>
-      <div class="field" style="grid-column:1/-1"><label>Notes &amp; corrective actions</label><input type="text" id="so_notes" placeholder="What to fix before next run / launch"></div>
-      <div class="field"><label>Signed</label><input type="text" id="so_sign" placeholder="Lead signature"></div>
+      <div class="field" style="grid-column:1/-1"><label>Notes &amp; corrective actions</label><input type="text" id="so_notes" placeholder="Driver coaching / route / cold-chain fixes before next run"></div>
+      <div class="field"><label>Signed</label><input type="text" id="so_sign" placeholder="Dispatch lead signature"></div>
     </div>
   </div>
 
@@ -158,59 +163,65 @@
 <script>
 // One day, in time order. Each phase: time, title, modules, checkpoints[{check, expected}]
 const PHASES=[
- {time:'04:30',title:'Kitchen Prep Start',mods:[['M3','Kitchen Production']],checks:[
-   ['Staff on shift (target 6)','6 cooks present, stations ready'],
-   ['Ingredients & cold-chain stock','All meal + snack ingredients in spec'],
-   ['Main meal production starts','B/L/D lanes running for 32 customers'],
+ {time:'15:00',title:'Food Ready & QC Release (handoff)',mods:[['M3','Kitchen'],['M5','QC']],checks:[
+   ['All 32 orders cooked & QC-released','Meals ≤5°C, labels match plan'],
+   ['Orders staged by route & stop','Cluster A 16 / Cluster B 16 sorted'],
  ]},
- {time:'06:30',title:'Specialty Lane Check',mods:[['M2','Meal Assignment'],['M3','Kitchen']],checks:[
-   ['Keto / low-carb / vegan lane (≈15 customers)','Correct diet tags matched to customer'],
-   ['Calorie targets honored (1400–2150)','Portions match assigned kcal'],
-   ['Specialty second line keeping pace','2 cooks, no >20% slowdown vs standard'],
+ {time:'15:15',title:'Driver Pre-Trip & Briefing',mods:[['M8','Driver Perf'],['M15','Vehicle']],checks:[
+   ['Driver fit-to-drive & licensed','CBA-DR-001 & CBA-DR-002 checked in'],
+   ['Vehicle inspection (tyres/brakes/lights)','Both vans road-safe'],
+   ['Refrigeration ON & ≤5°C','Cooler pre-chilled before load','°C'],
+   ['Fuel full / start odometer logged','Record start km per van','km'],
+   ['16-stop optimized route briefed','Driver has stop sequence + Maps links'],
  ]},
- {time:'08:10',title:'Kitchen Complete',mods:[['M3','Kitchen'],['M4','Snack Production']],checks:[
-   ['96 main meals produced','Planned 96 (32×3), count produced','96'],
-   ['64 snacks + 32 beverages','Snack/beverage batch CBA-SB-001 done','64/32'],
-   ['Cold-chain beverages chilled','Smoothies/laban/lassi packed cold for far legs'],
+ {time:'15:30',title:'Load Verification & Cold-Chain',mods:[['M6','Dispatch'],['M5','QC']],checks:[
+   ['Load by reverse stop order','Last stop loaded first, first stop last'],
+   ['Scan every order vs manifest','48 items/van match, 0 mismatch'],
+   ['Cold-chain packaging on far legs','Insulated for 90–150 km stops'],
+   ['Doors sealed & seal number logged','Record seal # per van','seal#'],
  ]},
- {time:'08:15',title:'Quality Control Inspection',mods:[['M5','Quality Control']],checks:[
-   ['Temperature ≥63°C (hot meals)','Sampled meals pass temp probe'],
-   ['Portion weight in spec','No under/over portions'],
-   ['Packaging seal & label accuracy','Seals intact, labels match assignment'],
-   ['Allergen flags present','Allergen labels on every package'],
-   ['Failures held back','Any fail re-cooked, NOT shipped'],
+ {time:'16:00',title:'Dispatch — Both Cars Depart',mods:[['M6','Dispatch'],['M7','Route Opt']],checks:[
+   ['Route A departs 16:00 sharp','CBA-VH-001 leaves HQ on time'],
+   ['Route B departs 16:00 sharp','CBA-VH-002 leaves HQ on time'],
+   ['Live GPS tracking active','App/GPS on for both vans'],
  ]},
- {time:'08:40',title:'Packing & Route Load',mods:[['M6','Dispatch'],['M1','Customers']],checks:[
-   ['Route A van loaded (16 customers)','48 main + snacks in CBA-VH-001'],
-   ['Route B van loaded (16 customers)','48 main + snacks in CBA-VH-002'],
-   ['Delivery IDs assigned','CBA-DL-001 → 032 mapped to stops'],
+ {time:'16:00–20:40',title:'Route A Delivery — North (16 stops)',mods:[['M8','Driver Perf'],['M1','Customers']],checks:[
+   ['Ajman cluster (4 stops)','Al Jurf→Rashidiya delivered & confirmed'],
+   ['Sharjah cluster (5 stops)','Al Khan→Muwailih delivered & confirmed'],
+   ['RAK cluster (3 stops)','Hamra / Nakheel / Mairid delivered'],
+   ['East-coast (4 stops)','Khorfakkan/Kalba/Fujairah/Dibba delivered'],
+   ['Every delivery confirmed (app/photo)','16/16 proof-of-delivery captured'],
+   ['Food cold on arrival','Spot-check temp at customer door'],
+   ['Route A on-time %','≥90% within ETA+10 min','%'],
  ]},
- {time:'09:00',title:'Dispatch — Both Routes Depart',mods:[['M6','Dispatch'],['M7','Route Optimization']],checks:[
-   ['Route A departs on time','CBA-DR-001 leaves HQ at dispatch time'],
-   ['Route B departs on time','CBA-DR-002 leaves HQ at dispatch time'],
-   ['Optimized stop order loaded','Nearest-neighbor sequence confirmed'],
-   ['Start odometer logged','Both vehicle km recorded','km'],
+ {time:'16:00–22:30',title:'Route B Delivery — South (16 stops)',mods:[['M8','Driver Perf'],['M1','Customers']],checks:[
+   ['Dubai cluster (10 stops)','Qusais→Marina delivered & confirmed'],
+   ['Abu Dhabi cluster (6 stops)','Yas→Mussafah delivered & confirmed'],
+   ['Every delivery confirmed (app/photo)','16/16 proof-of-delivery captured'],
+   ['Food cold on arrival','Spot-check temp at customer door'],
+   ['Route B on-time %','≥90% within ETA+10 min','%'],
  ]},
- {time:'09:00–13:40',title:'Route A Delivery — North',mods:[['M8','Driver Perf'],['M1','Customers']],checks:[
-   ['Ajman / Sharjah cluster','First 9 stops delivered'],
-   ['RAK stops','Al Hamra / Al Nakheel / Al Mairid delivered'],
-   ['East-coast leg','Khorfakkan/Kalba/Fujairah/Dibba reached, watch traffic'],
-   ['Route A on-time rate','≥90% of 16 stops within ETA+10min','%'],
+ {time:'Throughout',title:'Driver Performance Scorecard',mods:[['M8','Driver Perf']],checks:[
+   ['First-attempt delivery success','≥95% delivered first try','%'],
+   ['Failed / re-attempt deliveries','Count + reason logged','count'],
+   ['Customer rating per driver','Avg ≥4.5 ★','rating'],
+   ['Route adherence (no skipped stops)','Stops served in planned order'],
+   ['Safe driving (no harsh events)','No speeding / harsh braking flags'],
+   ['Driver breaks within policy','Rest/meal breaks logged'],
  ]},
- {time:'09:00–15:30',title:'Route B Delivery — South',mods:[['M8','Driver Perf'],['M1','Customers']],checks:[
-   ['Dubai cluster (10 stops)','Qusais→Marina sweep delivered'],
-   ['Abu Dhabi cluster (6 stops)','Yas/Raha/Saadiyat/Khalifa/Reem/Mussafah delivered'],
-   ['Route B on-time rate','≥90% of 16 stops within ETA+10min','%'],
+ {time:'Throughout',title:'Cold-Chain in Transit',mods:[['M5','QC'],['M15','Vehicle']],checks:[
+   ['Cooler temp held ≤5°C all trip','Logger reading per van','°C'],
+   ['No spoilage / temp breach','Zero cold-chain failures'],
  ]},
- {time:'Throughout',title:'Fuel Log',mods:[['M9','Fuel Consumption']],checks:[
-   ['Route A fuel recorded','Liters + AED logged','L'],
-   ['Route B fuel recorded','Liters + AED logged','L'],
-   ['Cost / delivery ≤ AED 10','Total fuel ÷ 32 deliveries (target ~AED 7.8)','AED'],
+ {time:'Throughout',title:'Fuel & Distance',mods:[['M9','Fuel']],checks:[
+   ['Route A end odometer & fuel','End − start km, liters','L/km'],
+   ['Route B end odometer & fuel','End − start km, liters','L/km'],
+   ['Cost / delivery ≤ AED 10','Total fuel ÷ 32 (target ~AED 7.8)','AED'],
  ]},
- {time:'Throughout',title:'Incident Watch',mods:[['M10','Incident Management']],checks:[
-   ['Incidents logged with ID','Any issue → CBA-IR-xxx raised'],
-   ['Severity assigned','Low / Medium / High tagged'],
-   ['Resolved before reaching customer','Zero defects shipped target'],
+ {time:'Throughout',title:'Delivery Incident Watch',mods:[['M10','Incident Mgmt']],checks:[
+   ['Delays logged with ID & reason','Late stop → CBA-IR-xxx raised'],
+   ['Failed delivery → returns handled','Cold returns brought back same trip'],
+   ['Customer complaint in transit','Logged with order ID & escalated'],
  ]},
 ];
 
