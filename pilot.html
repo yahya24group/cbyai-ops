@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C BY AI — Pilot Day Check</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#14304A; --teal:#0F6E5C; --bg:#F7FAF9; --line:#C9D2D0;
+    --green:#1E8E5A; --amber:#B8860B; --red:#C0392B; --card:#fff; --text:#16302a; --muted:#5a6b66;
+    --font:"Inter",Arial,system-ui,sans-serif;
+  }
+  html[lang="ar"]{ --font:"Cairo","Tajawal",Arial,sans-serif; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--font);background:var(--bg);color:var(--text);font-size:17px;line-height:1.5}
+  header{position:sticky;top:0;z-index:5;background:var(--navy);color:#fff;display:flex;align-items:center;gap:12px;padding:14px 18px}
+  .brand{font-weight:700;font-size:18px;display:flex;align-items:center;gap:9px}
+  .brand .dot{width:11px;height:11px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 3px rgba(15,110,92,.3)}
+  .lang{margin-inline-start:auto;display:flex;border:1px solid rgba(255,255,255,.4);border-radius:10px;overflow:hidden}
+  .lang button{background:transparent;color:#fff;border:0;padding:8px 13px;cursor:pointer;font-weight:600;font-size:14px;font-family:inherit}
+  .lang button.active{background:var(--teal)}
+  main{max-width:680px;margin:0 auto;padding:18px 16px 70px}
+
+  .daypill{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:30px;font-size:15px;font-weight:700;color:#fff;margin-bottom:16px}
+  .daypill.open{background:var(--teal)} .daypill.closed{background:var(--red)}
+
+  .summary{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:20px;box-shadow:0 6px 18px rgba(20,48,74,.06)}
+  .summary .big{font-size:34px;font-weight:800;color:var(--navy);line-height:1}
+  .summary .sub{color:var(--muted);font-size:14px;margin-top:4px}
+  .allclear{color:var(--green);font-weight:700;margin-top:12px}
+  .probs{margin-top:14px;list-style:none;padding:0}
+  .probs li{display:flex;gap:8px;padding:8px 12px;background:#fbeeec;border-radius:10px;margin-bottom:6px;font-size:14px}
+  .probs li b{color:var(--red)}
+
+  .tile{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-bottom:14px;overflow:hidden;box-shadow:0 4px 12px rgba(20,48,74,.05)}
+  .tile-head{display:flex;align-items:center;gap:14px;padding:18px;cursor:pointer}
+  .tile-head .ic{font-size:32px;line-height:1}
+  .tile-head .nm{font-weight:700;font-size:18px;color:var(--navy);flex:1}
+  .tile-head .cnt{font-size:14px;color:var(--muted)}
+  .statusdot{width:18px;height:18px;border-radius:50%;background:#cdd6d3;flex:0 0 auto}
+  .statusdot.green{background:var(--green)} .statusdot.amber{background:var(--amber)} .statusdot.red{background:var(--red)}
+
+  .tile-body{padding:0 18px 18px;display:none}
+  .tile.open .tile-body{display:block}
+  .chk{list-style:none;padding:0;margin:0 0 14px}
+  .chk li{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid #eef1f0}
+  .chk input{width:24px;height:24px;margin-top:1px;accent-color:var(--teal);flex:0 0 auto}
+  .chk label{font-size:16px;cursor:pointer}
+  .chk li.on label{text-decoration:line-through;color:var(--muted)}
+
+  .flagrow{display:flex;gap:10px;margin:4px 0 10px}
+  .flagrow button{flex:1;padding:14px;border-radius:12px;border:2px solid var(--line);background:#fff;font-weight:700;font-size:16px;cursor:pointer;font-family:inherit;color:var(--muted)}
+  .flagrow button.ok.sel{background:var(--green);border-color:var(--green);color:#fff}
+  .flagrow button.prob.sel{background:var(--red);border-color:var(--red);color:#fff}
+  .note{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;font-size:15px;font-family:inherit;margin-bottom:6px}
+  .done{width:100%;padding:13px;border:0;border-radius:12px;background:var(--navy);color:#fff;font-weight:700;font-size:16px;cursor:pointer;font-family:inherit}
+  :focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><span class="dot"></span> C BY AI</div>
+  <div class="lang">
+    <button id="en" class="active" onclick="setLang('en')">EN</button>
+    <button id="ar" onclick="setLang('ar')">العربية</button>
+  </div>
+</header>
+<main id="app"></main>
+
+<script>
+/* ============================================================
+   C BY AI — Pilot Day Check.  Ultra-simple, testing period only.
+   Tick today's checks, flag OK / Problem.  One screen, offline.
+   ============================================================ */
+
+/* ---- store: localStorage + memory fallback, bucketed by day ---- */
+const Store = (()=>{
+  const KEY="cbyai:pilot";
+  let usable=true, mem={};
+  try{ localStorage.setItem("t","1"); localStorage.removeItem("t"); }catch(e){ usable=false; }
+  let s = (()=>{ if(!usable) return mem; try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};} })();
+  s.lang=s.lang||"en"; s.days=s.days||{};
+  function save(){ if(!usable){mem=s;return;} try{localStorage.setItem(KEY,JSON.stringify(s));}catch(e){mem=s;} }
+  return {s,save};
+})();
+
+function todayKey(){ return new Date().toISOString().slice(0,10); }
+// today's record for a station (auto-fresh each new day)
+function rec(stId){
+  const d=todayKey();
+  const day=Store.s.days[d]||(Store.s.days[d]={});
+  return day[stId]||(day[stId]={checks:{},flag:null,note:""});
+}
+
+let LANG=Store.s.lang;
+const L=o=>o[LANG]||o.en;
+
+const T={
+  pilotTitle:{en:"Today's pilot check",ar:"فحص التجربة اليوم"},
+  open:{en:"Open day",ar:"يوم عمل"},
+  closed:{en:"Closed — Friday (day off)",ar:"إجازة — الجمعة (يوم راحة)"},
+  ready:{en:"stations ready today",ar:"محطات جاهزة اليوم"},
+  problemsToday:{en:"Problems today",ar:"مشاكل اليوم"},
+  noProblems:{en:"No problems reported.",ar:"لا توجد مشاكل مسجّلة."},
+  allClear:{en:"All stations OK ✓",ar:"كل المحطات سليمة ✓"},
+  ok:{en:"OK ✓",ar:"سليم ✓"},
+  problem:{en:"Problem ⚠",ar:"مشكلة ⚠"},
+  notePh:{en:"What's the problem? (optional)",ar:"ما المشكلة؟ (اختياري)"},
+  done:{en:"Done",ar:"تم"},
+  weekday:{en:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+           ar:["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"]},
+};
+const t=k=>T[k][LANG];
+
+/* ---- 6 operational stations + their short daily checks ---- */
+const STATIONS=[
+  {id:"kitchen",icon:"🍳",name:{en:"Kitchen",ar:"المطبخ"},items:[
+    {en:"Fridge/freezer temps logged",ar:"تسجيل حرارة الثلاجة/المجمّد"},
+    {en:"Plan & recipes confirmed",ar:"تأكيد الخطة والوصفات"},
+    {en:"Cook temps logged (≥75 °C)",ar:"تسجيل حرارة الطهي (≥75 °م)"},
+    {en:"Blast-chill ≤5 °C done",ar:"التبريد السريع ≤5 °م تم"},
+    {en:"Portions & labels correct",ar:"الحصص والملصقات صحيحة"},
+    {en:"End-of-day clean-down",ar:"تنظيف نهاية اليوم"}]},
+  {id:"snacks",icon:"🥤",name:{en:"Snacks",ar:"الوجبات الخفيفة"},items:[
+    {en:"Chiller temps logged",ar:"تسجيل حرارة المبرّد"},
+    {en:"Allergen separation checked",ar:"فحص فصل مسببات الحساسية"},
+    {en:"Portions/measures recorded",ar:"تسجيل الحصص/المقادير"},
+    {en:"Labels & use-by correct",ar:"الملصقات وتاريخ الانتهاء صحيحة"},
+    {en:"Beverages chilled ≤5 °C",ar:"المشروبات مبرّدة ≤5 °م"}]},
+  {id:"qc",icon:"✅",name:{en:"Quality (QC)",ar:"الجودة"},items:[
+    {en:"Incoming goods checked & temp OK",ar:"فحص الوارد والحرارة سليمة"},
+    {en:"Cook/chill logs complete",ar:"سجلات الطهي/التبريد كاملة"},
+    {en:"Labels & allergens match plan",ar:"الملصقات والحساسية مطابقة للخطة"},
+    {en:"Product ≤5 °C at release",ar:"المنتج ≤5 °م عند الإفراج"},
+    {en:"Only passed orders released",ar:"إفراج عن الناجح فقط"}]},
+  {id:"inventory",icon:"📦",name:{en:"Stock & Inventory",ar:"المخزون"},items:[
+    {en:"Goods-in temps & dates checked",ar:"فحص حرارة وتواريخ الوارد"},
+    {en:"Stock rotated (FEFO)",ar:"تدوير المخزون (الأقرب انتهاءً)"},
+    {en:"Reorder-level items flagged",ar:"تحديد أصناف نقطة الطلب"},
+    {en:"Stock counts updated",ar:"تحديث جرد المخزون"}]},
+  {id:"dispatch",icon:"🚚",name:{en:"Dispatch",ar:"الإرسال"},items:[
+    {en:"Orders QC-released",ar:"الطلبات مُفرج عنها من الجودة"},
+    {en:"Van pre-chilled & clean",ar:"الشاحنة مبرّدة ونظيفة"},
+    {en:"Loaded by stop order",ar:"التحميل حسب ترتيب التوقفات"},
+    {en:"Scanned vs manifest",ar:"المسح مقابل بيان الشحن"},
+    {en:"Doors sealed, seal recorded",ar:"الأبواب مختومة والختم مسجّل"}]},
+  {id:"driver",icon:"🛵",name:{en:"Driver / Delivery",ar:"السائق / التوصيل"},items:[
+    {en:"Cooler working & at temp",ar:"المبرّد يعمل وعلى الحرارة"},
+    {en:"Full sealed load taken",ar:"أخذ الحمولة كاملة مختومة"},
+    {en:"Delivered in time window",ar:"التوصيل في الموعد"},
+    {en:"Every delivery confirmed",ar:"تأكيد كل توصيلة"},
+    {en:"Returns brought back",ar:"إعادة المرتجعات"}]},
+];
+
+const open={}; // which tiles expanded (in-memory)
+
+function statusOf(st){
+  const r=rec(st.id);
+  if(r.flag==="problem") return "red";
+  const done=st.items.filter((_,i)=>r.checks[i]).length;
+  if(done===0) return "grey";
+  if(done===st.items.length) return "green";
+  return "amber";
+}
+function isReady(st){
+  const r=rec(st.id);
+  const allDone=st.items.every((_,i)=>r.checks[i]);
+  return allDone && r.flag==="ok";
+}
+
+function setLang(l){
+  LANG=l; Store.s.lang=l; Store.save();
+  document.documentElement.lang=l; document.documentElement.dir=(l==="ar")?"rtl":"ltr";
+  document.getElementById("en").classList.toggle("active",l==="en");
+  document.getElementById("ar").classList.toggle("active",l==="ar");
+  render();
+}
+
+function render(){
+  const app=document.getElementById("app"); app.innerHTML="";
+  const d=new Date(), dow=d.getDay(), isFri=dow===5;
+
+  const pill=document.createElement("div"); pill.className="daypill "+(isFri?"closed":"open");
+  pill.textContent=t("weekday")[dow]+" · "+(isFri?t("closed"):t("open"));
+  app.appendChild(pill);
+
+  // summary
+  const readyCount=STATIONS.filter(isReady).length;
+  const problems=STATIONS.map(st=>({st,r:rec(st.id)})).filter(x=>x.r.flag==="problem");
+  const sum=document.createElement("div"); sum.className="summary";
+  sum.innerHTML=`<div class="big">${readyCount} / ${STATIONS.length}</div><div class="sub">${t("ready")}</div>`;
+  if(problems.length){
+    const h=document.createElement("div"); h.style.cssText="font-weight:700;margin-top:14px;color:var(--red)"; h.textContent=t("problemsToday");
+    const ul=document.createElement("ul"); ul.className="probs";
+    problems.forEach(({st,r})=>{ const li=document.createElement("li");
+      li.innerHTML=`<b>${st.icon} ${L(st.name)}</b><span>${r.note?("— "+r.note):""}</span>`; ul.appendChild(li); });
+    sum.appendChild(h); sum.appendChild(ul);
+  } else if(readyCount===STATIONS.length){
+    const a=document.createElement("div"); a.className="allclear"; a.textContent=t("allClear"); sum.appendChild(a);
+  } else {
+    const n=document.createElement("div"); n.className="sub"; n.style.marginTop="12px"; n.textContent=t("noProblems"); sum.appendChild(n);
+  }
+  app.appendChild(sum);
+
+  // station tiles
+  STATIONS.forEach(st=>{
+    const r=rec(st.id);
+    const tile=document.createElement("div"); tile.className="tile"+(open[st.id]?" open":"");
+    const done=st.items.filter((_,i)=>r.checks[i]).length;
+
+    const head=document.createElement("div"); head.className="tile-head";
+    head.onclick=()=>{ open[st.id]=!open[st.id]; render(); };
+    head.innerHTML=`<span class="ic">${st.icon}</span><span class="nm">${L(st.name)}</span>
+      <span class="cnt">${done}/${st.items.length}</span><span class="statusdot ${statusOf(st)}"></span>`;
+    tile.appendChild(head);
+
+    const body=document.createElement("div"); body.className="tile-body";
+    const ul=document.createElement("ul"); ul.className="chk";
+    st.items.forEach((it,i)=>{
+      const li=document.createElement("li"); if(r.checks[i]) li.className="on";
+      const cb=document.createElement("input"); cb.type="checkbox"; cb.id=st.id+i; cb.checked=!!r.checks[i];
+      cb.onchange=()=>{ if(cb.checked) r.checks[i]=true; else delete r.checks[i]; Store.save(); render(); };
+      const lab=document.createElement("label"); lab.htmlFor=st.id+i; lab.textContent=L(it);
+      li.appendChild(cb); li.appendChild(lab); ul.appendChild(li);
+    });
+    body.appendChild(ul);
+
+    // OK / Problem flag
+    const fr=document.createElement("div"); fr.className="flagrow";
+    const okb=document.createElement("button"); okb.className="ok"+(r.flag==="ok"?" sel":""); okb.textContent=t("ok");
+    okb.onclick=()=>{ r.flag=r.flag==="ok"?null:"ok"; Store.save(); render(); };
+    const pb=document.createElement("button"); pb.className="prob"+(r.flag==="problem"?" sel":""); pb.textContent=t("problem");
+    pb.onclick=()=>{ r.flag=r.flag==="problem"?null:"problem"; Store.save(); render(); };
+    fr.appendChild(okb); fr.appendChild(pb); body.appendChild(fr);
+
+    // note shown when problem
+    if(r.flag==="problem"){
+      const note=document.createElement("input"); note.className="note"; note.placeholder=t("notePh"); note.value=r.note||"";
+      note.oninput=()=>{ r.note=note.value; Store.save(); };
+      body.appendChild(note);
+    }
+
+    const done2=document.createElement("button"); done2.className="done"; done2.textContent=t("done");
+    done2.onclick=()=>{ open[st.id]=false; render(); };
+    body.appendChild(done2);
+
+    tile.appendChild(body); app.appendChild(tile);
+  });
+}
+
+setLang(LANG);
+</script>
+</body>
+</html>

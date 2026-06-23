@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C BY AI — Live Pilot Tracker</title>
+<style>
+  :root{
+    --bg:#f4f6f4;--surface:#fff;--ink:#11211a;--muted:#5c6b62;--line:#e2e8e2;
+    --brand:#0f7a52;--brand-soft:#e6f4ee;--brand-deep:#0a4d34;
+    --assume:#1c4e8a;--assume-soft:#e7effb;     /* blue = assumption */
+    --input:#9a6712;--input-soft:#fcf3df;        /* amber = you enter */
+    --red:#c0392b;--amber:#d98a14;--green:#1f9d57;
+    --shadow:0 1px 2px rgba(16,40,30,.06),0 8px 24px rgba(16,40,30,.08);
+    --radius:16px;--maxw:1100px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,sans-serif;line-height:1.5}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+  .hero{background:linear-gradient(160deg,var(--brand-deep),#06301f);color:#eafaf2;padding:40px 0 56px}
+  .brand-mark{display:inline-flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.5px;font-size:13px;text-transform:uppercase;color:#9be7c4}
+  .brand-dot{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#1ec77f,#0f7a52);display:grid;place-items:center;font-size:17px}
+  h1{font-size:clamp(26px,3.5vw,42px);margin:14px 0 6px;font-weight:800;letter-spacing:-1px}
+  .sub{color:#b9ddcb;font-size:15px;max-width:620px}
+
+  .keyrow{display:flex;gap:16px;flex-wrap:wrap;margin:-32px 0 26px;position:relative;z-index:2}
+  .keycard{flex:1;min-width:240px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:16px 18px}
+  .keycard h4{margin:0 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.6px;display:flex;align-items:center;gap:8px}
+  .swatch{width:14px;height:14px;border-radius:4px;display:inline-block}
+  .keycard p{margin:0;font-size:13px;color:var(--muted)}
+
+  section{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px;margin:0 0 22px}
+  .sec-head{display:flex;align-items:center;gap:13px;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid var(--brand-soft)}
+  .sec-num{width:38px;height:38px;border-radius:11px;flex:none;display:grid;place-items:center;font-weight:800;color:#fff;background:linear-gradient(135deg,#1ec77f,#0f7a52)}
+  .sec-head h2{margin:0;font-size:20px;font-weight:800}
+  .sec-head p{margin:1px 0 0;font-size:13px;color:var(--muted)}
+
+  .grid{display:grid;gap:14px}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+
+  .field{display:flex;flex-direction:column;gap:5px;background:#fafcfa;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .field label{font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:7px}
+  .field small{font-size:11px;color:var(--muted)}
+  .field input,.field select{font-size:15px;font-weight:700;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-family:inherit;background:#fff}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
+  .field.assume{background:var(--assume-soft);border-color:#c9dbf3}
+  .field.assume input{border-color:#c9dbf3}
+  .field.assume label{color:var(--assume)}
+  .field.input{background:var(--input-soft);border-color:#eed9a8}
+  .field.input input,.field.input select{border-color:#eed9a8}
+  .field.input label{color:var(--input)}
+  .tag{font-size:9px;font-weight:800;padding:2px 6px;border-radius:5px;text-transform:uppercase;letter-spacing:.4px}
+  .tag.a{background:var(--assume);color:#fff}
+  .tag.i{background:var(--input);color:#fff}
+
+  .tbl-scroll{overflow-x:auto;border-radius:12px;border:1px solid var(--line)}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:640px}
+  thead th{background:var(--brand-deep);color:#eafaf2;text-align:left;padding:10px 11px;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
+  tbody td{padding:8px 11px;border-top:1px solid var(--line);white-space:nowrap}
+  tbody tr:nth-child(even){background:#fafcfa}
+  .colhead-a{background:var(--assume)!important}
+  .colhead-i{background:var(--input)!important}
+  table input,table select{width:100%;min-width:84px;border:1px solid #eed9a8;background:var(--input-soft);border-radius:7px;padding:6px 8px;font-family:inherit;font-size:13px;font-weight:700}
+  table input:focus,table select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-soft)}
+  .calc{font-weight:800;color:var(--brand-deep)}
+  .eta{font-weight:800;color:var(--assume)}
+
+  .badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:800}
+  .b-ok{background:#e2f6ea;color:#1f7a45}.b-late{background:#fbe4e1;color:#a02a1d}.b-pend{background:#eef1ef;color:#5c6b62}
+
+  /* KPI live */
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:13px}
+  .kpi{background:linear-gradient(160deg,#fff,#f5faf7);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .kpi .v{font-size:30px;font-weight:800;color:var(--brand-deep);letter-spacing:-1px}
+  .kpi .l{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-top:2px}
+  .ring{--p:0;width:150px;height:150px;border-radius:50%;flex:none;display:grid;place-items:center;background:conic-gradient(var(--brand) calc(var(--p)*1%),#e7eee9 0);position:relative}
+  .ring:before{content:"";position:absolute;inset:13px;border-radius:50%;background:#fff}
+  .ring .rv{position:relative;text-align:center}
+  .ring .rv b{font-size:38px;font-weight:800;color:var(--brand-deep);display:block;line-height:1}
+  .ring .rv small{font-size:11px;color:var(--muted);font-weight:700}
+  .overall{display:flex;gap:26px;align-items:center;flex-wrap:wrap}
+  .rating{font-size:19px;font-weight:800;margin-top:8px}
+
+  .toolbar{position:fixed;right:16px;bottom:16px;z-index:50;display:flex;gap:10px}
+  .toolbar button{border:none;color:#fff;font-weight:700;font-size:14px;padding:12px 17px;border-radius:999px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+  .b-print{background:var(--brand)}.b-save{background:var(--assume)}.b-reset{background:#8a8a8a}
+  .saved{position:fixed;left:50%;top:20px;transform:translateX(-50%);background:var(--brand-deep);color:#fff;padding:10px 18px;border-radius:999px;font-weight:700;font-size:13px;opacity:0;transition:.3s;z-index:60;pointer-events:none}
+  .saved.show{opacity:1}
+  footer{text-align:center;color:var(--muted);font-size:13px;padding:26px 0 70px}
+  @media print{.toolbar,.toolbar *{display:none}body{background:#fff}section{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+
+<style>
+  html{scroll-padding-top:66px}
+  section{scroll-margin-top:66px}
+  .topnav{position:sticky;top:0;z-index:100;background:rgba(8,42,28,.96);backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,.1);box-shadow:0 4px 18px rgba(0,0,0,.18)}
+  .nav-inner{max-width:1100px;margin:0 auto;padding:0 20px;height:54px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .nav-brand{display:inline-flex;align-items:center;gap:9px;color:#9be7c4;font-weight:800;font-size:14px;letter-spacing:.5px;text-decoration:none;text-transform:uppercase;white-space:nowrap}
+  .nav-brand b{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#1ec77f,#0f7a52);display:grid;place-items:center;font-size:14px}
+  .nav-links{display:flex;gap:6px;flex-wrap:wrap}
+  .nav-links a{color:#cfe9da;text-decoration:none;font-weight:700;font-size:13.5px;padding:8px 13px;border-radius:9px;transition:.15s;white-space:nowrap}
+  .nav-links a:hover{background:rgba(255,255,255,.1);color:#fff}
+  .nav-links a.active{background:linear-gradient(135deg,#1ec77f,#0f7a52);color:#fff;box-shadow:0 4px 14px rgba(30,199,127,.35)}
+  .nav-links a.lang{border:1px solid rgba(255,255,255,.25);color:#9be7c4}
+  @media print{.topnav{display:none}}
+  @media(max-width:560px){.nav-brand span{display:none}.nav-inner{height:auto;padding:8px 14px;flex-wrap:wrap}}
+</style>
+<nav class="topnav"><div class="nav-inner">
+  <a class="nav-brand" href="C-BY-AI-Pilot-Dashboard.html"><b>🍃</b><span>C BY AI</span></a>
+  <div class="nav-links">
+    <a href="C-BY-AI-Pilot-Dashboard.html">📊 Dashboard</a>
+    <a href="C-BY-AI-Pilot-Tracker.html" class="active">🧮 Tracker</a>
+    <a href="C-BY-AI-One-Day-Test.html">✅ One-Day Test</a>
+    <a href="C-BY-AI-Pilot-Tracker-AR.html" class="lang">🌐 عربي</a>
+  </div>
+</div></nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brand-mark"><span class="brand-dot">🍃</span> C BY AI · Live Pilot Tracker</div>
+    <h1>Operations Tracker &amp; Calculator</h1>
+    <p class="sub">Set your assumptions, choose dispatch time, enter real numbers as the pilot runs. Everything recalculates live.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="keyrow">
+    <div class="keycard"><h4><span class="swatch" style="background:#1c4e8a"></span> Assumption</h4><p>Pre-filled estimate. Editable — change if your real rate differs (fuel price, speed, prep time).</p></div>
+    <div class="keycard"><h4><span class="swatch" style="background:#9a6712"></span> Input</h4><p>You enter this live during the pilot — actual times, km, fuel, QC counts.</p></div>
+    <div class="keycard"><h4><span class="swatch" style="background:#0f7a52"></span> Calculated</h4><p>Auto-computed from assumptions + inputs. Don't type here — it updates itself.</p></div>
+  </div>
+
+  <!-- A. ASSUMPTIONS -->
+  <section id="assume">
+    <div class="sec-head"><div class="sec-num">A</div><div><h2>Assumptions <span class="tag a">edit if needed</span></h2><p>Constants used in every calculation below</p></div></div>
+    <div class="grid g3">
+      <div class="field assume"><label><span class="tag a">A</span> Fuel price (AED/L)</label><input type="number" id="a_price" value="2.90" step="0.05" oninput="recalc()"><small>UAE diesel, est. Jun 2026</small></div>
+      <div class="field assume"><label><span class="tag a">A</span> Fuel economy (L/100km)</label><input type="number" id="a_econ" value="12" step="0.5" oninput="recalc()"><small>Delivery van average</small></div>
+      <div class="field assume"><label><span class="tag a">A</span> Avg road speed (km/h)</label><input type="number" id="a_speed" value="70" step="5" oninput="recalc()"><small>Drives ETA estimates</small></div>
+      <div class="field assume"><label><span class="tag a">A</span> Service time / stop (min)</label><input type="number" id="a_service" value="5" step="1" oninput="recalc()"><small>Drop-off + handover</small></div>
+      <div class="field assume"><label><span class="tag a">A</span> Prep time / meal (min)</label><input type="number" id="a_prep" value="4.9" step="0.1" oninput="recalc()"><small>Kitchen throughput</small></div>
+      <div class="field assume"><label><span class="tag a">A</span> On-time target (%)</label><input type="number" id="a_ontime" value="90" step="1" oninput="recalc()"><small>Launch gate</small></div>
+    </div>
+  </section>
+
+  <!-- B. DISPATCH TIME -->
+  <section id="dispatch">
+    <div class="sec-head"><div class="sec-num">B</div><div><h2>Dispatch Start Time <span class="tag i">you choose</span></h2><p>Pick when each route leaves HQ — all stop ETAs recalculate</p></div></div>
+    <div class="grid g2">
+      <div class="field input"><label><span class="tag i">IN</span> Route A — North · CBA-VH-001 / CBA-DR-001</label><input type="time" id="startA" value="09:00" oninput="recalc()"><small>Serves UAQ · Ajman · Sharjah · RAK · Fujairah</small></div>
+      <div class="field input"><label><span class="tag i">IN</span> Route B — South · CBA-VH-002 / CBA-DR-002</label><input type="time" id="startB" value="09:00" oninput="recalc()"><small>Serves Dubai · Abu Dhabi</small></div>
+    </div>
+    <div class="kpi-grid" style="margin-top:16px">
+      <div class="kpi"><div class="v" id="retA">—</div><div class="l">Route A est. return</div></div>
+      <div class="kpi"><div class="v" id="retB">—</div><div class="l">Route B est. return</div></div>
+      <div class="kpi"><div class="v" id="durA">—</div><div class="l">Route A duration</div></div>
+      <div class="kpi"><div class="v" id="durB">—</div><div class="l">Route B duration</div></div>
+    </div>
+  </section>
+
+  <!-- C. ROUTE A TRACKING -->
+  <section id="routeA">
+    <div class="sec-head"><div class="sec-num">C</div><div><h2>Route A Tracking — North</h2><p>ETA auto from dispatch time · enter actual arrival to track on-time</p></div></div>
+    <div class="tbl-scroll"><table id="tblA">
+      <thead><tr>
+        <th>#</th><th>Customer</th><th>Area</th>
+        <th class="colhead-a">Leg km (A)</th><th class="colhead-a">ETA (calc)</th>
+        <th class="colhead-i">Actual arrival (IN)</th><th>Status</th>
+      </tr></thead>
+      <tbody><!-- JS fills --></tbody>
+    </table></div>
+  </section>
+
+  <!-- D. ROUTE B TRACKING -->
+  <section id="routeB">
+    <div class="sec-head"><div class="sec-num">D</div><div><h2>Route B Tracking — South</h2><p>ETA auto from dispatch time · enter actual arrival to track on-time</p></div></div>
+    <div class="tbl-scroll"><table id="tblB">
+      <thead><tr>
+        <th>#</th><th>Customer</th><th>Area</th>
+        <th class="colhead-a">Leg km (A)</th><th class="colhead-a">ETA (calc)</th>
+        <th class="colhead-i">Actual arrival (IN)</th><th>Status</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table></div>
+  </section>
+
+  <!-- E. FUEL -->
+  <section id="fuel">
+    <div class="sec-head"><div class="sec-num">E</div><div><h2>Fuel Tracking &amp; Cost</h2><p>Planned km pre-filled · override with actual odometer km, fuel cost auto-calcs</p></div></div>
+    <div class="tbl-scroll"><table id="tblF">
+      <thead><tr>
+        <th>Vehicle</th><th>Route</th>
+        <th class="colhead-i">Actual km (IN)</th>
+        <th class="colhead-a">Fuel L (calc)</th><th class="colhead-a">Cost AED (calc)</th><th class="colhead-a">L/100km</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>CBA-VH-001</td><td>A · North</td><td><input type="number" id="kmA" value="271" oninput="recalc()"></td><td class="calc" id="fLA">—</td><td class="calc" id="fCA">—</td><td class="calc">var</td></tr>
+        <tr><td>CBA-VH-002</td><td>B · South</td><td><input type="number" id="kmB" value="311" oninput="recalc()"></td><td class="calc" id="fLB">—</td><td class="calc" id="fCB">—</td><td class="calc">var</td></tr>
+      </tbody>
+    </table></div>
+    <div class="kpi-grid" style="margin-top:16px">
+      <div class="kpi"><div class="v" id="kmTot">—</div><div class="l">Total km</div></div>
+      <div class="kpi"><div class="v" id="fuelTot">—</div><div class="l">Total fuel (L)</div></div>
+      <div class="kpi"><div class="v" id="costTot">—</div><div class="l">Total fuel cost</div></div>
+      <div class="kpi"><div class="v" id="costPer">—</div><div class="l">Cost / delivery</div></div>
+    </div>
+  </section>
+
+  <!-- F. QC -->
+  <section id="qc">
+    <div class="sec-head"><div class="sec-num">F</div><div><h2>Quality Control Input</h2><p>Enter pass/fail counts — pass % auto-calcs</p></div></div>
+    <div class="grid g3">
+      <div class="field input"><label><span class="tag i">IN</span> Total QC checks</label><input type="number" id="qc_total" value="75" oninput="recalc()"></div>
+      <div class="field input"><label><span class="tag i">IN</span> Passed</label><input type="number" id="qc_pass" value="73" oninput="recalc()"></div>
+      <div class="field"><label><span class="tag" style="background:#0f7a52;color:#fff">CALC</span> Pass rate</label><input id="qc_rate" value="—" readonly style="background:#eef3ef;color:#0a4d34"></div>
+    </div>
+  </section>
+
+  <!-- G. LIVE KPI -->
+  <section id="kpis">
+    <div class="sec-head"><div class="sec-num">G</div><div><h2>Live Executive KPIs</h2><p>Auto-computed from everything above</p></div></div>
+    <div class="overall" style="margin-bottom:22px">
+      <div class="ring" id="ring" style="--p:0"><div class="rv"><b id="overallV">—</b><small>/ 100</small></div></div>
+      <div>
+        <div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:700">Overall Readiness</div>
+        <div class="rating" id="ratingV">—</div>
+        <p style="margin:8px 0 0;color:var(--muted);font-size:13px;max-width:420px" id="ratingNote"></p>
+      </div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="v" id="kDeliv">—</div><div class="l">Delivery (on-time)</div></div>
+      <div class="kpi"><div class="v" id="kQual">—</div><div class="l">Quality (QC)</div></div>
+      <div class="kpi"><div class="v" id="kCost">—</div><div class="l">Cost efficiency</div></div>
+      <div class="kpi"><div class="v" id="kKitchen">—</div><div class="l">Kitchen</div></div>
+    </div>
+  </section>
+
+</div>
+
+<footer>C BY AI · Live Pilot Tracker · Data saved in this browser · Print any time for PDF</footer>
+
+<div class="toolbar">
+  <button class="b-save" onclick="save()">💾 Save</button>
+  <button class="b-print" onclick="window.print()">🖨️ Print PDF</button>
+  <button class="b-reset" onclick="resetAll()">↺ Reset</button>
+</div>
+<div class="saved" id="savedMsg">✓ Saved</div>
+
+<script>
+// ---- Route data: customers + leg km (sequential from HQ), per Route Optimization ----
+const ROUTES = {
+  A:{ start:'startA', return:95, stops:[
+    {id:'CBA-CUS-001',name:'Aisha Al Marri',area:'UAQ Al Salamah',km:6},
+    {id:'CBA-CUS-002',name:'Omar Hassan',area:'Ajman Corniche',km:20},
+    {id:'CBA-CUS-003',name:'Fatima Khalid',area:'Ajman Al Nuaimiya',km:4},
+    {id:'CBA-CUS-004',name:'Yousef Ali',area:'Sharjah Al Majaz',km:18},
+    {id:'CBA-CUS-005',name:'Mariam Saeed',area:'Sharjah Al Nahda',km:6},
+    {id:'CBA-CUS-007',name:'Noura Abdullah',area:'RAK Al Hamra',km:40},
+    {id:'CBA-CUS-006',name:'Khalid Rashid',area:'RAK Al Nakheel',km:12},
+    {id:'CBA-CUS-008',name:'Hamad Sultan',area:'Fujairah City',km:70},
+  ]},
+  B:{ start:'startB', return:130, stops:[
+    {id:'CBA-CUS-010',name:'Saif Majid',area:'Dubai Deira',km:55},
+    {id:'CBA-CUS-012',name:'Rashid Juma',area:'Dubai Business Bay',km:12},
+    {id:'CBA-CUS-011',name:'Hessa Obaid',area:'Dubai Al Barsha',km:10},
+    {id:'CBA-CUS-009',name:'Layla Ahmed',area:'Dubai Marina',km:8},
+    {id:'CBA-CUS-015',name:'Sara Nasser',area:'AD Yas Island',km:50},
+    {id:'CBA-CUS-014',name:'Mohammed Tariq',area:'AD Al Reem',km:28},
+    {id:'CBA-CUS-013',name:'Amna Salem',area:'AD Khalifa City',km:18},
+  ]},
+};
+
+const $=id=>document.getElementById(id);
+const num=id=>parseFloat($(id).value)||0;
+function pad(n){return String(n).padStart(2,'0');}
+function minToTime(baseMin){ baseMin=Math.round(baseMin); const h=Math.floor(baseMin/60)%24, m=baseMin%60; return pad(h)+':'+pad(m); }
+function timeToMin(t){ if(!t)return 0; const [h,m]=t.split(':').map(Number); return h*60+m; }
+
+// Build route tables once
+function buildTable(key){
+  const r=ROUTES[key], tb=$('tbl'+key).querySelector('tbody');
+  tb.innerHTML = r.stops.map((s,i)=>`
+    <tr data-route="${key}" data-i="${i}">
+      <td>${i+1}</td><td>${s.id}<br><small>${s.name}</small></td><td>${s.area}</td>
+      <td>${s.km}</td>
+      <td class="eta" id="eta_${key}_${i}">—</td>
+      <td><input type="time" class="actual" data-r="${key}" data-i="${i}" oninput="recalc()"></td>
+      <td id="st_${key}_${i}"><span class="badge b-pend">Pending</span></td>
+    </tr>`).join('');
+}
+buildTable('A'); buildTable('B');
+
+function recalc(){
+  const speed=num('a_speed'), service=num('a_service');
+  const price=num('a_price'), econ=num('a_econ');
+  let onTimeCount=0, withActual=0, totalStops=0;
+
+  ['A','B'].forEach(key=>{
+    const r=ROUTES[key];
+    let startMin=timeToMin($(r.start).value);
+    let cum=startMin, cumKm=0;
+    r.stops.forEach((s,i)=>{
+      cumKm+=s.km;
+      cum += s.km/speed*60;        // drive leg
+      const etaMin=cum;
+      $('eta_'+key+'_'+i).textContent=minToTime(etaMin);
+      cum += service;              // handover before next leg
+      totalStops++;
+      // status from actual
+      const inp=document.querySelector(`.actual[data-r="${key}"][data-i="${i}"]`);
+      const stCell=$('st_'+key+'_'+i);
+      if(inp && inp.value){
+        withActual++;
+        const aMin=timeToMin(inp.value);
+        if(aMin<=etaMin+10){ onTimeCount++; stCell.innerHTML='<span class="badge b-ok">On-time</span>'; }
+        else stCell.innerHTML='<span class="badge b-late">Late +'+(Math.round(aMin-etaMin))+'m</span>';
+      } else stCell.innerHTML='<span class="badge b-pend">Pending</span>';
+    });
+    // return
+    const retMin=cum - service + r.return/speed*60;
+    $('ret'+key).textContent=minToTime(retMin);
+    $('dur'+key).textContent=Math.round((retMin-startMin))+' min';
+  });
+
+  // Fuel
+  const kmA=num('kmA'), kmB=num('kmB'), kmTot=kmA+kmB;
+  const fLA=kmA*econ/100, fLB=kmB*econ/100, fL=fLA+fLB;
+  const fCA=fLA*price, fCB=fLB*price, fC=fCA+fCB;
+  $('fLA').textContent=fLA.toFixed(1); $('fLB').textContent=fLB.toFixed(1);
+  $('fCA').textContent=fCA.toFixed(2); $('fCB').textContent=fCB.toFixed(2);
+  $('kmTot').textContent=kmTot+' km'; $('fuelTot').textContent=fL.toFixed(1)+' L';
+  $('costTot').textContent='AED '+fC.toFixed(2);
+  const deliveries=totalStops||1;
+  const costPer=fC/deliveries;
+  $('costPer').textContent='AED '+costPer.toFixed(2);
+
+  // QC
+  const qt=num('qc_total'), qp=num('qc_pass');
+  const qcRate=qt?qp/qt*100:0;
+  $('qc_rate').value=qcRate.toFixed(1)+'%';
+
+  // ---- KPI scores ----
+  // Delivery: on-time % vs entered actuals (if none entered, show target baseline 93)
+  const ontimePct = withActual? onTimeCount/withActual*100 : 93.3;
+  const kDeliv=Math.round(Math.min(100, ontimePct));
+  // Quality from QC
+  const kQual=Math.round(Math.min(100,qcRate));
+  // Cost efficiency: AED10/delivery=100, scales down; AED20=0
+  const kCost=Math.round(Math.max(0,Math.min(100,(20-costPer)/10*100)));
+  // Kitchen: fixed from pilot prep (97.8 baseline) lightly tied to prep time assumption
+  const prep=num('a_prep'); const kKitchen=Math.round(Math.max(60,Math.min(100,100-(prep-4.9)*4)));
+
+  $('kDeliv').textContent=kDeliv; $('kQual').textContent=kQual;
+  $('kCost').textContent=kCost; $('kKitchen').textContent=kKitchen;
+
+  const overall=Math.round((kDeliv+kQual+kCost+kKitchen)/4);
+  $('overallV').textContent=overall;
+  $('ring').style.setProperty('--p',overall);
+  let rating,note,col;
+  if(overall<60){rating='🔴 Not Ready';col='#c0392b';note='Critical gaps — do not launch.';}
+  else if(overall<75){rating='🟠 Pilot Only';col='#d98a14';note='Run more pilots before any launch.';}
+  else if(overall<90){rating='🟡 Ready with Improvements';col='#c9a227';note='Close remaining gaps before full launch.';}
+  else {rating='🟢 Launch Ready';col='#1f9d57';note='All systems within target — cleared to launch.';}
+  $('ratingV').textContent=rating; $('ratingV').style.color=col; $('ratingNote').textContent=note;
+}
+
+// ---- Persistence ----
+function allInputs(){ return document.querySelectorAll('input'); }
+function save(){
+  const data={};
+  allInputs().forEach(el=>{ if(el.id) data[el.id]=el.value; });
+  document.querySelectorAll('.actual').forEach(el=>{ data['act_'+el.dataset.r+'_'+el.dataset.i]=el.value; });
+  localStorage.setItem('cbyai_tracker',JSON.stringify(data));
+  const m=$('savedMsg'); m.classList.add('show'); setTimeout(()=>m.classList.remove('show'),1400);
+}
+function load(){
+  const raw=localStorage.getItem('cbyai_tracker'); if(!raw)return;
+  const data=JSON.parse(raw);
+  allInputs().forEach(el=>{ if(el.id && data[el.id]!==undefined) el.value=data[el.id]; });
+  document.querySelectorAll('.actual').forEach(el=>{ const k='act_'+el.dataset.r+'_'+el.dataset.i; if(data[k]!==undefined) el.value=data[k]; });
+}
+function resetAll(){ if(confirm('Clear all entered data and reset to defaults?')){ localStorage.removeItem('cbyai_tracker'); location.reload(); } }
+
+// auto-save on any change
+document.addEventListener('input', ()=>{ clearTimeout(window._t); window._t=setTimeout(save,800); });
+
+load(); recalc();
+</script>
+</body>
+</html>

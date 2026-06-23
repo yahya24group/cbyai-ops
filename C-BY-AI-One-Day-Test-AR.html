@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C BY AI — دليل اختبار يوم واحد للتجربة</title>
+<style>
+  :root{
+    --bg:#f4f6f4;--surface:#fff;--ink:#11211a;--muted:#5c6b62;--line:#e2e8e2;
+    --brand:#0f7a52;--brand-soft:#e6f4ee;--brand-deep:#0a4d34;
+    --red:#c0392b;--amber:#d98a14;--green:#1f9d57;--blue:#1c4e8a;
+    --shadow:0 1px 2px rgba(16,40,30,.06),0 8px 24px rgba(16,40,30,.08);
+    --radius:16px;--maxw:1040px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-padding-top:66px}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI","Tahoma",system-ui,sans-serif;line-height:1.6}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+  .topnav{position:sticky;top:0;z-index:100;background:rgba(8,42,28,.96);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.1);box-shadow:0 4px 18px rgba(0,0,0,.18)}
+  .nav-inner{max-width:1040px;margin:0 auto;padding:0 20px;height:54px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .nav-brand{display:inline-flex;align-items:center;gap:9px;color:#9be7c4;font-weight:800;font-size:14px;text-decoration:none;white-space:nowrap}
+  .nav-brand b{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#1ec77f,#0f7a52);display:grid;place-items:center;font-size:14px}
+  .nav-links{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .nav-links a{color:#cfe9da;text-decoration:none;font-weight:700;font-size:13.5px;padding:8px 13px;border-radius:9px;transition:.15s;white-space:nowrap}
+  .nav-links a:hover{background:rgba(255,255,255,.1);color:#fff}
+  .nav-links a.active{background:linear-gradient(135deg,#1ec77f,#0f7a52);color:#fff;box-shadow:0 4px 14px rgba(30,199,127,.35)}
+  .nav-links a.lang{border:1px solid rgba(255,255,255,.25);color:#9be7c4}
+  @media print{.topnav{display:none}}
+  @media(max-width:560px){.nav-brand span{display:none}.nav-inner{height:auto;padding:8px 14px;flex-wrap:wrap}}
+
+  .hero{background:linear-gradient(160deg,var(--brand-deep),#06301f);color:#eafaf2;padding:40px 0 64px;position:relative;overflow:hidden}
+  .hero:after{content:"";position:absolute;inset:0;opacity:.06;background-image:radial-gradient(circle,#fff 1px,transparent 1.4px);background-size:22px 22px}
+  .brand-mark{display:inline-flex;align-items:center;gap:12px;font-weight:800;font-size:13px;color:#9be7c4}
+  .brand-dot{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#1ec77f,#0f7a52);display:grid;place-items:center;font-size:17px}
+  h1{font-size:clamp(26px,3.6vw,44px);margin:14px 0 6px;font-weight:800;letter-spacing:-1px}
+  .sub{color:#b9ddcb;font-size:15px;max-width:640px}
+  .datebar{display:flex;gap:14px;flex-wrap:wrap;margin-top:18px;align-items:center}
+  .datebar label{font-size:12px;color:#9be7c4;font-weight:700;display:flex;flex-direction:column;gap:5px}
+  .datebar input{font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.12);color:#fff;border-radius:9px;padding:8px 11px;font-family:inherit}
+
+  .progwrap{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:18px 22px;margin:-40px 0 26px;position:relative;z-index:2;display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center}
+  .progwrap .big{font-size:34px;font-weight:800;color:var(--brand-deep);letter-spacing:-1px;line-height:1}
+  .progwrap .big small{font-size:14px;color:var(--muted);font-weight:700}
+  .track{height:16px;background:#eef3ef;border-radius:999px;overflow:hidden}
+  .fill{height:100%;background:linear-gradient(90deg,#1ec77f,#0f7a52);border-radius:999px;width:0;transition:.3s}
+  .verdict{font-size:17px;font-weight:800;text-align:left;white-space:nowrap}
+  .vcount{font-size:12px;color:var(--muted);font-weight:700;margin-top:4px}
+
+  .phase{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin:0 0 20px}
+  .ph-head{display:flex;align-items:center;gap:15px;margin-bottom:16px;padding-bottom:13px;border-bottom:2px solid var(--brand-soft)}
+  .timepill{background:linear-gradient(135deg,#1ec77f,#0f7a52);color:#fff;font-weight:800;font-size:15px;padding:9px 14px;border-radius:11px;white-space:nowrap;flex:none}
+  .ph-head h2{margin:0;font-size:19px;font-weight:800}
+  .ph-head .mods{margin:3px 0 0;font-size:12px;color:var(--muted);font-weight:600}
+  .ph-head .mods b{color:var(--brand);background:var(--brand-soft);padding:1px 7px;border-radius:6px;margin-left:4px;font-weight:700}
+
+  table{border-collapse:collapse;width:100%;font-size:13.5px}
+  .tbl-scroll{overflow-x:auto;border-radius:12px;border:1px solid var(--line)}
+  thead th{background:var(--brand-deep);color:#eafaf2;text-align:right;padding:9px 11px;font-weight:700;font-size:11px;white-space:nowrap}
+  tbody td{padding:9px 11px;border-top:1px solid var(--line);vertical-align:top}
+  tbody tr:nth-child(even){background:#fafcfa}
+  .exp{color:var(--muted)}
+  td.res{white-space:nowrap}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .seg button{border:none;background:#fff;font-family:inherit;font-size:12px;font-weight:800;padding:6px 11px;cursor:pointer;color:var(--muted)}
+  .seg button+button{border-right:1px solid var(--line)}
+  .seg button.on.pass{background:var(--green);color:#fff}
+  .seg button.on.fail{background:var(--red);color:#fff}
+  .seg button.on.na{background:#9aa39d;color:#fff}
+  td input.note{width:100%;min-width:120px;border:1px solid #eed9a8;background:#fcf3df;border-radius:7px;padding:6px 8px;font-family:inherit;font-size:12.5px}
+  td input.note:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-soft)}
+  .ipt{width:90px;border:1px solid #eed9a8;background:#fcf3df;border-radius:7px;padding:6px 8px;font-family:inherit;font-size:13px;font-weight:700}
+
+  .signoff{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:6px}
+  .field{display:flex;flex-direction:column;gap:5px;background:#fcf3df;border:1px solid #eed9a8;border-radius:12px;padding:12px 14px}
+  .field label{font-size:12px;font-weight:800;color:#9a6712}
+  .field input{font-size:14px;font-weight:700;border:1px solid #eed9a8;border-radius:8px;padding:8px 10px;font-family:inherit;background:#fff}
+
+  .toolbar{position:fixed;left:16px;bottom:16px;z-index:50;display:flex;gap:10px}
+  .toolbar button{border:none;color:#fff;font-weight:700;font-size:14px;padding:12px 17px;border-radius:999px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.2);font-family:inherit}
+  .b-print{background:var(--brand)}.b-save{background:var(--blue)}.b-reset{background:#8a8a8a}
+  .saved{position:fixed;right:50%;top:20px;transform:translateX(50%);background:var(--brand-deep);color:#fff;padding:10px 18px;border-radius:999px;font-weight:700;font-size:13px;opacity:0;transition:.3s;z-index:60;pointer-events:none}
+  .saved.show{opacity:1}
+  footer{text-align:center;color:var(--muted);font-size:13px;padding:26px 0 70px}
+  @media print{.toolbar{display:none}body{background:#fff}.phase{break-inside:avoid;box-shadow:none}.seg button{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+
+<nav class="topnav"><div class="nav-inner">
+  <a class="nav-brand" href="C-BY-AI-Pilot-Dashboard-AR.html"><b>🍃</b><span>C BY AI</span></a>
+  <div class="nav-links">
+    <a href="C-BY-AI-Pilot-Dashboard-AR.html">📊 لوحة المعلومات</a>
+    <a href="C-BY-AI-Pilot-Tracker-AR.html">🧮 المتتبع</a>
+    <a href="C-BY-AI-One-Day-Test-AR.html" class="active">✅ اختبار يوم واحد</a>
+    <a href="C-BY-AI-One-Day-Test.html" class="lang">🌐 EN</a>
+  </div>
+</div></nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brand-mark"><span class="brand-dot">🍃</span> C BY AI · اختبار يوم واحد للتجربة</div>
+    <h1>دليل اختبار يوم واحد</h1>
+    <p class="sub">يوم تشغيل كامل من البداية للنهاية. اسلك كل وحدة بالترتيب الزمني. علّم كل نقطة تحقق بـ نجاح / فشل / غير منطبق ودوّن ما حدث. تُحسب نتيجة اليوم مباشرة.</p>
+    <div class="datebar">
+      <label>تاريخ الاختبار <input type="date" id="tdate"></label>
+      <label>قائد الوردية <input type="text" id="lead" placeholder="الاسم"></label>
+      <label>وقت الإرسال <input type="time" id="disp" value="09:00"></label>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="progwrap">
+    <div class="big" id="pctBig">0%<br><small>نقاط ناجحة</small></div>
+    <div class="track"><div class="fill" id="fill"></div></div>
+    <div>
+      <div class="verdict" id="verdict">⚪ لم يبدأ</div>
+      <div class="vcount" id="vcount">0 نجاح · 0 فشل · 0 معلّق</div>
+    </div>
+  </div>
+
+  <div id="phases"></div>
+
+  <!-- التوقيع -->
+  <div class="phase">
+    <div class="ph-head"><span class="timepill">15:00</span><div><h2>الجلسة الختامية والتوقيع</h2><p class="mods"><b>و11</b> المؤشرات التنفيذية <b>و12</b> جاهزية الإطلاق</p></div></div>
+    <div class="signoff">
+      <div class="field"><label>إجمالي التسليمات المكتملة</label><input type="text" id="so_deliv" placeholder="س / 15"></div>
+      <div class="field"><label>نسبة الالتزام بالوقت</label><input type="text" id="so_ontime" placeholder="%"></div>
+      <div class="field"><label>نسبة نجاح الجودة</label><input type="text" id="so_qc" placeholder="%"></div>
+      <div class="field"><label>تكلفة الوقود/تسليم (درهم)</label><input type="text" id="so_cost" placeholder="درهم"></div>
+      <div class="field"><label>الحوادث المسجلة</label><input type="text" id="so_inc" placeholder="العدد"></div>
+      <div class="field"><label>قرار اليوم (قرار القائد)</label><input type="text" id="so_verdict" placeholder="مضي / توقف / إعادة اختبار"></div>
+      <div class="field" style="grid-column:1/-1"><label>الملاحظات والإجراءات التصحيحية</label><input type="text" id="so_notes" placeholder="ما يجب إصلاحه قبل التشغيل التالي/الإطلاق"></div>
+      <div class="field"><label>التوقيع</label><input type="text" id="so_sign" placeholder="توقيع القائد"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>C BY AI · دليل اختبار يوم واحد للتجربة · البيانات محفوظة في هذا المتصفح · اطبع كورقة توقيع PDF</footer>
+
+<div class="toolbar">
+  <button class="b-save" onclick="save()">💾 حفظ</button>
+  <button class="b-print" onclick="window.print()">🖨️ طباعة PDF</button>
+  <button class="b-reset" onclick="resetAll()">↺ إعادة تعيين</button>
+</div>
+<div class="saved" id="savedMsg">✓ تم الحفظ</div>
+
+<script>
+const PHASES=[
+ {time:'04:30',title:'بدء تحضير المطبخ',mods:[['و3','إنتاج المطبخ']],checks:[
+   ['الطاقم في الوردية (الهدف 4)','حضور 4 طهاة، المحطات جاهزة'],
+   ['المكونات وسلسلة التبريد','كل مكونات الوجبات والوجبات الخفيفة ضمن المواصفة'],
+   ['بدء إنتاج الوجبات الرئيسية','خطوط فطور/غداء/عشاء تعمل لـ15 عميلاً'],
+ ]},
+ {time:'06:30',title:'فحص الخط المتخصص',mods:[['و2','توزيع الوجبات'],['و3','المطبخ']],checks:[
+   ['خط كيتو/قليل الكربوهيدرات/نباتي (4 عملاء)','مطابقة النظام الغذائي الصحيح للعميل'],
+   ['الالتزام بأهداف السعرات (1400–2200)','الحصص تطابق السعرات المخصصة'],
+   ['الخط المتخصص يواكب الإيقاع','لا تباطؤ يتجاوز 20% مقابل الخط القياسي'],
+ ]},
+ {time:'08:10',title:'اكتمال المطبخ',mods:[['و3','المطبخ'],['و4','الوجبات الخفيفة']],checks:[
+   ['إنتاج 45 وجبة رئيسية','المخطط 45، أدخل المنتَج','45'],
+   ['30 وجبة خفيفة + 15 مشروباً','اكتملت دفعة CBA-SB-001','30/15'],
+   ['تبريد المشروبات','سموذي/لبن مُعبّأة باردة للمسارات البعيدة'],
+ ]},
+ {time:'08:15',title:'فحص مراقبة الجودة',mods:[['و5','مراقبة الجودة']],checks:[
+   ['الحرارة ≥63°م (وجبات ساخنة)','عينات تجتاز مسبار الحرارة'],
+   ['وزن الحصة ضمن المواصفة','لا نقص أو زيادة في الحصص'],
+   ['إغلاق التغليف ودقة الملصق','الأختام سليمة، الملصقات تطابق التوزيع'],
+   ['وجود تنبيهات الحساسية','ملصقات الحساسية على كل عبوة'],
+   ['حجب الإخفاقات','أي فشل يُعاد طهيه ولا يُرسل'],
+ ]},
+ {time:'08:40',title:'التعبئة وتحميل المسار',mods:[['و6','الإرسال'],['و1','العملاء']],checks:[
+   ['تحميل مركبة المسار أ (8 عملاء)','24 رئيسية + خفيفة في CBA-VH-001'],
+   ['تحميل مركبة المسار ب (7 عملاء)','21 رئيسية + خفيفة في CBA-VH-002'],
+   ['تعيين معرّفات التسليم','CBA-DL-001 ← 015 مربوطة بالمحطات'],
+ ]},
+ {time:'09:00',title:'الإرسال — مغادرة المسارين',mods:[['و6','الإرسال'],['و7','تحسين المسارات']],checks:[
+   ['مغادرة المسار أ في الوقت','CBA-DR-001 يغادر المقر في وقت الإرسال'],
+   ['مغادرة المسار ب في الوقت','CBA-DR-002 يغادر المقر في وقت الإرسال'],
+   ['تحميل ترتيب المحطات المُحسّن','تأكيد تسلسل الجار الأقرب'],
+   ['تسجيل عداد البداية','تسجيل كيلومترات المركبتين','كم'],
+ ]},
+ {time:'09:00–12:50',title:'تسليم المسار أ — شمال',mods:[['و8','أداء السائقين'],['و1','العملاء']],checks:[
+   ['مجموعة أم القيوين/عجمان/الشارقة','تسليم أول 5 محطات'],
+   ['محطات رأس الخيمة','تسليم الحمرا + النخيل'],
+   ['الفجيرة (مسار طويل)','الوصول لـCBA-CUS-008، راقب الازدحام'],
+   ['نسبة التزام المسار أ','≥90% من المحطات ضمن الوصول+10د','%'],
+ ]},
+ {time:'09:00–14:30',title:'تسليم المسار ب — جنوب',mods:[['و8','أداء السائقين'],['و1','العملاء']],checks:[
+   ['مجموعة دبي (4 محطات)','تسليم ديرة/الخليج التجاري/البرشاء/المرسى'],
+   ['مجموعة أبوظبي (3 محطات)','تسليم ياس/الريم/مدينة خليفة'],
+   ['نسبة التزام المسار ب','≥90% من المحطات ضمن الوصول+10د','%'],
+ ]},
+ {time:'طوال اليوم',title:'سجل الوقود',mods:[['و9','استهلاك الوقود']],checks:[
+   ['تسجيل وقود المسار أ','لتر + درهم مُسجّل','لتر'],
+   ['تسجيل وقود المسار ب','لتر + درهم مُسجّل','لتر'],
+   ['التكلفة/تسليم ≤ 13.50 درهم','إجمالي الوقود ÷ التسليمات','درهم'],
+ ]},
+ {time:'طوال اليوم',title:'مراقبة الحوادث',mods:[['و10','إدارة الحوادث']],checks:[
+   ['تسجيل الحوادث بمعرّف','أي مشكلة ← يُفتح CBA-IR-xxx'],
+   ['تعيين الخطورة','تصنيف منخفضة/متوسطة/عالية'],
+   ['المعالجة قبل وصول العميل','هدف صفر عيوب مُرسلة'],
+ ]},
+];
+const $=id=>document.getElementById(id);
+
+function buildPhases(){
+  const host=$('phases');
+  host.innerHTML=PHASES.map((p,pi)=>{
+    const rows=p.checks.map((c,ci)=>{
+      const key=pi+'_'+ci;
+      const inputCol=c[2]!==undefined?`<input class="ipt" data-meas="${key}" placeholder="${c[2]}" oninput="save()">`:'';
+      return `<tr>
+        <td><b>${c[0]}</b>${inputCol?'<br>'+inputCol:''}</td>
+        <td class="exp">${c[1]}</td>
+        <td class="res"><span class="seg" data-key="${key}">
+          <button class="pass" onclick="mark('${key}','pass')">نجاح</button>
+          <button class="fail" onclick="mark('${key}','fail')">فشل</button>
+          <button class="na" onclick="mark('${key}','na')">غ/م</button>
+        </span></td>
+        <td><input class="note" data-note="${key}" placeholder="ملاحظات / فعلي" oninput="save()"></td>
+      </tr>`;
+    }).join('');
+    const mods=p.mods.map(m=>`<b>${m[0]}</b> ${m[1]}`).join(' ');
+    return `<div class="phase">
+      <div class="ph-head"><span class="timepill">${p.time}</span><div><h2>${p.title}</h2><p class="mods">${mods}</p></div></div>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>نقطة التحقق</th><th>المتوقع</th><th>النتيجة</th><th>ملاحظات / فعلي</th></tr></thead>
+        <tbody>${rows}</tbody></table></div>
+    </div>`;
+  }).join('');
+}
+buildPhases();
+
+const state={};
+function mark(key,val){
+  state[key]=state[key]===val?null:val;
+  const seg=document.querySelector(`.seg[data-key="${key}"]`);
+  seg.querySelectorAll('button').forEach(b=>b.classList.remove('on'));
+  if(state[key]){seg.querySelector('.'+state[key]).classList.add('on');}
+  update();save();
+}
+function update(){
+  let total=0,pass=0,fail=0,pending=0;
+  PHASES.forEach((p,pi)=>p.checks.forEach((c,ci)=>{
+    total++;const v=state[pi+'_'+ci];
+    if(v==='pass')pass++;else if(v==='fail')fail++;else if(v==='na'){}else pending++;
+  }));
+  const scored=pass+fail,pct=scored?Math.round(pass/scored*100):0;
+  $('fill').style.width=pct+'%';
+  $('pctBig').innerHTML=pct+'%<br><small>نقاط ناجحة</small>';
+  $('vcount').textContent=`${pass} نجاح · ${fail} فشل · ${pending} معلّق`;
+  let v,col;
+  if(pending===total){v='⚪ لم يبدأ';col='#5c6b62';}
+  else if(pending>0){v='🟡 قيد التنفيذ';col='#c9a227';}
+  else if(fail===0){v='🟢 ناجح — يوم نظيف';col='#1f9d57';}
+  else if(fail<=2){v='🟠 ناجح مع ملاحظات';col='#d98a14';}
+  else{v='🔴 فاشل — إعادة اختبار';col='#c0392b';}
+  $('verdict').textContent=v;$('verdict').style.color=col;
+}
+function save(){
+  const data={state:state};
+  document.querySelectorAll('input').forEach(el=>{
+    if(el.id)data['f_'+el.id]=el.value;
+    if(el.dataset.note!==undefined)data['n_'+el.dataset.note]=el.value;
+    if(el.dataset.meas!==undefined)data['m_'+el.dataset.meas]=el.value;
+  });
+  localStorage.setItem('cbyai_oneday',JSON.stringify(data));
+  const m=$('savedMsg');m.classList.add('show');setTimeout(()=>m.classList.remove('show'),1200);
+}
+function load(){
+  const raw=localStorage.getItem('cbyai_oneday');if(!raw)return;
+  const data=JSON.parse(raw);Object.assign(state,data.state||{});
+  document.querySelectorAll('input').forEach(el=>{
+    if(el.id&&data['f_'+el.id]!==undefined)el.value=data['f_'+el.id];
+    if(el.dataset.note!==undefined&&data['n_'+el.dataset.note]!==undefined)el.value=data['n_'+el.dataset.note];
+    if(el.dataset.meas!==undefined&&data['m_'+el.dataset.meas]!==undefined)el.value=data['m_'+el.dataset.meas];
+  });
+  Object.keys(state).forEach(key=>{
+    if(!state[key])return;
+    const seg=document.querySelector(`.seg[data-key="${key}"]`);
+    if(seg){const b=seg.querySelector('.'+state[key]);if(b)b.classList.add('on');}
+  });
+}
+function resetAll(){if(confirm('مسح كل نتائج الاختبار؟')){localStorage.removeItem('cbyai_oneday');location.reload();}}
+load();update();
+if(!$('tdate').value){$('tdate').value=new Date().toISOString().slice(0,10);}
+</script>
+</body>
+</html>

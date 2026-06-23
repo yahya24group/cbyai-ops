@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C BY AI — متتبع التجربة المباشر</title>
+<style>
+  :root{
+    --bg:#f4f6f4;--surface:#fff;--ink:#11211a;--muted:#5c6b62;--line:#e2e8e2;
+    --brand:#0f7a52;--brand-soft:#e6f4ee;--brand-deep:#0a4d34;
+    --assume:#1c4e8a;--assume-soft:#e7effb;--input:#9a6712;--input-soft:#fcf3df;
+    --red:#c0392b;--amber:#d98a14;--green:#1f9d57;
+    --shadow:0 1px 2px rgba(16,40,30,.06),0 8px 24px rgba(16,40,30,.08);
+    --radius:16px;--maxw:1100px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-padding-top:66px}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI","Tahoma",system-ui,sans-serif;line-height:1.6}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+  .topnav{position:sticky;top:0;z-index:100;background:rgba(8,42,28,.96);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.1);box-shadow:0 4px 18px rgba(0,0,0,.18)}
+  .nav-inner{max-width:1100px;margin:0 auto;padding:0 20px;height:54px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .nav-brand{display:inline-flex;align-items:center;gap:9px;color:#9be7c4;font-weight:800;font-size:14px;text-decoration:none;white-space:nowrap}
+  .nav-brand b{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#1ec77f,#0f7a52);display:grid;place-items:center;font-size:14px}
+  .nav-links{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .nav-links a{color:#cfe9da;text-decoration:none;font-weight:700;font-size:13.5px;padding:8px 13px;border-radius:9px;transition:.15s;white-space:nowrap}
+  .nav-links a:hover{background:rgba(255,255,255,.1);color:#fff}
+  .nav-links a.active{background:linear-gradient(135deg,#1ec77f,#0f7a52);color:#fff;box-shadow:0 4px 14px rgba(30,199,127,.35)}
+  .nav-links a.lang{border:1px solid rgba(255,255,255,.25);color:#9be7c4}
+  @media print{.topnav{display:none}}
+  @media(max-width:560px){.nav-brand span{display:none}.nav-inner{height:auto;padding:8px 14px;flex-wrap:wrap}}
+
+  .hero{background:linear-gradient(160deg,var(--brand-deep),#06301f);color:#eafaf2;padding:40px 0 56px}
+  .brand-mark{display:inline-flex;align-items:center;gap:12px;font-weight:800;font-size:13px;color:#9be7c4}
+  .brand-dot{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#1ec77f,#0f7a52);display:grid;place-items:center;font-size:17px}
+  h1{font-size:clamp(26px,3.5vw,42px);margin:14px 0 6px;font-weight:800;letter-spacing:-1px}
+  .sub{color:#b9ddcb;font-size:15px;max-width:620px}
+
+  .keyrow{display:flex;gap:16px;flex-wrap:wrap;margin:-32px 0 26px;position:relative;z-index:2}
+  .keycard{flex:1;min-width:240px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:16px 18px}
+  .keycard h4{margin:0 0 6px;font-size:13px;display:flex;align-items:center;gap:8px}
+  .swatch{width:14px;height:14px;border-radius:4px;display:inline-block}
+  .keycard p{margin:0;font-size:13px;color:var(--muted)}
+
+  section{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px;margin:0 0 22px}
+  .sec-head{display:flex;align-items:center;gap:13px;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid var(--brand-soft)}
+  .sec-num{width:38px;height:38px;border-radius:11px;flex:none;display:grid;place-items:center;font-weight:800;color:#fff;background:linear-gradient(135deg,#1ec77f,#0f7a52)}
+  .sec-head h2{margin:0;font-size:20px;font-weight:800}
+  .sec-head p{margin:1px 0 0;font-size:13px;color:var(--muted)}
+
+  .grid{display:grid;gap:14px}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .field{display:flex;flex-direction:column;gap:5px;background:#fafcfa;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .field label{font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:7px}
+  .field small{font-size:11px;color:var(--muted)}
+  .field input,.field select{font-size:15px;font-weight:700;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-family:inherit;background:#fff}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
+  .field.assume{background:var(--assume-soft);border-color:#c9dbf3}.field.assume input{border-color:#c9dbf3}.field.assume label{color:var(--assume)}
+  .field.input{background:var(--input-soft);border-color:#eed9a8}.field.input input,.field.input select{border-color:#eed9a8}.field.input label{color:var(--input)}
+  .tag{font-size:9px;font-weight:800;padding:2px 6px;border-radius:5px}
+  .tag.a{background:var(--assume);color:#fff}.tag.i{background:var(--input);color:#fff}
+
+  .tbl-scroll{overflow-x:auto;border-radius:12px;border:1px solid var(--line)}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:640px}
+  thead th{background:var(--brand-deep);color:#eafaf2;text-align:right;padding:10px 11px;font-weight:700;font-size:11px;white-space:nowrap}
+  tbody td{padding:8px 11px;border-top:1px solid var(--line);white-space:nowrap}
+  tbody tr:nth-child(even){background:#fafcfa}
+  .colhead-a{background:var(--assume)!important}.colhead-i{background:var(--input)!important}
+  table input,table select{width:100%;min-width:84px;border:1px solid #eed9a8;background:var(--input-soft);border-radius:7px;padding:6px 8px;font-family:inherit;font-size:13px;font-weight:700}
+  table input:focus,table select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-soft)}
+  .calc{font-weight:800;color:var(--brand-deep)}.eta{font-weight:800;color:var(--assume)}
+  .badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:800}
+  .b-ok{background:#e2f6ea;color:#1f7a45}.b-late{background:#fbe4e1;color:#a02a1d}.b-pend{background:#eef1ef;color:#5c6b62}
+
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:13px}
+  .kpi{background:linear-gradient(160deg,#fff,#f5faf7);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .kpi .v{font-size:30px;font-weight:800;color:var(--brand-deep);letter-spacing:-1px}
+  .kpi .l{font-size:12px;color:var(--muted);font-weight:700;margin-top:2px}
+  .ring{--p:0;width:150px;height:150px;border-radius:50%;flex:none;display:grid;place-items:center;background:conic-gradient(var(--brand) calc(var(--p)*1%),#e7eee9 0);position:relative}
+  .ring:before{content:"";position:absolute;inset:13px;border-radius:50%;background:#fff}
+  .ring .rv{position:relative;text-align:center}
+  .ring .rv b{font-size:38px;font-weight:800;color:var(--brand-deep);display:block;line-height:1}
+  .ring .rv small{font-size:11px;color:var(--muted);font-weight:700}
+  .overall{display:flex;gap:26px;align-items:center;flex-wrap:wrap}
+  .rating{font-size:19px;font-weight:800;margin-top:8px}
+
+  .toolbar{position:fixed;left:16px;bottom:16px;z-index:50;display:flex;gap:10px}
+  .toolbar button{border:none;color:#fff;font-weight:700;font-size:14px;padding:12px 17px;border-radius:999px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.2);font-family:inherit}
+  .b-print{background:var(--brand)}.b-save{background:var(--assume)}.b-reset{background:#8a8a8a}
+  .saved{position:fixed;right:50%;top:20px;transform:translateX(50%);background:var(--brand-deep);color:#fff;padding:10px 18px;border-radius:999px;font-weight:700;font-size:13px;opacity:0;transition:.3s;z-index:60;pointer-events:none}
+  .saved.show{opacity:1}
+  footer{text-align:center;color:var(--muted);font-size:13px;padding:26px 0 70px}
+  @media print{.toolbar,.toolbar *{display:none}body{background:#fff}section{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+
+<nav class="topnav"><div class="nav-inner">
+  <a class="nav-brand" href="C-BY-AI-Pilot-Dashboard-AR.html"><b>🍃</b><span>C BY AI</span></a>
+  <div class="nav-links">
+    <a href="C-BY-AI-Pilot-Dashboard-AR.html">📊 لوحة المعلومات</a>
+    <a href="C-BY-AI-Pilot-Tracker-AR.html" class="active">🧮 المتتبع</a>
+    <a href="C-BY-AI-One-Day-Test-AR.html">✅ اختبار يوم واحد</a>
+    <a href="C-BY-AI-Pilot-Tracker.html" class="lang">🌐 EN</a>
+  </div>
+</div></nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brand-mark"><span class="brand-dot">🍃</span> C BY AI · متتبع التجربة المباشر</div>
+    <h1>متتبع وحاسبة العمليات</h1>
+    <p class="sub">حدّد افتراضاتك، اختر وقت الإرسال، وأدخل الأرقام الفعلية أثناء سير التجربة. كل شيء يُعاد حسابه مباشرة.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="keyrow">
+    <div class="keycard"><h4><span class="swatch" style="background:#1c4e8a"></span> افتراض</h4><p>تقدير مُسبق قابل للتعديل — غيّره إذا اختلف معدلك الفعلي (سعر الوقود، السرعة، وقت التحضير).</p></div>
+    <div class="keycard"><h4><span class="swatch" style="background:#9a6712"></span> إدخال</h4><p>تُدخله مباشرة أثناء التجربة — الأوقات الفعلية، الكيلومترات، الوقود، أعداد الجودة.</p></div>
+    <div class="keycard"><h4><span class="swatch" style="background:#0f7a52"></span> محسوب</h4><p>يُحسب تلقائياً من الافتراضات + الإدخالات. لا تكتب هنا — يتحدّث وحده.</p></div>
+  </div>
+
+  <!-- A الافتراضات -->
+  <section id="assume">
+    <div class="sec-head"><div class="sec-num">أ</div><div><h2>الافتراضات <span class="tag a">عدّل عند الحاجة</span></h2><p>ثوابت تُستخدم في كل الحسابات أدناه</p></div></div>
+    <div class="grid g3">
+      <div class="field assume"><label><span class="tag a">A</span> سعر الوقود (درهم/لتر)</label><input type="number" id="a_price" value="2.90" step="0.05" oninput="recalc()"><small>ديزل الإمارات، تقدير يونيو 2026</small></div>
+      <div class="field assume"><label><span class="tag a">A</span> استهلاك الوقود (لتر/100كم)</label><input type="number" id="a_econ" value="12" step="0.5" oninput="recalc()"><small>متوسط مركبة التوصيل</small></div>
+      <div class="field assume"><label><span class="tag a">A</span> متوسط السرعة (كم/س)</label><input type="number" id="a_speed" value="70" step="5" oninput="recalc()"><small>يحدد تقديرات الوصول</small></div>
+      <div class="field assume"><label><span class="tag a">A</span> وقت الخدمة/محطة (دقيقة)</label><input type="number" id="a_service" value="5" step="1" oninput="recalc()"><small>التسليم والمناولة</small></div>
+      <div class="field assume"><label><span class="tag a">A</span> وقت التحضير/وجبة (دقيقة)</label><input type="number" id="a_prep" value="4.9" step="0.1" oninput="recalc()"><small>إنتاجية المطبخ</small></div>
+      <div class="field assume"><label><span class="tag a">A</span> هدف الالتزام بالوقت (%)</label><input type="number" id="a_ontime" value="90" step="1" oninput="recalc()"><small>بوابة الإطلاق</small></div>
+    </div>
+  </section>
+
+  <!-- B وقت الإرسال -->
+  <section id="dispatch">
+    <div class="sec-head"><div class="sec-num">ب</div><div><h2>وقت بدء الإرسال <span class="tag i">تختاره أنت</span></h2><p>اختر وقت مغادرة كل مسار للمقر — تُعاد جميع أوقات الوصول</p></div></div>
+    <div class="grid g2">
+      <div class="field input"><label><span class="tag i">IN</span> المسار أ — شمال · CBA-VH-001 / CBA-DR-001</label><input type="time" id="startA" value="09:00" oninput="recalc()"><small>يخدم أم القيوين · عجمان · الشارقة · رأس الخيمة · الفجيرة</small></div>
+      <div class="field input"><label><span class="tag i">IN</span> المسار ب — جنوب · CBA-VH-002 / CBA-DR-002</label><input type="time" id="startB" value="09:00" oninput="recalc()"><small>يخدم دبي · أبوظبي</small></div>
+    </div>
+    <div class="kpi-grid" style="margin-top:16px">
+      <div class="kpi"><div class="v" id="retA">—</div><div class="l">العودة المقدّرة للمسار أ</div></div>
+      <div class="kpi"><div class="v" id="retB">—</div><div class="l">العودة المقدّرة للمسار ب</div></div>
+      <div class="kpi"><div class="v" id="durA">—</div><div class="l">مدة المسار أ</div></div>
+      <div class="kpi"><div class="v" id="durB">—</div><div class="l">مدة المسار ب</div></div>
+    </div>
+  </section>
+
+  <!-- C المسار أ -->
+  <section id="routeA">
+    <div class="sec-head"><div class="sec-num">ج</div><div><h2>تتبع المسار أ — شمال</h2><p>الوصول يُحسب تلقائياً من وقت الإرسال · أدخل الوصول الفعلي لتتبع الالتزام</p></div></div>
+    <div class="tbl-scroll"><table id="tblA">
+      <thead><tr><th>#</th><th>العميل</th><th>المنطقة</th><th class="colhead-a">المسافة كم (افتراض)</th><th class="colhead-a">الوصول المتوقع (محسوب)</th><th class="colhead-i">الوصول الفعلي (إدخال)</th><th>الحالة</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+  </section>
+
+  <!-- D المسار ب -->
+  <section id="routeB">
+    <div class="sec-head"><div class="sec-num">د</div><div><h2>تتبع المسار ب — جنوب</h2><p>الوصول يُحسب تلقائياً من وقت الإرسال · أدخل الوصول الفعلي لتتبع الالتزام</p></div></div>
+    <div class="tbl-scroll"><table id="tblB">
+      <thead><tr><th>#</th><th>العميل</th><th>المنطقة</th><th class="colhead-a">المسافة كم (افتراض)</th><th class="colhead-a">الوصول المتوقع (محسوب)</th><th class="colhead-i">الوصول الفعلي (إدخال)</th><th>الحالة</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+  </section>
+
+  <!-- E الوقود -->
+  <section id="fuel">
+    <div class="sec-head"><div class="sec-num">هـ</div><div><h2>تتبع الوقود والتكلفة</h2><p>الكيلومترات المخططة مُعبّأة مسبقاً · استبدلها بالعداد الفعلي وتُحسب التكلفة تلقائياً</p></div></div>
+    <div class="tbl-scroll"><table id="tblF">
+      <thead><tr><th>المركبة</th><th>المسار</th><th class="colhead-i">كم فعلية (إدخال)</th><th class="colhead-a">لتر (محسوب)</th><th class="colhead-a">درهم (محسوب)</th><th class="colhead-a">لتر/100كم</th></tr></thead>
+      <tbody>
+        <tr><td>CBA-VH-001</td><td>أ · شمال</td><td><input type="number" id="kmA" value="271" oninput="recalc()"></td><td class="calc" id="fLA">—</td><td class="calc" id="fCA">—</td><td class="calc">متغير</td></tr>
+        <tr><td>CBA-VH-002</td><td>ب · جنوب</td><td><input type="number" id="kmB" value="311" oninput="recalc()"></td><td class="calc" id="fLB">—</td><td class="calc" id="fCB">—</td><td class="calc">متغير</td></tr>
+      </tbody>
+    </table></div>
+    <div class="kpi-grid" style="margin-top:16px">
+      <div class="kpi"><div class="v" id="kmTot">—</div><div class="l">إجمالي الكيلومترات</div></div>
+      <div class="kpi"><div class="v" id="fuelTot">—</div><div class="l">إجمالي الوقود (لتر)</div></div>
+      <div class="kpi"><div class="v" id="costTot">—</div><div class="l">إجمالي تكلفة الوقود</div></div>
+      <div class="kpi"><div class="v" id="costPer">—</div><div class="l">التكلفة/تسليم</div></div>
+    </div>
+  </section>
+
+  <!-- F الجودة -->
+  <section id="qc">
+    <div class="sec-head"><div class="sec-num">و</div><div><h2>إدخال مراقبة الجودة</h2><p>أدخل أعداد النجاح/الفشل — تُحسب النسبة تلقائياً</p></div></div>
+    <div class="grid g3">
+      <div class="field input"><label><span class="tag i">IN</span> إجمالي الفحوصات</label><input type="number" id="qc_total" value="75" oninput="recalc()"></div>
+      <div class="field input"><label><span class="tag i">IN</span> الناجحة</label><input type="number" id="qc_pass" value="73" oninput="recalc()"></div>
+      <div class="field"><label><span class="tag" style="background:#0f7a52;color:#fff">محسوب</span> نسبة النجاح</label><input id="qc_rate" value="—" readonly style="background:#eef3ef;color:#0a4d34"></div>
+    </div>
+  </section>
+
+  <!-- G المؤشرات -->
+  <section id="kpis">
+    <div class="sec-head"><div class="sec-num">ز</div><div><h2>المؤشرات التنفيذية المباشرة</h2><p>تُحسب تلقائياً من كل ما سبق</p></div></div>
+    <div class="overall" style="margin-bottom:22px">
+      <div class="ring" id="ring" style="--p:0"><div class="rv"><b id="overallV">—</b><small>/ 100</small></div></div>
+      <div>
+        <div style="font-size:12px;color:var(--muted);font-weight:700">الجاهزية الإجمالية</div>
+        <div class="rating" id="ratingV">—</div>
+        <p style="margin:8px 0 0;color:var(--muted);font-size:13px;max-width:420px" id="ratingNote"></p>
+      </div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="v" id="kDeliv">—</div><div class="l">التسليم (الالتزام بالوقت)</div></div>
+      <div class="kpi"><div class="v" id="kQual">—</div><div class="l">الجودة</div></div>
+      <div class="kpi"><div class="v" id="kCost">—</div><div class="l">كفاءة التكلفة</div></div>
+      <div class="kpi"><div class="v" id="kKitchen">—</div><div class="l">المطبخ</div></div>
+    </div>
+  </section>
+
+</div>
+
+<footer>C BY AI · متتبع التجربة المباشر · البيانات محفوظة في هذا المتصفح · اطبع في أي وقت كـ PDF</footer>
+
+<div class="toolbar">
+  <button class="b-save" onclick="save()">💾 حفظ</button>
+  <button class="b-print" onclick="window.print()">🖨️ طباعة PDF</button>
+  <button class="b-reset" onclick="resetAll()">↺ إعادة تعيين</button>
+</div>
+<div class="saved" id="savedMsg">✓ تم الحفظ</div>
+
+<script>
+const ROUTES={
+  A:{start:'startA',return:95,stops:[
+    {id:'CBA-CUS-001',name:'عائشة المري',area:'أم القيوين السلمة',km:6},
+    {id:'CBA-CUS-002',name:'عمر حسن',area:'عجمان الكورنيش',km:20},
+    {id:'CBA-CUS-003',name:'فاطمة خالد',area:'عجمان النعيمية',km:4},
+    {id:'CBA-CUS-004',name:'يوسف علي',area:'الشارقة المجاز',km:18},
+    {id:'CBA-CUS-005',name:'مريم سعيد',area:'الشارقة النهضة',km:6},
+    {id:'CBA-CUS-007',name:'نورة عبدالله',area:'رأس الخيمة الحمرا',km:40},
+    {id:'CBA-CUS-006',name:'خالد راشد',area:'رأس الخيمة النخيل',km:12},
+    {id:'CBA-CUS-008',name:'حمد سلطان',area:'مدينة الفجيرة',km:70},
+  ]},
+  B:{start:'startB',return:130,stops:[
+    {id:'CBA-CUS-010',name:'سيف ماجد',area:'دبي ديرة',km:55},
+    {id:'CBA-CUS-012',name:'راشد جمعة',area:'دبي الخليج التجاري',km:12},
+    {id:'CBA-CUS-011',name:'حصة عبيد',area:'دبي البرشاء',km:10},
+    {id:'CBA-CUS-009',name:'ليلى أحمد',area:'دبي المرسى',km:8},
+    {id:'CBA-CUS-015',name:'سارة ناصر',area:'أبوظبي جزيرة ياس',km:50},
+    {id:'CBA-CUS-014',name:'محمد طارق',area:'أبوظبي الريم',km:28},
+    {id:'CBA-CUS-013',name:'آمنة سالم',area:'أبوظبي مدينة خليفة',km:18},
+  ]},
+};
+const $=id=>document.getElementById(id);
+const num=id=>parseFloat($(id).value)||0;
+function pad(n){return String(n).padStart(2,'0');}
+function minToTime(m){m=Math.round(m);const h=Math.floor(m/60)%24,mm=m%60;return pad(h)+':'+pad(mm);}
+function timeToMin(t){if(!t)return 0;const[h,m]=t.split(':').map(Number);return h*60+m;}
+
+function buildTable(key){
+  const r=ROUTES[key],tb=$('tbl'+key).querySelector('tbody');
+  tb.innerHTML=r.stops.map((s,i)=>`
+    <tr data-route="${key}" data-i="${i}">
+      <td>${i+1}</td><td>${s.id}<br><small>${s.name}</small></td><td>${s.area}</td>
+      <td>${s.km}</td>
+      <td class="eta" id="eta_${key}_${i}">—</td>
+      <td><input type="time" class="actual" data-r="${key}" data-i="${i}" oninput="recalc()"></td>
+      <td id="st_${key}_${i}"><span class="badge b-pend">قيد الانتظار</span></td>
+    </tr>`).join('');
+}
+buildTable('A');buildTable('B');
+
+function recalc(){
+  const speed=num('a_speed'),service=num('a_service'),price=num('a_price'),econ=num('a_econ');
+  let onTimeCount=0,withActual=0,totalStops=0;
+  ['A','B'].forEach(key=>{
+    const r=ROUTES[key];let startMin=timeToMin($(r.start).value),cum=startMin;
+    r.stops.forEach((s,i)=>{
+      cum+=s.km/speed*60;const etaMin=cum;
+      $('eta_'+key+'_'+i).textContent=minToTime(etaMin);
+      cum+=service;totalStops++;
+      const inp=document.querySelector(`.actual[data-r="${key}"][data-i="${i}"]`);
+      const stCell=$('st_'+key+'_'+i);
+      if(inp&&inp.value){withActual++;const aMin=timeToMin(inp.value);
+        if(aMin<=etaMin+10){onTimeCount++;stCell.innerHTML='<span class="badge b-ok">في الوقت</span>';}
+        else stCell.innerHTML='<span class="badge b-late">متأخر +'+(Math.round(aMin-etaMin))+'د</span>';
+      } else stCell.innerHTML='<span class="badge b-pend">قيد الانتظار</span>';
+    });
+    const retMin=cum-service+r.return/speed*60;
+    $('ret'+key).textContent=minToTime(retMin);
+    $('dur'+key).textContent=Math.round(retMin-startMin)+' دقيقة';
+  });
+  const kmA=num('kmA'),kmB=num('kmB'),kmTot=kmA+kmB;
+  const fLA=kmA*econ/100,fLB=kmB*econ/100,fL=fLA+fLB;
+  const fCA=fLA*price,fCB=fLB*price,fC=fCA+fCB;
+  $('fLA').textContent=fLA.toFixed(1);$('fLB').textContent=fLB.toFixed(1);
+  $('fCA').textContent=fCA.toFixed(2);$('fCB').textContent=fCB.toFixed(2);
+  $('kmTot').textContent=kmTot+' كم';$('fuelTot').textContent=fL.toFixed(1)+' لتر';
+  $('costTot').textContent=fC.toFixed(2)+' درهم';
+  const deliveries=totalStops||1,costPer=fC/deliveries;
+  $('costPer').textContent=costPer.toFixed(2)+' درهم';
+  const qt=num('qc_total'),qp=num('qc_pass'),qcRate=qt?qp/qt*100:0;
+  $('qc_rate').value=qcRate.toFixed(1)+'%';
+  const ontimePct=withActual?onTimeCount/withActual*100:93.3;
+  const kDeliv=Math.round(Math.min(100,ontimePct));
+  const kQual=Math.round(Math.min(100,qcRate));
+  const kCost=Math.round(Math.max(0,Math.min(100,(20-costPer)/10*100)));
+  const prep=num('a_prep');const kKitchen=Math.round(Math.max(60,Math.min(100,100-(prep-4.9)*4)));
+  $('kDeliv').textContent=kDeliv;$('kQual').textContent=kQual;$('kCost').textContent=kCost;$('kKitchen').textContent=kKitchen;
+  const overall=Math.round((kDeliv+kQual+kCost+kKitchen)/4);
+  $('overallV').textContent=overall;$('ring').style.setProperty('--p',overall);
+  let rating,note,col;
+  if(overall<60){rating='🔴 غير جاهز';col='#c0392b';note='ثغرات حرجة — لا تُطلق.';}
+  else if(overall<75){rating='🟠 تجريبي فقط';col='#d98a14';note='أجرِ تجارب إضافية قبل أي إطلاق.';}
+  else if(overall<90){rating='🟡 جاهز مع تحسينات';col='#c9a227';note='أغلق الثغرات المتبقية قبل الإطلاق الكامل.';}
+  else{rating='🟢 جاهز للإطلاق';col='#1f9d57';note='كل الأنظمة ضمن الهدف — مُصرّح بالإطلاق.';}
+  $('ratingV').textContent=rating;$('ratingV').style.color=col;$('ratingNote').textContent=note;
+}
+function allInputs(){return document.querySelectorAll('input');}
+function save(){
+  const data={};
+  allInputs().forEach(el=>{if(el.id)data[el.id]=el.value;});
+  document.querySelectorAll('.actual').forEach(el=>{data['act_'+el.dataset.r+'_'+el.dataset.i]=el.value;});
+  localStorage.setItem('cbyai_tracker',JSON.stringify(data));
+  const m=$('savedMsg');m.classList.add('show');setTimeout(()=>m.classList.remove('show'),1400);
+}
+function load(){
+  const raw=localStorage.getItem('cbyai_tracker');if(!raw)return;
+  const data=JSON.parse(raw);
+  allInputs().forEach(el=>{if(el.id&&data[el.id]!==undefined)el.value=data[el.id];});
+  document.querySelectorAll('.actual').forEach(el=>{const k='act_'+el.dataset.r+'_'+el.dataset.i;if(data[k]!==undefined)el.value=data[k];});
+}
+function resetAll(){if(confirm('مسح كل البيانات المُدخلة والعودة للقيم الافتراضية؟')){localStorage.removeItem('cbyai_tracker');location.reload();}}
+document.addEventListener('input',()=>{clearTimeout(window._t);window._t=setTimeout(save,800);});
+load();recalc();
+</script>
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C BY AI — One-Day Pilot Test Runbook</title>
+<style>
+  :root{
+    --bg:#f4f6f4;--surface:#fff;--ink:#11211a;--muted:#5c6b62;--line:#e2e8e2;
+    --brand:#0f7a52;--brand-soft:#e6f4ee;--brand-deep:#0a4d34;
+    --red:#c0392b;--amber:#d98a14;--green:#1f9d57;--blue:#1c4e8a;
+    --shadow:0 1px 2px rgba(16,40,30,.06),0 8px 24px rgba(16,40,30,.08);
+    --radius:16px;--maxw:1040px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,sans-serif;line-height:1.5}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+  .hero{background:linear-gradient(160deg,var(--brand-deep),#06301f);color:#eafaf2;padding:40px 0 64px;position:relative;overflow:hidden}
+  .hero:after{content:"";position:absolute;inset:0;opacity:.06;background-image:radial-gradient(circle,#fff 1px,transparent 1.4px);background-size:22px 22px}
+  .brand-mark{display:inline-flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.5px;font-size:13px;text-transform:uppercase;color:#9be7c4}
+  .brand-dot{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#1ec77f,#0f7a52);display:grid;place-items:center;font-size:17px}
+  h1{font-size:clamp(26px,3.6vw,44px);margin:14px 0 6px;font-weight:800;letter-spacing:-1px}
+  .sub{color:#b9ddcb;font-size:15px;max-width:640px}
+  .datebar{display:flex;gap:14px;flex-wrap:wrap;margin-top:18px;align-items:center}
+  .datebar label{font-size:12px;color:#9be7c4;font-weight:700;text-transform:uppercase;letter-spacing:.5px;display:flex;flex-direction:column;gap:5px}
+  .datebar input{font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.12);color:#fff;border-radius:9px;padding:8px 11px;font-family:inherit}
+  .datebar input::placeholder{color:#bfe0cf}
+
+  /* progress */
+  .progwrap{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:18px 22px;margin:-40px 0 26px;position:relative;z-index:2;display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center}
+  .progwrap .big{font-size:34px;font-weight:800;color:var(--brand-deep);letter-spacing:-1px;line-height:1}
+  .progwrap .big small{font-size:14px;color:var(--muted);font-weight:700}
+  .track{height:16px;background:#eef3ef;border-radius:999px;overflow:hidden}
+  .fill{height:100%;background:linear-gradient(90deg,#1ec77f,#0f7a52);border-radius:999px;width:0;transition:.3s}
+  .verdict{font-size:17px;font-weight:800;text-align:right;white-space:nowrap}
+  .vcount{font-size:12px;color:var(--muted);font-weight:700;margin-top:4px}
+
+  /* timeline phase */
+  .phase{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin:0 0 20px;position:relative}
+  .ph-head{display:flex;align-items:center;gap:15px;margin-bottom:16px;padding-bottom:13px;border-bottom:2px solid var(--brand-soft)}
+  .timepill{background:linear-gradient(135deg,#1ec77f,#0f7a52);color:#fff;font-weight:800;font-size:15px;padding:9px 14px;border-radius:11px;white-space:nowrap;flex:none}
+  .ph-head h2{margin:0;font-size:19px;font-weight:800}
+  .ph-head .mods{margin:3px 0 0;font-size:12px;color:var(--muted);font-weight:600}
+  .ph-head .mods b{color:var(--brand);background:var(--brand-soft);padding:1px 7px;border-radius:6px;margin-right:4px;font-weight:700}
+
+  table{border-collapse:collapse;width:100%;font-size:13.5px}
+  .tbl-scroll{overflow-x:auto;border-radius:12px;border:1px solid var(--line)}
+  thead th{background:var(--brand-deep);color:#eafaf2;text-align:left;padding:9px 11px;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
+  tbody td{padding:9px 11px;border-top:1px solid var(--line);vertical-align:top}
+  tbody tr:nth-child(even){background:#fafcfa}
+  .exp{color:var(--muted)}
+  td.res{white-space:nowrap}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .seg button{border:none;background:#fff;font-family:inherit;font-size:12px;font-weight:800;padding:6px 11px;cursor:pointer;color:var(--muted)}
+  .seg button+button{border-left:1px solid var(--line)}
+  .seg button.on.pass{background:var(--green);color:#fff}
+  .seg button.on.fail{background:var(--red);color:#fff}
+  .seg button.on.na{background:#9aa39d;color:#fff}
+  td input.note{width:100%;min-width:120px;border:1px solid #eed9a8;background:#fcf3df;border-radius:7px;padding:6px 8px;font-family:inherit;font-size:12.5px}
+  td input.note:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-soft)}
+  .ipt{width:90px;border:1px solid #eed9a8;background:#fcf3df;border-radius:7px;padding:6px 8px;font-family:inherit;font-size:13px;font-weight:700}
+
+  /* signoff */
+  .signoff{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:6px}
+  .field{display:flex;flex-direction:column;gap:5px;background:#fcf3df;border:1px solid #eed9a8;border-radius:12px;padding:12px 14px}
+  .field label{font-size:12px;font-weight:800;color:#9a6712;text-transform:uppercase;letter-spacing:.4px}
+  .field input{font-size:14px;font-weight:700;border:1px solid #eed9a8;border-radius:8px;padding:8px 10px;font-family:inherit;background:#fff}
+
+  .toolbar{position:fixed;right:16px;bottom:16px;z-index:50;display:flex;gap:10px}
+  .toolbar button{border:none;color:#fff;font-weight:700;font-size:14px;padding:12px 17px;border-radius:999px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+  .b-print{background:var(--brand)}.b-save{background:var(--blue)}.b-reset{background:#8a8a8a}
+  .saved{position:fixed;left:50%;top:20px;transform:translateX(-50%);background:var(--brand-deep);color:#fff;padding:10px 18px;border-radius:999px;font-weight:700;font-size:13px;opacity:0;transition:.3s;z-index:60;pointer-events:none}
+  .saved.show{opacity:1}
+  footer{text-align:center;color:var(--muted);font-size:13px;padding:26px 0 70px}
+  @media print{.toolbar{display:none}body{background:#fff}.phase{break-inside:avoid;box-shadow:none}.seg button{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+
+<style>
+  html{scroll-padding-top:66px}
+  .topnav{position:sticky;top:0;z-index:100;background:rgba(8,42,28,.96);backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,.1);box-shadow:0 4px 18px rgba(0,0,0,.18)}
+  .nav-inner{max-width:1040px;margin:0 auto;padding:0 20px;height:54px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .nav-brand{display:inline-flex;align-items:center;gap:9px;color:#9be7c4;font-weight:800;font-size:14px;letter-spacing:.5px;text-decoration:none;text-transform:uppercase;white-space:nowrap}
+  .nav-brand b{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#1ec77f,#0f7a52);display:grid;place-items:center;font-size:14px}
+  .nav-links{display:flex;gap:6px;flex-wrap:wrap}
+  .nav-links a{color:#cfe9da;text-decoration:none;font-weight:700;font-size:13.5px;padding:8px 13px;border-radius:9px;transition:.15s;white-space:nowrap}
+  .nav-links a:hover{background:rgba(255,255,255,.1);color:#fff}
+  .nav-links a.active{background:linear-gradient(135deg,#1ec77f,#0f7a52);color:#fff;box-shadow:0 4px 14px rgba(30,199,127,.35)}
+  .nav-links a.lang{border:1px solid rgba(255,255,255,.25);color:#9be7c4}
+  @media print{.topnav{display:none}}
+  @media(max-width:560px){.nav-brand span{display:none}.nav-inner{height:auto;padding:8px 14px;flex-wrap:wrap}}
+</style>
+<nav class="topnav"><div class="nav-inner">
+  <a class="nav-brand" href="C-BY-AI-Pilot-Dashboard.html"><b>🍃</b><span>C BY AI</span></a>
+  <div class="nav-links">
+    <a href="C-BY-AI-Pilot-Dashboard.html">📊 Dashboard</a>
+    <a href="C-BY-AI-Pilot-Tracker.html">🧮 Tracker</a>
+    <a href="C-BY-AI-One-Day-Test.html" class="active">✅ One-Day Test</a>
+    <a href="C-BY-AI-One-Day-Test-AR.html" class="lang">🌐 عربي</a>
+  </div>
+</div></nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brand-mark"><span class="brand-dot">🍃</span> C BY AI · One-Day Pilot Test</div>
+    <h1>One-Day Test Runbook</h1>
+    <p class="sub">Single full operating day, start to finish. Walk every module in time order. Mark each checkpoint Pass / Fail / N-A and note what happened. Day verdict computes live.</p>
+    <div class="datebar">
+      <label>Test date <input type="date" id="tdate"></label>
+      <label>Shift lead <input type="text" id="lead" placeholder="Name"></label>
+      <label>Dispatch time <input type="time" id="disp" value="09:00"></label>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="progwrap">
+    <div class="big" id="pctBig">0%<br><small>checks passed</small></div>
+    <div class="track"><div class="fill" id="fill"></div></div>
+    <div>
+      <div class="verdict" id="verdict">⚪ Not started</div>
+      <div class="vcount" id="vcount">0 pass · 0 fail · 0 pending</div>
+    </div>
+  </div>
+
+  <!-- container; phases injected -->
+  <div id="phases"></div>
+
+  <!-- SIGN OFF -->
+  <div class="phase">
+    <div class="ph-head"><span class="timepill">15:00</span><div><h2>Debrief &amp; Sign-Off</h2><p class="mods"><b>M11</b> Executive KPI <b>M12</b> Launch Readiness</p></div></div>
+    <div class="signoff">
+      <div class="field"><label>Total deliveries completed</label><input type="text" id="so_deliv" placeholder="x / 15"></div>
+      <div class="field"><label>On-time %</label><input type="text" id="so_ontime" placeholder="%"></div>
+      <div class="field"><label>QC pass %</label><input type="text" id="so_qc" placeholder="%"></div>
+      <div class="field"><label>Fuel cost / delivery (AED)</label><input type="text" id="so_cost" placeholder="AED"></div>
+      <div class="field"><label>Incidents logged</label><input type="text" id="so_inc" placeholder="count"></div>
+      <div class="field"><label>Day verdict (lead call)</label><input type="text" id="so_verdict" placeholder="GO / NO-GO / RETEST"></div>
+      <div class="field" style="grid-column:1/-1"><label>Notes &amp; corrective actions</label><input type="text" id="so_notes" placeholder="What to fix before next run / launch"></div>
+      <div class="field"><label>Signed</label><input type="text" id="so_sign" placeholder="Lead signature"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>C BY AI · One-Day Pilot Test Runbook · Data saved in this browser · Print for PDF sign-off sheet</footer>
+
+<div class="toolbar">
+  <button class="b-save" onclick="save()">💾 Save</button>
+  <button class="b-print" onclick="window.print()">🖨️ Print PDF</button>
+  <button class="b-reset" onclick="resetAll()">↺ Reset</button>
+</div>
+<div class="saved" id="savedMsg">✓ Saved</div>
+
+<script>
+// One day, in time order. Each phase: time, title, modules, checkpoints[{check, expected}]
+const PHASES=[
+ {time:'04:30',title:'Kitchen Prep Start',mods:[['M3','Kitchen Production']],checks:[
+   ['Staff on shift (target 4)','4 cooks present, stations ready'],
+   ['Ingredients & cold-chain stock','All meal + snack ingredients in spec'],
+   ['Main meal production starts','B/L/D lanes running for 15 customers'],
+ ]},
+ {time:'06:30',title:'Specialty Lane Check',mods:[['M2','Meal Assignment'],['M3','Kitchen']],checks:[
+   ['Keto / low-carb / vegan lane (4 customers)','Correct diet tags matched to customer'],
+   ['Calorie targets honored (1400–2200)','Portions match assigned kcal'],
+   ['Specialty lane keeping pace','No >20% slowdown vs standard lane'],
+ ]},
+ {time:'08:10',title:'Kitchen Complete',mods:[['M3','Kitchen'],['M4','Snack Production']],checks:[
+   ['45 main meals produced','Planned 45, count produced','45'],
+   ['30 snacks + 15 beverages','Snack/beverage batch CBA-SB-001 done','30/15'],
+   ['Cold-chain beverages chilled','Smoothies/laban packed cold for far legs'],
+ ]},
+ {time:'08:15',title:'Quality Control Inspection',mods:[['M5','Quality Control']],checks:[
+   ['Temperature ≥63°C (hot meals)','Sampled meals pass temp probe'],
+   ['Portion weight in spec','No under/over portions'],
+   ['Packaging seal & label accuracy','Seals intact, labels match assignment'],
+   ['Allergen flags present','Allergen labels on every package'],
+   ['Failures held back','Any fail re-cooked, NOT shipped'],
+ ]},
+ {time:'08:40',title:'Packing & Route Load',mods:[['M6','Dispatch'],['M1','Customers']],checks:[
+   ['Route A van loaded (8 customers)','24 main + snacks in CBA-VH-001'],
+   ['Route B van loaded (7 customers)','21 main + snacks in CBA-VH-002'],
+   ['Delivery IDs assigned','CBA-DL-001 → 015 mapped to stops'],
+ ]},
+ {time:'09:00',title:'Dispatch — Both Routes Depart',mods:[['M6','Dispatch'],['M7','Route Optimization']],checks:[
+   ['Route A departs on time','CBA-DR-001 leaves HQ at dispatch time'],
+   ['Route B departs on time','CBA-DR-002 leaves HQ at dispatch time'],
+   ['Optimized stop order loaded','Nearest-neighbor sequence confirmed'],
+   ['Start odometer logged','Both vehicle km recorded','km'],
+ ]},
+ {time:'09:00–12:50',title:'Route A Delivery — North',mods:[['M8','Driver Perf'],['M1','Customers']],checks:[
+   ['UAQ / Ajman / Sharjah cluster','First 5 stops delivered'],
+   ['RAK stops','Al Hamra + Al Nakheel delivered'],
+   ['Fujairah (long leg) delivered','CBA-CUS-008 reached, watch traffic'],
+   ['Route A on-time rate','≥90% stops within ETA+10min','%'],
+ ]},
+ {time:'09:00–14:30',title:'Route B Delivery — South',mods:[['M8','Driver Perf'],['M1','Customers']],checks:[
+   ['Dubai cluster (4 stops)','Deira/Business Bay/Barsha/Marina delivered'],
+   ['Abu Dhabi cluster (3 stops)','Yas/Reem/Khalifa City delivered'],
+   ['Route B on-time rate','≥90% stops within ETA+10min','%'],
+ ]},
+ {time:'Throughout',title:'Fuel Log',mods:[['M9','Fuel Consumption']],checks:[
+   ['Route A fuel recorded','Liters + AED logged','L'],
+   ['Route B fuel recorded','Liters + AED logged','L'],
+   ['Cost / delivery ≤ AED 13.50','Total fuel ÷ deliveries','AED'],
+ ]},
+ {time:'Throughout',title:'Incident Watch',mods:[['M10','Incident Management']],checks:[
+   ['Incidents logged with ID','Any issue → CBA-IR-xxx raised'],
+   ['Severity assigned','Low / Medium / High tagged'],
+   ['Resolved before reaching customer','Zero defects shipped target'],
+ ]},
+];
+
+const $=id=>document.getElementById(id);
+
+function buildPhases(){
+  const host=$('phases');
+  host.innerHTML=PHASES.map((p,pi)=>{
+    const rows=p.checks.map((c,ci)=>{
+      const key=pi+'_'+ci;
+      const inputCol = c[2]!==undefined
+        ? `<input class="ipt" data-meas="${key}" placeholder="${c[2]}" oninput="save()">`
+        : '';
+      return `<tr>
+        <td><b>${c[0]}</b>${inputCol?'<br>'+inputCol:''}</td>
+        <td class="exp">${c[1]}</td>
+        <td class="res">
+          <span class="seg" data-key="${key}">
+            <button class="pass" onclick="mark('${key}','pass')">PASS</button>
+            <button class="fail" onclick="mark('${key}','fail')">FAIL</button>
+            <button class="na" onclick="mark('${key}','na')">N/A</button>
+          </span>
+        </td>
+        <td><input class="note" data-note="${key}" placeholder="Notes / actual" oninput="save()"></td>
+      </tr>`;
+    }).join('');
+    const mods=p.mods.map(m=>`<b>${m[0]}</b> ${m[1]}`).join(' ');
+    return `<div class="phase">
+      <div class="ph-head"><span class="timepill">${p.time}</span>
+        <div><h2>${p.title}</h2><p class="mods">${mods}</p></div></div>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>Checkpoint</th><th>Expected</th><th>Result</th><th>Notes / actual</th></tr></thead>
+        <tbody>${rows}</tbody></table></div>
+    </div>`;
+  }).join('');
+}
+buildPhases();
+
+const state={}; // key -> pass/fail/na
+
+function mark(key,val){
+  state[key]=state[key]===val?null:val; // toggle off if same
+  const seg=document.querySelector(`.seg[data-key="${key}"]`);
+  seg.querySelectorAll('button').forEach(b=>b.classList.remove('on'));
+  if(state[key]){ seg.querySelector('.'+state[key]).classList.add('on'); }
+  update(); save();
+}
+
+function update(){
+  let total=0,pass=0,fail=0,pending=0;
+  PHASES.forEach((p,pi)=>p.checks.forEach((c,ci)=>{
+    total++; const v=state[pi+'_'+ci];
+    if(v==='pass')pass++; else if(v==='fail')fail++; else if(v==='na'){} else pending++;
+  }));
+  const scored=pass+fail; // na excluded
+  const pct=scored? Math.round(pass/scored*100):0;
+  $('fill').style.width=pct+'%';
+  $('pctBig').innerHTML=pct+'%<br><small>checks passed</small>';
+  $('vcount').textContent=`${pass} pass · ${fail} fail · ${pending} pending`;
+  let v,col;
+  if(pending===total){v='⚪ Not started';col='#5c6b62';}
+  else if(pending>0){v='🟡 In progress';col='#c9a227';}
+  else if(fail===0){v='🟢 PASS — day clean';col='#1f9d57';}
+  else if(fail<=2){v='🟠 PASS w/ issues';col='#d98a14';}
+  else {v='🔴 FAIL — retest';col='#c0392b';}
+  $('verdict').textContent=v; $('verdict').style.color=col;
+}
+
+// ---- persistence ----
+function save(){
+  const data={state:state};
+  document.querySelectorAll('input').forEach(el=>{
+    if(el.id) data['f_'+el.id]=el.value;
+    if(el.dataset.note!==undefined) data['n_'+el.dataset.note]=el.value;
+    if(el.dataset.meas!==undefined) data['m_'+el.dataset.meas]=el.value;
+  });
+  localStorage.setItem('cbyai_oneday',JSON.stringify(data));
+  const m=$('savedMsg'); m.classList.add('show'); setTimeout(()=>m.classList.remove('show'),1200);
+}
+function load(){
+  const raw=localStorage.getItem('cbyai_oneday'); if(!raw)return;
+  const data=JSON.parse(raw);
+  Object.assign(state,data.state||{});
+  document.querySelectorAll('input').forEach(el=>{
+    if(el.id && data['f_'+el.id]!==undefined) el.value=data['f_'+el.id];
+    if(el.dataset.note!==undefined && data['n_'+el.dataset.note]!==undefined) el.value=data['n_'+el.dataset.note];
+    if(el.dataset.meas!==undefined && data['m_'+el.dataset.meas]!==undefined) el.value=data['m_'+el.dataset.meas];
+  });
+  // restore seg highlights
+  Object.keys(state).forEach(key=>{
+    if(!state[key])return;
+    const seg=document.querySelector(`.seg[data-key="${key}"]`);
+    if(seg){ const b=seg.querySelector('.'+state[key]); if(b)b.classList.add('on'); }
+  });
+}
+function resetAll(){ if(confirm('Clear all test results?')){ localStorage.removeItem('cbyai_oneday'); location.reload(); } }
+
+load(); update();
+if(!$('tdate').value){ $('tdate').value=new Date().toISOString().slice(0,10); }
+</script>
+</body>
+</html>

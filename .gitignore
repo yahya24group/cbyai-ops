@@ -1,0 +1,4 @@
+# Publish web pages only. Keep internal business files out of the public site.
+*
+!*.html
+!.gitignore
