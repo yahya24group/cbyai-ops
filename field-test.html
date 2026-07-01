@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>C BY AI — Field Test (Dubai vs Abu Dhabi)</title>
+  <meta name="description" content="32 scattered test customers — 16 Dubai, 16 Abu Dhabi — with real coordinates, 2-opt optimized driver routes, per-stop ETAs, and clickable Google Maps deep links. A bench for testing driver timing and route quality." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/field.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">C</div>
+      <div>C BY AI — Field Test<small>HQ · Umm Al Quwain · 32 test customers</small></div>
+    </div>
+    <div class="top-actions">
+      <a class="btn" href="index.html">↗ RouteDesk</a>
+      <a class="btn" href="smart-dispatch.html">↗ Smart Dispatch</a>
+      <button class="btn" id="resetBtn">↺ Reset</button>
+      <button class="btn" id="exportBtn">⤓ Trip sheet CSV</button>
+      <button class="btn btn-amber" id="printBtn">🖨 Print</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="intro">
+      <h1>Field test — 16 Dubai · 16 Abu Dhabi</h1>
+      <p class="lead">Thirty-two scattered <b>test customers</b> with real coordinates, spread coast-to-inland across each city so the router and the clock have something real to chew on. Each city gets a <b>2-opt optimized</b> van route from HQ, a per-stop <b>arrival timeline</b>, and Google Maps deep links — tap <b>🗺</b> for the live driving route, <b>📍</b> for a single stop. Tune the clock and watch timing move.</p>
+    </div>
+
+    <section class="kpis" id="kpis" aria-label="Summary"></section>
+
+    <div id="feasBanner" class="feas-banner"></div>
+
+    <section class="section-gap">
+      <h2>Live map — scatter &amp; drawn trip routes</h2>
+      <div id="map" role="img" aria-label="Map of test customers and van routes across Dubai and Abu Dhabi"></div>
+      <div class="map-legend" id="mapLegend"></div>
+      <p class="note">Markers = test customers (tap for name + ETA). Lines = each van-trip in stop order from its depot. Flip the southern-depot toggle and watch the Abu Dhabi lines collapse. Tiles © OpenStreetMap contributors © CARTO.</p>
+    </section>
+
+    <section class="card section-gap">
+      <h2>Driver clock &amp; road model</h2>
+      <div class="param-grid">
+        <div class="param"><label>Leave HQ</label><input type="time" id="cfg-leave" /></div>
+        <div class="param"><label>Avg speed (km/h)</label><input type="number" id="cfg-avgKmh" step="1" min="10" /></div>
+        <div class="param"><label>Minutes per stop</label><input type="number" id="cfg-stopMin" step="1" min="1" /></div>
+        <div class="param"><label>Winding × (extra)</label><input type="number" id="cfg-winding" step="0.05" min="0.5" /></div>
+        <div class="param"><label>Bag cap / trip</label><input type="number" id="cfg-bagCap" step="1" min="1" max="40" /></div>
+      </div>
+      <div class="switch-row">
+        <span class="lbl">Southern depot for Abu Dhabi
+          <small>Dispatch AUH vans from Mussafah (ICAD) instead of the UAQ HQ — removes the ~175 km highway deadhead each way.</small></span>
+        <label class="switch"><input type="checkbox" id="cfg-southDepot" /><span class="track"></span></label>
+      </div>
+      <p class="note">Road km = straight-line (haversine) × a piecewise winding factor — <b>1.40</b> for short city hops (grid detours), <b>1.18</b> for long highway legs — times your extra multiplier. Calibrated to the 23 Jun route test's ~48 km/h effective speed. Coordinates are planning-grade (test/approx). Google Maps links chunk into segments to respect its 9-waypoint cap, so every link actually opens.</p>
+    </section>
+
+    <section class="section-gap">
+      <h2>Optimized routes — tap a stop to open the map</h2>
+      <div class="city-grid" id="cities"></div>
+    </section>
+
+    <p class="note">Test bench only — fake customers, approximate coordinates. Swap in real geocoded addresses and this becomes the per-customer routing layer the zone model was waiting for.</p>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="scripts/routes-data.js"></script>
+  <script src="scripts/dispatch-data.js"></script>
+  <script src="scripts/field-points.js"></script>
+  <script src="scripts/field-lab.js"></script>
+  <script src="scripts/field-app.js"></script>
+</body>
+</html>

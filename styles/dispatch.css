@@ -1,0 +1,80 @@
+/* dispatch.css — net-new components for Smart Dispatch.
+   Everything else reuses tokens.css + main.css. */
+
+/* customer cadence inputs */
+.cust-head,
+.cust-row {
+  display: grid;
+  grid-template-columns: 1fr 90px 90px;
+  gap: 10px;
+  align-items: center;
+}
+.cust-head {
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--muted, #8a93a6);
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  padding: 0 2px 8px;
+  border-bottom: 1px solid var(--hairline, #2a3142);
+  margin-bottom: 8px;
+}
+.cust-head span:not(:first-child) { text-align: center; }
+.cust-row { margin-bottom: 8px; }
+.cust-row input { width: 100%; }
+
+/* batch-day editor */
+.batch-grid { display: grid; gap: 14px; }
+.batch-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.batch-label { min-width: 190px; font-weight: 600; }
+.batch-label small { display: block; font-weight: 500; color: var(--muted, #8a93a6); font-size: .78rem; }
+.day-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.day-pill {
+  font: inherit;
+  font-size: .82rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--hairline, #2a3142);
+  background: transparent;
+  color: var(--muted, #8a93a6);
+  cursor: pointer;
+  transition: .15s;
+}
+.day-pill:hover { border-color: var(--amber, #f5a524); color: var(--text, #e8ecf3); }
+.day-pill.on {
+  background: var(--amber, #f5a524);
+  border-color: var(--amber, #f5a524);
+  color: #1a1d27;
+}
+
+/* SLA panel */
+.sla-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.sla-card {
+  border: 1px solid var(--hairline, #2a3142);
+  border-left-width: 4px;
+  border-radius: 12px;
+  padding: 14px 16px;
+  background: var(--surface-2, #161a24);
+}
+.sla-card.ok  { border-left-color: var(--green, #2ecc71); }
+.sla-card.bad { border-left-color: var(--red, #e74c3c); }
+.sla-c { font-weight: 600; font-size: .92rem; }
+.sla-w { font-size: 1.7rem; font-weight: 800; letter-spacing: -1px; margin: 4px 0 2px; }
+.sla-card.ok  .sla-w { color: var(--green, #2ecc71); }
+.sla-card.bad .sla-w { color: var(--red, #e74c3c); }
+.sla-tag { font-size: .8rem; font-weight: 600; }
+.sla-days { font-size: .76rem; color: var(--muted, #8a93a6); margin-top: 6px; }
+
+/* per-run cost footer */
+.run-toll {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--hairline, #2a3142);
+  font-size: .78rem;
+  color: var(--muted, #8a93a6);
+}
+
+@media (max-width: 560px) {
+  .batch-label { min-width: 100%; }
+}

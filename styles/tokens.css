@@ -1,0 +1,44 @@
+/* Design tokens — deep-ink dispatch board, single committed amber accent.
+   OKLCH throughout; neutrals tinted cool, semantics disciplined to
+   amber (primary/road) · green (ok) · red (over) · steel (info). */
+:root {
+  /* surfaces — cool ink, layered by lightness not just opacity */
+  --ink:        oklch(17% 0.022 262);   /* page base */
+  --ink-deep:   oklch(13% 0.020 262);   /* recessed: inputs, wells */
+  --surface:    oklch(24% 0.018 262 / 0.55);
+  --surface-2:  oklch(30% 0.018 262 / 0.6);
+  --raise:      oklch(100% 0 0 / 0.04);  /* top-edge highlight */
+  --hairline:   oklch(100% 0 0 / 0.09);
+  --hairline-2: oklch(100% 0 0 / 0.05);
+
+  /* accent — amber carries road/caution/fuel; one committed color */
+  --amber:      oklch(80% 0.155 78);
+  --amber-deep: oklch(72% 0.165 58);
+  --on-amber:   oklch(22% 0.05 70);      /* ink text on amber fills */
+
+  /* semantics — used only for state, never decoration */
+  --green:  oklch(78% 0.15 162);
+  --red:    oklch(67% 0.20 24);
+  --steel:  oklch(72% 0.075 244);        /* muted info, sparing */
+
+  /* text ramp */
+  --text:  oklch(96% 0.008 250);
+  --muted: oklch(74% 0.018 252);
+  --faint: oklch(58% 0.020 254);
+
+  --font-display: "Syne", system-ui, sans-serif;
+  --font-body:    "Instrument Sans", system-ui, sans-serif;
+  --font-mono:    ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", monospace;
+
+  --radius:    14px;
+  --radius-sm: 10px;
+
+  /* depth — soft ambient shadow, not glow blobs */
+  --shadow:      0 1px 2px oklch(0% 0 0 / 0.3), 0 6px 20px oklch(0% 0 0 / 0.28);
+  --shadow-amber: 0 4px 16px oklch(72% 0.16 58 / 0.32);
+  --ring: 0 0 0 2px var(--amber);
+
+  --dur:  170ms;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1); /* ease-out-quint */
+  --maxw: 1240px;
+}

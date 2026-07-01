@@ -1,4 +1,9 @@
-# Publish web pages only. Keep internal business files out of the public site.
+# Publish web pages + their assets only.
+# Keep internal business/planning docs (*.md, *.csv, etc.) out of the public site.
 *
 !*.html
 !.gitignore
+!scripts/
+!scripts/**
+!styles/
+!styles/**

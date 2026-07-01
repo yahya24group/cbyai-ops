@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>C BY AI — Smart Dispatch (UAE)</title>
+  <meta name="description" content="Customer-level, 48-hour-promise delivery dispatch across the UAE. Real fuel, tolls and parking from the route test. Far customers batched and rolled to the next plan." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/dispatch.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">C</div>
+      <div>C BY AI — Smart Dispatch<small>HQ · Umm Al Quwain · 48h promise</small></div>
+    </div>
+    <div class="top-actions">
+      <a class="btn" href="index.html">↗ RouteDesk</a>
+      <a class="btn" href="field-test.html">🧪 Field Test</a>
+      <button class="btn" id="resetBtn">↺ Reset</button>
+      <button class="btn" id="exportBtn">⤓ Export CSV</button>
+      <button class="btn btn-amber" id="printBtn">🖨 Print</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="intro">
+      <h1>Every customer, the right day, inside 48 hours</h1>
+      <p class="lead">Each customer picks a cadence — delivered <b>every 2 days</b> or <b>every 3 days</b> — and we promise delivery within 48 hours of their slot. The corridor (Dubai → UAQ) runs daily. Far customers (Abu Dhabi, Al Ain, Fujairah, RAK) are <b>batched onto dedicated days</b>; anyone who can't fit today rolls to the <b>next plan day</b>. Cost is real — fuel, Salik, Darb and parking from the 23 Jun route test.</p>
+    </div>
+
+    <section class="kpis" id="kpis" aria-label="Summary"></section>
+
+    <div id="feasBanner" class="feas-banner"></div>
+
+    <!-- INPUTS -->
+    <section class="grid-2 section-gap">
+      <div class="card">
+        <h2>Your customers — per zone, by cadence</h2>
+        <div class="cust-head"><span>Zone</span><span>2-day</span><span>3-day</span></div>
+        <div class="cust-inputs" id="custInputs"></div>
+      </div>
+
+      <div class="card">
+        <h2>Real cost &amp; timing (from the route test)</h2>
+        <div class="param-grid">
+          <div class="param"><label>Fuel price (AED/L)</label><input type="number" id="cfg-pricePerL" step="0.01" min="0" /></div>
+          <div class="param"><label>Fuel economy (km/L)</label><input type="number" id="cfg-kmPerL" step="0.1" min="1" /></div>
+          <div class="param"><label>Salik / gate (AED)</label><input type="number" id="cfg-salikPerGate" step="1" min="0" /></div>
+          <div class="param"><label>Darb / gate (AED)</label><input type="number" id="cfg-darbPerGate" step="1" min="0" /></div>
+          <div class="param"><label>Parking / stop (AED)</label><input type="number" id="cfg-parkingPerStop" step="1" min="0" /></div>
+          <div class="param"><label>Minutes per stop</label><input type="number" id="cfg-stopMin" step="1" min="1" /></div>
+          <div class="param"><label>Avg speed (km/h)</label><input type="number" id="cfg-avgKmh" step="1" min="20" /></div>
+          <div class="param"><label>Cars available</label><input type="number" id="fleetInput" min="1" max="20" step="1" /></div>
+          <div class="param"><label>Bag cap / run</label><input type="number" id="bagCapInput" min="1" max="40" step="1" /></div>
+        </div>
+        <p class="note">Defaults are the measured test values: 3.83 AED/L @ 7.5 km/L → ~AED 0.51/km (the old planner assumed 0.225, understating fuel ~2.3×).</p>
+      </div>
+    </section>
+
+    <!-- SLA PANEL -->
+    <section class="section-gap">
+      <h2>48-hour promise — by cluster</h2>
+      <div class="card">
+        <div class="sla-grid" id="slaGrid"></div>
+        <p class="note">Corridor runs daily → always inside 48h. Far clusters run on batch days only; the honest window is the longest gap between their batch days. Where that exceeds 48h, the fix is shown below.</p>
+      </div>
+    </section>
+
+    <!-- BATCH DAY EDITOR -->
+    <section class="section-gap">
+      <h2>Far-cluster batch days</h2>
+      <div class="card">
+        <div class="batch-grid" id="batchGrid"></div>
+        <p class="note">Tick the days each far cluster runs. More days = tighter SLA but higher cost. RAK and East run a half/full-day shift; South (AUH/AIN) is a full-day shift — the route test proved a far run is ~9h, not a 5h evening slot.</p>
+      </div>
+    </section>
+
+    <!-- WEEKLY SCHEDULE -->
+    <section class="section-gap">
+      <h2>Weekly dispatch — runs per day</h2>
+      <div class="sched" id="sched"></div>
+    </section>
+
+    <!-- COST BREAKDOWN -->
+    <section class="section-gap">
+      <h2>Weekly cost breakdown</h2>
+      <div class="card">
+        <div class="tbl-wrap"><table id="costTable"></table></div>
+      </div>
+    </section>
+
+    <!-- SUGGESTIONS -->
+    <section class="card section-gap">
+      <h2>Smart suggestions</h2>
+      <ul class="checklist" id="suggestList"></ul>
+    </section>
+
+    <!-- DECISION PANEL (Pending Approvals) -->
+    <section class="card section-gap" id="decisionPanel"></section>
+
+    <!-- AUDIT LOG -->
+    <section class="card section-gap" id="auditPanel"></section>
+
+    <p class="note">Zone-level model (customers grouped by zone, not yet per-address). Distances use the inter-zone road matrix from HQ. Re-cluster and add per-customer geocoding as the real map fills in.</p>
+  </main>
+
+  <script src="scripts/routes-data.js"></script>
+  <script src="scripts/config.js"></script>
+  <script src="scripts/decision-engine.js"></script>
+  <script src="scripts/dispatch-data.js"></script>
+  <script src="scripts/dispatch-integration.js"></script>
+  <script src="scripts/dispatch-planner.js"></script>
+  <script src="scripts/dispatch-app.js"></script>
+  <script src="scripts/dispatch-integration-demo.js"></script>
+</body>
+</html>
