@@ -33,7 +33,7 @@
   <main>
     <div class="intro">
       <h1>Field test — 16 Dubai · 16 Abu Dhabi</h1>
-      <p class="lead">Thirty-two scattered <b>test customers</b> with real coordinates, spread coast-to-inland across each city so the router and the clock have something real to chew on. Each city gets a <b>2-opt optimized</b> van route from HQ, a per-stop <b>arrival timeline</b>, and Google Maps deep links — tap <b>🗺</b> for the live driving route, <b>📍</b> for a single stop. Tune the clock and watch timing move.</p>
+      <p class="lead">Thirty-two scattered <b>test customers</b> with real coordinates, spread coast-to-inland across each city. <b>Two vans leave HQ together at 17:00</b> — one takes all 16 Dubai stops, one takes all 16 Abu Dhabi stops, each in a single <b>2-opt optimized</b> run. Every point covered in one day. Per-stop <b>arrival timeline</b> plus Google Maps deep links — tap <b>🗺</b> for the live driving route, <b>📍</b> for a single stop.</p>
     </div>
 
     <section class="kpis" id="kpis" aria-label="Summary"></section>
@@ -44,7 +44,7 @@
       <h2>Live map — scatter &amp; drawn trip routes</h2>
       <div id="map" role="img" aria-label="Map of test customers and van routes across Dubai and Abu Dhabi"></div>
       <div class="map-legend" id="mapLegend"></div>
-      <p class="note">Markers = test customers (tap for name + ETA). Lines = each van-trip in stop order from its depot. Flip the southern-depot toggle and watch the Abu Dhabi lines collapse. Tiles © OpenStreetMap contributors © CARTO.</p>
+      <p class="note">Markers = test customers (tap for name + ETA). Two lines = the two vans' single runs in stop order from base. Flip the southern-depot toggle and watch the Abu Dhabi line redraw from Mussafah. Tiles © OpenStreetMap contributors © CARTO.</p>
     </section>
 
     <section class="card section-gap">
@@ -54,7 +54,6 @@
         <div class="param"><label>Avg speed (km/h)</label><input type="number" id="cfg-avgKmh" step="1" min="10" /></div>
         <div class="param"><label>Minutes per stop</label><input type="number" id="cfg-stopMin" step="1" min="1" /></div>
         <div class="param"><label>Winding × (extra)</label><input type="number" id="cfg-winding" step="0.05" min="0.5" /></div>
-        <div class="param"><label>Bag cap / trip</label><input type="number" id="cfg-bagCap" step="1" min="1" max="40" /></div>
       </div>
       <div class="switch-row">
         <span class="lbl">Southern depot for Abu Dhabi
@@ -65,7 +64,7 @@
     </section>
 
     <section class="section-gap">
-      <h2>Optimized routes — tap a stop to open the map</h2>
+      <h2>The two runs — both leave 17:00, tap a stop for the map</h2>
       <div class="city-grid" id="cities"></div>
     </section>
 

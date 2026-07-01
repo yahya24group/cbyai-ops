@@ -31,30 +31,30 @@
   const minToTime = (m) => `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;
   const timeToMin = (v) => { const [h, m] = String(v).split(":").map(Number); return (h || 0) * 60 + (m || 0); };
 
-  /* ---------- one city → optimized route + shift-feasible trips ---------- */
-  // Abu Dhabi can dispatch from the southern depot; everything else runs from HQ.
+  /* ---------- one city → ONE optimized trip covering all stops ----------
+     Both vans leave HQ together at opts.leaveMin; each city is a single run,
+     every point in one go. Abu Dhabi may dispatch from the southern depot. */
   function originFor(city) {
     return city === "Abu Dhabi" && opts.useSouthDepot ? FP.SOUTH_DEPOT : FP.HQ;
+  }
+  function oneRun(origin, pts, shiftMin) {
+    const base = { ...opts, aedPerKm: aedPerKm(), shiftMin };
+    const ordered = FL.optimizeRoute(origin, pts, opts.windingFactor);
+    const stats = FL.routeStats(origin, ordered, base);
+    return { idx: 1, ordered, stats, links: FL.gmapsRouteChunks(origin, ordered) };
   }
   function planCity(city) {
     const pts = FP.byCity(city);
     const shiftMin = CITY_SHIFT[city];
     const origin = originFor(city);
-    const base = { ...opts, aedPerKm: aedPerKm(), shiftMin };
-    const full = FL.routeStats(origin, FL.optimizeRoute(origin, pts, opts.windingFactor), base);
-    const split = FL.splitIntoRuns(origin, pts, base);
-    const fuelAed = split.trips.reduce((a, t) => a + (t.stats.fuelAed || 0), 0);
-    // For Abu Dhabi, always compute the HQ baseline so we can show the depot's saving.
+    const run = oneRun(origin, pts, shiftMin);
+    // Abu Dhabi: always compute the HQ baseline run to show the depot's saving.
     let hqAlt = null;
     if (city === "Abu Dhabi") {
-      const hqSplit = FL.splitIntoRuns(FP.HQ, pts, base);
-      hqAlt = {
-        trips: hqSplit.trips.length,
-        fuelAed: Math.round(hqSplit.trips.reduce((a, t) => a + (t.stats.fuelAed || 0), 0) * 10) / 10,
-        soloFinish: hqSplit.soloFinish,
-      };
+      const hs = oneRun(FP.HQ, pts, shiftMin).stats;
+      hqAlt = { finish: hs.finish, totalKm: hs.totalKm, fuelAed: hs.fuelAed };
     }
-    return { city, shiftMin, origin, full, split, hqAlt, fuelAed: Math.round(fuelAed * 10) / 10 };
+    return { city, shiftMin, origin, run, hqAlt, fuelAed: run.stats.fuelAed };
   }
 
   /* ---------- render ---------- */
@@ -86,11 +86,12 @@
       </li>`;
     }).join("");
 
+    const overMin = stats.totalMin - shiftMin;
     return `<div class="trip">
       <div class="trip-head">
-        <span class="trip-no">Trip ${idx}</span>
+        <span class="trip-no">Full run</span>
         <span class="trip-sum">${stats.legs.length} stops · ${stats.totalKm} km · leave ${stats.leave} → back ${stats.finish}
-          <b class="${fits ? "ok" : "bad"}">${fits ? "fits" : "over +" + (stats.totalMin - shiftMin) + "m"}</b></span>
+          <b class="${fits ? "ok" : "bad"}">${fits ? "within shift" : "+" + overMin + "m past shift"}</b></span>
       </div>
       <div class="route-links">${segBtns}</div>
       <ul class="stop-list">${rows}</ul>
@@ -98,53 +99,51 @@
   }
 
   function cityCard(plan) {
-    const { city, shiftMin, split, full, fuelAed, origin, hqAlt } = plan;
-    const n = split.trips.length;
-    const badge = n === 1
-      ? `<span class="badge">1 trip fits ${Math.round(shiftMin / 60)}h shift</span>`
-      : `<span class="badge over">${n} trips to clear</span>`;
+    const { city, shiftMin, run, fuelAed, origin, hqAlt } = plan;
+    const s = run.stats;
+    const fits = !s.overShift;
+    const badge = fits
+      ? `<span class="badge">back ${s.finish} · within shift</span>`
+      : `<span class="badge over">back ${s.finish} · past shift</span>`;
     const fromDepot = origin.id === "depot-s";
 
-    // Depot saving line (Abu Dhabi only).
+    // Depot saving line (Abu Dhabi only): compare single-run finish vs HQ.
     let depotLine = "";
     if (hqAlt) {
       if (fromDepot) {
-        const saved = hqAlt.trips - n;
         const savedFuel = Math.round((hqAlt.fuelAed - fuelAed) * 10) / 10;
-        depotLine = `<p class="note depot-win" style="margin:.2rem 0 1rem">🏭 <b>South depot on:</b> ${n} trips vs <b>${hqAlt.trips}</b> from HQ${saved > 0 ? ` — cuts ${saved} trip${saved > 1 ? "s" : ""}` : ""}${savedFuel > 0 ? ` and AED ${savedFuel} fuel` : ""}. Deadhead gone: vans start in the AD belt, not 175 km north.</p>`;
+        depotLine = `<p class="note depot-win" style="margin:.2rem 0 1rem">🏭 <b>South depot on:</b> back <b>${s.finish}</b> vs <b>${hqAlt.finish}</b> from HQ — ${hqAlt.totalKm - s.totalKm} km${savedFuel > 0 ? ` and AED ${savedFuel} fuel` : ""} saved. Deadhead gone: van starts in the AD belt, not 175 km north.</p>`;
       } else {
-        depotLine = `<p class="note" style="margin:.2rem 0 1rem">💡 Toggle the <b>southern depot</b> above — from Mussafah this drops to fewer trips and less fuel.</p>`;
+        depotLine = `<p class="note" style="margin:.2rem 0 1rem">💡 Abu Dhabi's one run finishes <b>${s.finish}</b> from the UAQ HQ. Flip the <b>southern depot</b> above — from Mussafah the same 16 stops finish far earlier.</p>`;
       }
     }
 
-    const trips = split.trips.map((t) => tripBlock(t, shiftMin)).join("");
-
     return `<div class="card">
       <div class="city-head"><h2>${esc(city)}</h2>${badge}</div>
-      <div class="origin-tag">🚚 from ${esc(origin.name)}</div>
+      <div class="origin-tag">🚚 leaves ${esc(origin.name)} at ${s.leave}</div>
       <div class="city-stats">
-        ${stat(full.totalKm + " km", "1-pass route", "amber")}
+        ${stat(s.totalKm + " km", "route", "amber")}
         ${stat("16", "stops")}
-        ${stat(n, "van-trips", n > 1 ? "red" : "")}
-        ${stat("AED " + fuelAed, "fuel (all trips)")}
+        ${stat(s.finish, "back at base", fits ? "" : "red")}
+        ${stat("AED " + fuelAed, "fuel")}
       </div>
-      <p class="note" style="margin:0 0 .2rem">One optimized pass would run <b>${full.totalMin}m</b> (leave ${full.leave} → ${full.finish}) — ${full.overShift ? `over the ${Math.round(shiftMin / 60)}h shift, so it splits into ${n} trips` : `inside the ${Math.round(shiftMin / 60)}h shift`}. One driver doing all trips back-to-back finishes <b>${split.soloFinish}</b>; ${n} drivers clear it in parallel.</p>
+      <p class="note" style="margin:0 0 .2rem">One trip, all 16 stops: leave <b>${s.leave}</b> → drive ${s.driveMin}m + ${s.serviceMin}m service → back <b>${s.finish}</b> (${s.totalMin}m total). ${fits ? `Inside the ${Math.round(shiftMin / 60)}h ${esc(city)} window.` : `<span style="color:var(--red)">${s.totalMin - shiftMin}m past the ${Math.round(shiftMin / 60)}h window — needs a late/overnight run or a depot.</span>`}</p>
       ${depotLine}
-      ${trips}
+      ${tripBlock(run, shiftMin)}
     </div>`;
   }
 
   function kpiRow(dxb, auh) {
-    const km = dxb.full.totalKm + auh.full.totalKm;
+    const km = dxb.run.stats.totalKm + auh.run.stats.totalKm;
     const fuel = Math.round((dxb.fuelAed + auh.fuelAed) * 10) / 10;
-    const trips = dxb.split.trips.length + auh.split.trips.length;
+    const bothFits = !dxb.run.stats.overShift && !auh.run.stats.overShift;
     const kpi = (v, l, s, cls) =>
       `<div class="kpi ${cls}"><div class="v">${v}</div><div class="l">${l}</div><div class="s">${s}</div></div>`;
     return [
-      kpi("32", "test customers", "16 Dubai · 16 Abu Dhabi", "amber"),
-      kpi(km + " km", "combined 1-pass", `${dxb.full.totalKm} + ${auh.full.totalKm}`, "blue"),
-      kpi(trips + " trips", "to clear both", `${dxb.split.trips.length} DXB · ${auh.split.trips.length} AUH`, trips > 4 ? "red" : "green"),
-      kpi("AED " + fuel, "fuel both cities", `@ AED ${aedPerKm().toFixed(2)}/km`, "green"),
+      kpi("32", "customers, 1 day", "16 Dubai · 16 Abu Dhabi", "amber"),
+      kpi(km + " km", "combined route", `${dxb.run.stats.totalKm} + ${auh.run.stats.totalKm}`, "blue"),
+      kpi(dxb.run.stats.finish + " / " + auh.run.stats.finish, "DXB / AUH back", `both leave ${dxb.run.stats.leave} together`, bothFits ? "green" : "red"),
+      kpi("AED " + fuel, "fuel both vans", `@ AED ${aedPerKm().toFixed(2)}/km`, "green"),
     ].join("");
   }
 
@@ -188,21 +187,20 @@
     let colorI = 0;
     const legendItems = [];
     plans.forEach((plan) => {
-      plan.split.trips.forEach((trip) => {
-        const color = TRIP_COLORS[colorI++ % TRIP_COLORS.length];
-        const legLatLngs = [[plan.origin.lat, plan.origin.lng]];
-        trip.stats.legs.forEach((leg) => {
-          const p = leg.point;
-          bounds.push([p.lat, p.lng]);
-          legLatLngs.push([p.lat, p.lng]);
-          L.circleMarker([p.lat, p.lng], {
-            radius: 6, color: "#0b0e14", weight: 1.5, fillColor: color, fillOpacity: 0.95,
-          }).bindPopup(`<b>${p.name}</b><br>${plan.city} · trip ${trip.idx} · stop ${leg.seq}<br>ETA ${leg.arrive} · ${leg.legKm} km`).addTo(mapLayer);
-        });
-        legLatLngs.push([plan.origin.lat, plan.origin.lng]); // back to depot
-        L.polyline(legLatLngs, { color, weight: 2.5, opacity: 0.75 }).addTo(mapLayer);
-        legendItems.push(`<span class="lg-item"><span class="lg-dot" style="background:${color}"></span>${plan.city.slice(0, 3).toUpperCase()} trip ${trip.idx} · ${trip.stats.legs.length} stops</span>`);
+      const trip = plan.run; // one run per city
+      const color = TRIP_COLORS[colorI++ % TRIP_COLORS.length];
+      const legLatLngs = [[plan.origin.lat, plan.origin.lng]];
+      trip.stats.legs.forEach((leg) => {
+        const p = leg.point;
+        bounds.push([p.lat, p.lng]);
+        legLatLngs.push([p.lat, p.lng]);
+        L.circleMarker([p.lat, p.lng], {
+          radius: 6, color: "#0b0e14", weight: 1.5, fillColor: color, fillOpacity: 0.95,
+        }).bindPopup(`<b>${p.name}</b><br>${plan.city} · stop ${leg.seq}<br>ETA ${leg.arrive} · ${leg.legKm} km`).addTo(mapLayer);
       });
+      legLatLngs.push([plan.origin.lat, plan.origin.lng]); // back to base
+      L.polyline(legLatLngs, { color, weight: 2.5, opacity: 0.75 }).addTo(mapLayer);
+      legendItems.push(`<span class="lg-item"><span class="lg-dot" style="background:${color}"></span>${plan.city} · ${trip.stats.legs.length} stops · back ${trip.stats.finish}</span>`);
     });
 
     if (bounds.length) map.fitBounds(bounds, { padding: [30, 30] });
@@ -216,25 +214,19 @@
     $("#cities").innerHTML = cityCard(dxb) + cityCard(auh);
     drawMap([dxb, auh]);
 
-    const trips = dxb.split.trips.length + auh.split.trips.length;
-    const heavy = trips > 4;
-    const depotOn = opts.useSouthDepot;
-    $("#feasBanner").className = "feas-banner " + (heavy ? "bad" : "ok");
-    if (depotOn) {
-      const saved = auh.hqAlt ? auh.hqAlt.trips - auh.split.trips.length : 0;
-      $("#feasBanner").className = "feas-banner ok";
-      $("#feasBanner").innerHTML = `✓ South depot active — <span class="fb-sub">Abu Dhabi now clears in ${auh.split.trips.length} trips${saved > 0 ? ` (was ${auh.hqAlt.trips} from HQ, −${saved})` : ""}. ${trips} van-trips total for both cities. Tap 🗺 for any trip's live route.</span>`;
-    } else {
-      $("#feasBanner").innerHTML = heavy
-        ? `⚠ ${trips} van-trips to clear both cities — <span class="fb-sub">Abu Dhabi's ${auh.split.trips.length} trips are the deadhead tax: ~175 km each way from the UAQ depot means a van carries only a few AUH stops per shift. Flip the southern-depot toggle to see the fix. Tap 🗺 for any trip's live route.</span>`
-        : `✓ ${trips} trips clear all 32 stops inside shift — <span class="fb-sub">Tap 🗺 to open a trip's live driving route, 📍 for a single stop.</span>`;
-    }
+    const leave = dxb.run.stats.leave;
+    const dxbFinish = dxb.run.stats.finish, auhFinish = auh.run.stats.finish;
+    const bothFits = !dxb.run.stats.overShift && !auh.run.stats.overShift;
+    $("#feasBanner").className = "feas-banner " + (bothFits ? "ok" : "bad");
+    $("#feasBanner").innerHTML = bothFits
+      ? `✓ Both vans leave HQ ${leave} together — <span class="fb-sub">Dubai back ${dxbFinish}, Abu Dhabi back ${auhFinish}. All 32 stops in one day. Tap 🗺 for a van's live route, 📍 for a stop.</span>`
+      : `⏱ Both vans leave HQ ${leave} together — Dubai back ${dxbFinish}, Abu Dhabi back <b>${auhFinish}</b>. <span class="fb-sub">Abu Dhabi's single run runs past its window${opts.useSouthDepot ? "" : " — flip the southern-depot toggle and it finishes far earlier"}. Cold chain on a run this long needs a refrigerated van or a depot.</span>`;
   }
 
   /* ---------- CSV trip sheet ---------- */
   function exportCsv() {
-    const cols = ["City", "Origin", "Trip", "Seq", "Customer", "Area", "Cadence", "Diet",
-      "ArriveETA", "DriveMin", "LegKm", "MapsPin"];
+    const cols = ["City", "Origin", "Seq", "Customer", "Area", "Cadence", "Diet",
+      "LeaveHQ", "ArriveETA", "DriveMin", "LegKm", "MapsPin"];
     const rows = [cols.join(",")];
     const cell = (v) => {
       const s = String(v ?? "");
@@ -242,12 +234,11 @@
     };
     ["Dubai", "Abu Dhabi"].forEach((city) => {
       const plan = planCity(city);
-      plan.split.trips.forEach((t) => {
-        t.stats.legs.forEach((leg) => {
-          const p = leg.point;
-          rows.push([city, plan.origin.area, t.idx, leg.seq, p.name, p.area, `${p.cadence}-day`,
-            p.diet, leg.arrive, leg.driveMin, leg.legKm, FL.gmapsPin(p)].map(cell).join(","));
-        });
+      const leave = plan.run.stats.leave;
+      plan.run.stats.legs.forEach((leg) => {
+        const p = leg.point;
+        rows.push([city, plan.origin.area, leg.seq, p.name, p.area, `${p.cadence}-day`,
+          p.diet, leave, leg.arrive, leg.driveMin, leg.legKm, FL.gmapsPin(p)].map(cell).join(","));
       });
     });
     const blob = new Blob([rows.join("\n")], { type: "text/csv;charset=utf-8" });
@@ -264,7 +255,6 @@
     $("#cfg-avgKmh").value = opts.avgKmh;
     $("#cfg-stopMin").value = opts.stopMin;
     $("#cfg-winding").value = opts.windingFactor;
-    $("#cfg-bagCap").value = opts.bagCap;
     $("#cfg-southDepot").checked = !!opts.useSouthDepot;
   }
   function wire() {
@@ -276,7 +266,6 @@
     num("#cfg-avgKmh", "avgKmh", 10);
     num("#cfg-stopMin", "stopMin", 1);
     num("#cfg-winding", "windingFactor", 1);
-    num("#cfg-bagCap", "bagCap", 1);
     $("#cfg-southDepot").addEventListener("change", (e) => { opts.useSouthDepot = e.target.checked; save(); render(); });
     $("#resetBtn").addEventListener("click", () => { opts = { ...DEF }; save(); syncInputs(); render(); });
     $("#exportBtn").addEventListener("click", exportCsv);

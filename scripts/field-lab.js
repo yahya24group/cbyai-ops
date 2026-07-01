@@ -17,7 +17,7 @@
     windingFactor: 1.0,  // global extra multiplier on top of piecewise (user knob)
     avgKmh: 48,          // loaded van, mixed roads (route-test effective)
     stopMin: 6,          // service per stop (parking + handover)
-    leaveMin: 16 * 60,   // depart HQ at 16:00 (evening delivery window)
+    leaveMin: 17 * 60,   // depart HQ at 17:00 — both vans leave together
     bagCap: 16,          // cold-chain stops per van-trip
   };
 
