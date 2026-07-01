@@ -11,6 +11,13 @@
   padding: 3px 9px; border-radius: 999px; background: oklch(72% 0.075 244 / 0.16); color: var(--steel);
 }
 .city-head .badge.over { background: oklch(67% 0.20 24 / 0.16); color: var(--red); }
+/* RTL / Arabic */
+[dir="rtl"] body { font-family: "Noto Kufi Arabic", "Instrument Sans", system-ui, sans-serif; }
+[dir="rtl"] .stop-row .eta { text-align: left; }
+[dir="rtl"] .trip-sum b { margin-left: 0; margin-right: .3rem; }
+[dir="rtl"] .leaflet-popup-content { direction: rtl; text-align: right; }
+[dir="rtl"] #map, [dir="rtl"] .leaflet-container { direction: ltr; } /* keep map controls LTR */
+
 /* leaflet map */
 #map { height: 460px; border-radius: var(--radius); border: 1px solid var(--hairline); box-shadow: var(--shadow); background: var(--ink-deep); z-index: 0; }
 .map-off { height: 100%; display: grid; place-items: center; color: var(--muted); font-size: .9rem; text-align: center; padding: 2rem; }

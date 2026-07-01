@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>C BY AI — الاختبار الميداني (دبي وأبوظبي)</title>
+  <meta name="description" content="٣٢ عميل اختباري — ١٦ في دبي و١٦ في أبوظبي — بإحداثيات حقيقية، مسار مُحسّن، أوقات وصول السائق، روابط خرائط جوجل، مفتاح مستودع الجنوب، وخريطة حية." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Instrument+Sans:wght@400;500;600&family=Noto+Kufi+Arabic:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/field.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">C</div>
+      <div>C BY AI — الاختبار الميداني<small>المقر · أم القيوين · ٣٢ عميل اختباري</small></div>
+    </div>
+    <div class="top-actions">
+      <a class="btn" href="field-test.html">EN</a>
+      <a class="btn" href="C-BY-AI-Pilot-Dashboard-AR.html">📊 اللوحة</a>
+      <button class="btn" id="resetBtn">↺ إعادة</button>
+      <button class="btn" id="exportBtn">⤓ كشف الجولة CSV</button>
+      <button class="btn btn-amber" id="printBtn">🖨 طباعة</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="intro">
+      <h1>الاختبار الميداني — ١٦ دبي · ١٦ أبوظبي</h1>
+      <p class="lead">اثنان وثلاثون <b>عميل اختباري</b> بإحداثيات حقيقية، موزّعون من الساحل إلى الداخل في كل مدينة. <b>تنطلق شاحنتان من المقر معاً الساعة ١٧:٠٠</b> — واحدة تغطّي كل نقاط دبي الـ١٦، والأخرى كل نقاط أبوظبي الـ١٦، كلٌّ في جولة واحدة مُحسّنة بخوارزمية <b>2-opt</b>. كل النقاط في يوم واحد. جدول <b>أوقات الوصول</b> لكل نقطة مع روابط خرائط جوجل — اضغط <b>🗺</b> لمسار القيادة الحي، <b>📍</b> لنقطة واحدة.</p>
+    </div>
+
+    <section class="kpis" id="kpis" aria-label="ملخص"></section>
+
+    <div id="feasBanner" class="feas-banner"></div>
+
+    <section class="section-gap">
+      <h2>الخريطة الحية — الانتشار والمسارات المرسومة</h2>
+      <div id="map" role="img" aria-label="خريطة العملاء ومسارات الشاحنات في دبي وأبوظبي"></div>
+      <div class="map-legend" id="mapLegend"></div>
+      <p class="note">العلامات = عملاء الاختبار (اضغط للاسم ووقت الوصول). الخطّان = جولتا الشاحنتين بترتيب النقاط من القاعدة. فعّل مفتاح مستودع الجنوب وشاهد خط أبوظبي يُعاد رسمه من مصفح. البلاطات © OpenStreetMap © CARTO.</p>
+    </section>
+
+    <section class="card section-gap">
+      <h2>ساعة السائق ونموذج الطريق</h2>
+      <div class="param-grid">
+        <div class="param"><label>الانطلاق من المقر</label><input type="time" id="cfg-leave" /></div>
+        <div class="param"><label>متوسط السرعة (كم/س)</label><input type="number" id="cfg-avgKmh" step="1" min="10" /></div>
+        <div class="param"><label>دقائق لكل نقطة</label><input type="number" id="cfg-stopMin" step="1" min="1" /></div>
+        <div class="param"><label>معامل التعرّج ×</label><input type="number" id="cfg-winding" step="0.05" min="0.5" /></div>
+      </div>
+      <div class="switch-row">
+        <span class="lbl">مستودع الجنوب لأبوظبي
+          <small>انطلاق شاحنات أبوظبي من مصفح (ICAD) بدل مقر أم القيوين — يلغي المسافة الفارغة ~١٧٥ كم لكل اتجاه.</small></span>
+        <label class="switch"><input type="checkbox" id="cfg-southDepot" /><span class="track"></span></label>
+      </div>
+      <p class="note">مسافة الطريق = المسافة المستقيمة (haversine) × معامل تعرّج متدرّج — <b>١.٤٠</b> للمشاوير القصيرة داخل المدينة، <b>١.١٨</b> للطرق السريعة الطويلة — مضروباً بمعاملك الإضافي. مُعايَر على اختبار المسار في ٢٣ يونيو بسرعة فعّالة ~٤٨ كم/س. الإحداثيات تقريبية للاختبار. روابط خرائط جوجل تُقسَّم لمقاطع لاحترام حد الـ٩ نقاط طريق، فيفتح كل رابط فعلياً.</p>
+    </section>
+
+    <section class="section-gap">
+      <h2>الجولتان — كلتاهما تنطلق ١٧:٠٠، اضغط نقطة للخريطة</h2>
+      <div class="city-grid" id="cities"></div>
+    </section>
+
+    <p class="note">منصة اختبار فقط — عملاء وهميون وإحداثيات تقريبية. استبدلها بعناوين حقيقية مُرمَّزة جغرافياً لتصبح طبقة التوجيه على مستوى العميل التي كان النموذج المناطقي ينتظرها.</p>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="scripts/routes-data.js"></script>
+  <script src="scripts/dispatch-data.js"></script>
+  <script src="scripts/field-points.js"></script>
+  <script src="scripts/field-lab.js"></script>
+  <script src="scripts/field-app.js"></script>
+</body>
+</html>
